@@ -1,0 +1,74 @@
+{
+  "name": "nexus",
+  "version": "1.0.7",
+  "description": "Nexus - cliente multicuenta para Poke Idle World",
+  "main": "main.js",
+  "author": "Escarlata Hispana",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis",
+    "dist:dir": "electron-builder --win --dir"
+  },
+  "keywords": [
+    "electron",
+    "multi-account",
+    "poke-idle-world",
+    "idle-game"
+  ],
+  "devDependencies": {
+    "electron": "^43.7.7",
+    "electron-builder": "26.15.3"
+  },
+  "productName": "Nexus",
+  "build": {
+    "appId": "com.escarlatahispana.app",
+    "productName": "Nexus",
+    "artifactName": "Instalador-Nexus-${version}.${ext}",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/nexus.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "installerLanguages": [
+        "es_ES"
+      ],
+      "language": "3082",
+      "displayLanguageSelector": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nexus",
+      "uninstallDisplayName": "Nexus"
+    },
+    "asar": true,
+    "compression": "normal",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "assets/nexus.ico",
+      "assets/nexus-logo.png",
+      "presets/**/*",
+      "src/**/*",
+      "tray.png",
+      "package.json",
+      "!**/*.map",
+      "!**/*.md",
+      "!**/test{,s}/**",
+      "!**/__tests__/**",
+      "!**/*.bat",
+      "!**/*.cmd",
+      "!**/*.ps1",
+      "!HERRAMIENTA PRIVADA*/**",
+      "assets/nexus-emblema.png"
+    ]
+  },
+  "allowScripts": {
+    "electron": true,
+    "electron-winstaller": true
+  },
+  "dependencies": {}
+}
