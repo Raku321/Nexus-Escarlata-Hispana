@@ -137,11 +137,18 @@
   window.__EH_MARKET__={
     open,close,load,isInHunt:inHunt,
     apiRaw:api,listingsRaw:listings,
-    buyRaw:async(e,cat)=>{
+    buyRaw:async(e,cat,requestedQuantity=1)=>{
       if(inHunt()) throw new Error('Sal de la hunt antes de comprar.');
-      const action=(e.kind==='pokemon'||cat==='Pokemon')
+      const pokemon=e.kind==='pokemon'||cat==='Pokemon';
+      const advertised=Math.max(1,Math.floor(Number(e.quantity??e.qty??e.amount??e.ids?.length??1)||1));
+      const ids=Array.isArray(e.ids)?e.ids.filter(x=>x!==null&&x!==undefined):null;
+      const available=ids?.length?Math.min(advertised,ids.length):advertised;
+      const qty=Math.floor(Number(requestedQuantity));
+      if(!Number.isSafeInteger(qty)||qty<1||qty>(pokemon?1:available))throw new Error('Cantidad inválida o superior a la disponible.');
+      const action=pokemon
         ? {action:'buy',id:e.id,quantity:1}
-        : {action:'buy-stack',kind:e.kind||'item',refId:e.refId??e.itemId,price:e.price,currency:e.currency,quantity:1,ids:(e.ids??[e.id]).slice(0,1)};
+        : {action:'buy-stack',kind:e.kind||'item',refId:e.refId??e.itemId,price:e.price,currency:e.currency,quantity:qty,ids:(ids||[e.id]).slice(0,qty)};
+      if(inHunt())throw new Error('La hunt se inició; compra cancelada.');
       return api('/api/game/market/action',{method:'POST',body:JSON.stringify(action)});
     }
   };

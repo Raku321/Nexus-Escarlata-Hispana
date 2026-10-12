@@ -714,6 +714,68 @@ webview{background:#050405}
 .eh-alert-selected{padding:10px;margin:8px 0;border:1px solid #33445a;border-radius:8px;background:#0c1723;color:#b9c7d6}
 .eh-alert-selected.ok{border-color:#2f8f55;color:#eaffef;background:#0d1d16}
 #ehAlertSave:disabled{opacity:.45;cursor:not-allowed}
+
+/* Nexus 1.0.8 V11: legibilidad y paginación de anuncios cargados */
+#ehGeneralMarket .ehgm-row{border:1px solid #28374b!important;border-radius:11px!important;margin:5px 0!important;background:#0e1724!important;min-height:65px;transition:border-color .15s,background .15s}
+#ehGeneralMarket .ehgm-row:hover{border-color:#9f324d!important;background:#152135!important}
+#ehGeneralMarket #ehGMQ{min-width:0;font-size:14px}
+#ehGeneralMarket #ehGMStatus{font-variant-numeric:tabular-nums}
+.ehgm-pagebar{display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 14px;flex-wrap:wrap;border-top:1px solid #263140;background:#0b1320}
+.ehgm-pagebar button{background:#17243a;border:1px solid #45516a;border-radius:7px;color:#f1f5f9;padding:7px 13px;cursor:pointer}
+.ehgm-pagebar button:disabled{opacity:.4;cursor:default}
+.ehgm-pagebar span{font-size:12px;color:#cbd5e1}
+
+/* V12: renovación visual del mercado, sin alterar las acciones de compra */
+#ehGeneralMarket{background:#080f1c!important;color:#eaf0fa!important}
+#ehGMHead{background:linear-gradient(105deg,#240b16,#0d1b2b)!important;border-bottom:1px solid #743044!important;padding:16px 20px!important}
+#ehGMHead b{font-size:19px!important;letter-spacing:.2px}
+#ehGMControls{display:grid!important;grid-template-columns:150px minmax(230px,2fr) repeat(4,minmax(105px,1fr))!important;gap:10px!important;background:#101927!important;padding:15px!important}
+#ehGMControls>*{min-width:0!important;box-sizing:border-box!important}
+#ehGMControls input,#ehGMControls select,#ehGMControls button{min-height:40px!important;border-radius:10px!important;border:1px solid #394b61!important;background:#172338!important;color:#f1f5fc!important}
+#ehGMControls input:focus,#ehGMControls select:focus{outline:2px solid #c83350!important;outline-offset:0}
+#ehGMRefresh{background:linear-gradient(110deg,#c62442,#86172d)!important;border-color:#ed4862!important;color:white!important;font-weight:800!important}
+#ehGMList{background:#090f1b!important;padding:12px 16px!important}
+#ehGMList .ehgm-row{background:linear-gradient(110deg,#121f30,#0d1624)!important;border:1px solid #2a3e55!important;border-left:3px solid #963046!important;border-radius:12px!important;min-height:68px!important;transition:background .15s,border-color .15s!important}
+#ehGMList .ehgm-row:hover{background:#192b41!important;border-color:#d33a57!important}
+#ehGMList .ehgm-row.ehgm-good{border-left-color:#d8b04c!important}
+#ehGMList .ehgm-row.ehgm-great{border-left-color:#45c47d!important}
+#ehGMList .ehgm-row>button:last-child:not(.ehgm-star){background:linear-gradient(100deg,#d02b49,#8b1b33)!important;border:1px solid #e84d66!important}
+#ehGMStats{background:#111d2d!important;color:#d1dfef!important}
+#ehGMPageBar,#ehGMStatus{background:#0c1423!important;border-top:1px solid #26374b!important}
+@media(max-width:1080px){#ehGMControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:650px){#ehGMControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+
+/* Nexus V15: layout compacto, adaptativo, manteniendo controles reales */
+#ehGeneralMarket{background:#080e19!important}
+#ehGMHead{background:linear-gradient(95deg,#18101b,#091321)!important;min-height:62px!important}
+#ehGMHead>b{font-size:19px!important}
+#ehGMControls{grid-template-columns:155px minmax(220px,2.3fr) repeat(4,minmax(95px,1fr))!important;gap:8px!important;padding:12px 14px!important;background:#0b1321!important}
+#ehGMControls #ehGMQ{border-color:#a62b47!important;box-shadow:0 0 0 1px #682035 inset;font-weight:600}
+#ehGMControls #ehGMRefresh{background:#c41639!important;border-color:#e43b57!important;font-weight:800!important}
+#ehGMControls #ehGMRefresh:hover{background:#df1c42!important}
+#ehGMWorkspace{display:grid!important;grid-template-columns:155px minmax(0,1fr) 240px!important;min-height:0!important;flex:1!important;overflow:hidden!important}
+#ehGMNav{background:#09111e!important;padding:12px 10px!important;overflow-y:auto!important}
+#ehGMNav button{border-radius:8px!important;margin-bottom:7px!important;min-height:41px!important}
+#ehGMNav button.active{background:linear-gradient(95deg,#8b102c,#bd1b3b)!important;border-color:#e63c57!important;color:white!important}
+#ehGMResults{min-width:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
+#ehGMList{padding:8px 9px!important;min-height:0!important}
+#ehGMDetail{background:#0b1523!important;padding:14px!important;overflow:auto!important;border-left:1px solid #253449!important}
+#ehGMDetail>b{color:#e9c681!important;font-size:12px!important;letter-spacing:.6px}
+.ehgm-row{grid-template-columns:30px 38px minmax(0,1fr) minmax(105px,135px) 100px!important;gap:7px!important;min-height:58px!important;padding:8px 10px!important;margin:4px 0!important;border-radius:9px!important}
+.ehgm-img,.ehgm-img-fallback{width:34px!important;height:34px!important}
+.ehgm-row>div b{font-size:13px!important;line-height:1.2!important}
+.ehgm-row>div small{font-size:11px!important}
+.ehgm-row>strong{font-size:12px!important}
+.ehgm-row>button:last-child{background:#bd1837!important;border:1px solid #dd3150!important;height:34px!important;font-size:12px!important}
+.ehgm-row>button:last-child:not(:disabled):hover{background:#e02148!important}
+.ehgm-row>button:last-child:disabled{background:#43202d!important;border-color:#6e293d!important;color:#c0a3aa!important;opacity:.75}
+.ehgm-row.ehgm-good{border-color:#28774d!important;background:#0a1c19!important}
+#ehGMPageBar{background:#0c1626!important}
+#ehGMStatus{background:#08111f!important}
+@media(max-width:1050px){#ehGMWorkspace{grid-template-columns:130px minmax(0,1fr) 190px!important}#ehGMControls{grid-template-columns:140px minmax(180px,2fr) repeat(3,minmax(95px,1fr))!important}#ehGMDetail{padding:10px!important}.ehgm-row{grid-template-columns:25px 30px minmax(0,1fr) 100px 82px!important}.ehgm-row>strong{font-size:11px!important}}
+@media(max-width:780px){#ehGMWorkspace{grid-template-columns:110px minmax(0,1fr)!important}#ehGMDetail{display:none!important}#ehGMControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}.ehgm-row{grid-template-columns:25px 30px minmax(0,1fr) 90px 75px!important}}
+
 </style>
 
   <style id="escarlata-active-checks">
@@ -748,7 +810,7 @@ webview{background:#050405}
 
   <style id="escarlata-menu-cleanup">
     /* Nexus Por Escarlata Hispana: opciones retiradas de la interfaz */
-    #tierBtn, #dittoBtn, #faqBtn, #eco { display: none !important; }
+    #tierBtn, #dittoBtn, #faqBtn { display: none !important; }
   </style>
 
 <style id="escarlata-options-tab">
@@ -836,7 +898,116 @@ html[data-eh-performance="low"] .eh-opt-section,html[data-eh-performance="low"] 
 html.eh-reduce-motion *,html.eh-reduce-motion *::before,html.eh-reduce-motion *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 .eh-performance{display:flex;flex-direction:column;gap:12px;padding:8px}.eh-performance select{padding:9px;background:#101829;color:white;border:1px solid #684050;border-radius:7px}.eh-performance input[type=checkbox]{width:auto!important;min-height:auto!important}
 </style>
-</head>
+<style id="ehgm-v13-redesign">
+#ehGeneralMarket{width:min(1520px,98vw)!important;height:94vh!important;background:#07111e!important;border:1px solid #b92a47!important;border-radius:15px!important;box-shadow:0 22px 90px #000b!important}
+#ehGMHead{padding:17px 22px!important;background:linear-gradient(110deg,#170d1b,#091522)!important;min-height:66px!important}
+#ehGMHead>b{font-size:21px!important;color:#fff!important}
+#ehGMControls{display:grid!important;grid-template-columns:160px minmax(200px,2.6fr) repeat(4,minmax(90px,1fr))!important;gap:9px!important;background:#0b1625!important;padding:16px 18px!important;border-bottom:1px solid #293c50!important}
+#ehGMControls input,#ehGMControls select,#ehGMControls button{min-height:39px!important;border-radius:8px!important;background:#101d30!important;border:1px solid #324760!important;color:#eef3fa!important}
+#ehGMQ{border:1px solid #dc3053!important;font-size:16px!important}
+#ehGMRefresh{background:#cf173b!important;border:1px solid #f2395a!important;color:#fff!important;font-weight:800!important}
+#ehGMWorkspace{display:grid;grid-template-columns:175px minmax(0,1fr) 265px;flex:1;min-height:0;overflow:hidden}
+#ehGMNav{display:flex;flex-direction:column;gap:9px;padding:16px 11px;background:#0b1421;border-right:1px solid #263548;overflow:auto}
+#ehGMNav>b{font-size:13px;color:#e1bd75;letter-spacing:.05em;margin:2px 4px 7px}
+#ehGMNav button{border:1px solid #26374d;background:#0d1b2c;color:#e8edf5;border-radius:8px;padding:12px 10px;text-align:left;font-weight:750;cursor:pointer}
+#ehGMNav button:hover{background:#981a34;border-color:#e03455}
+.ehgm-nav-hint{margin-top:auto;font-size:12px;line-height:1.6;color:#91a2ba;border-top:1px solid #304053;padding:14px 4px}
+#ehGMResults{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+#ehGMList{flex:1;min-height:0;overflow:auto!important;padding:8px 12px!important}
+#ehGMDetail{background:#0c1929;border-left:1px solid #29384a;padding:18px 15px;overflow:auto}
+#ehGMDetail>b{color:#e2bd73;font-size:13px;letter-spacing:.09em}
+#ehGMDetailBody{padding-top:20px;color:#aabbd0;line-height:1.7;font-size:13px}
+#ehGMDetailBody .ehgm-detail-name{font-size:22px;color:#fff;font-weight:900}
+#ehGMDetailBody h3{font-size:19px;color:#f3c85a}
+.ehgm-row{grid-template-columns:29px 40px minmax(130px,1fr) minmax(95px,140px) 118px!important;gap:8px!important;min-height:65px!important;margin:5px 0!important;padding:8px 10px!important;cursor:pointer;background:#0b1828!important;border:1px solid #24384c!important}
+.ehgm-row:hover{background:#10243a!important;border-color:#cf3454!important}
+.ehgm-row>div b{font-size:14px!important}
+.ehgm-row>strong{font-size:14px!important}
+.ehgm-row>button:last-child{background:#c8193d!important;border:1px solid #e63759!important;border-radius:8px!important;color:#fff!important}
+.ehgm-row>button:last-child:hover{background:#e1244c!important}
+.ehgm-row>button.ehgm-buy-locked{background:#273344!important;border-color:#46566b!important;color:#aab8ca!important;cursor:not-allowed!important}
+#ehGMPageBar{background:#091522!important;border-top:1px solid #283a50!important}
+#ehGMStatus{background:#0a1320!important}
+@media(max-width:1100px){#ehGMWorkspace{grid-template-columns:135px minmax(0,1fr)}#ehGMDetail{display:none}#ehGMNav{padding:10px 7px}#ehGMControls{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:720px){#ehGMWorkspace{grid-template-columns:minmax(0,1fr)}#ehGMNav{display:none}#ehGMControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}.ehgm-row{grid-template-columns:25px 32px minmax(0,1fr) 92px!important}.ehgm-row>strong{grid-column:4!important}.ehgm-row>button:last-child{grid-column:3/5!important;grid-row:2!important}}
+</style>
+<style>
+.ehgm-qty-overlay{position:fixed;inset:0;z-index:2147483600;background:#000b;display:flex;align-items:center;justify-content:center;padding:16px}
+.ehgm-qty-modal{width:min(460px,95vw);background:#101b2d;border:1px solid #c52a4c;border-radius:14px;padding:20px;color:#f2f5fa;box-shadow:0 24px 80px #000a;display:flex;flex-direction:column;gap:14px}
+.ehgm-qty-heading,.ehgm-qty-actions,.ehgm-qty-controls{display:flex;gap:8px;align-items:center}
+.ehgm-qty-heading{justify-content:space-between;font-size:17px}
+.ehgm-qty-name{font-size:20px;font-weight:800;color:#fff}
+.ehgm-qty-meta,.ehgm-qty-note{font-size:12px;color:#aebdd1;margin:0}
+.ehgm-qty-modal label{font-size:13px;font-weight:700}
+.ehgm-qty-controls input{width:90px;text-align:center;flex:1;background:#0a1322;color:white;border:1px solid #53657f;border-radius:7px;padding:10px;font-size:17px}
+.ehgm-qty-modal button{background:#1c2a41;color:#fff;border:1px solid #425471;border-radius:7px;padding:9px 12px;cursor:pointer}
+.ehgm-qty-modal .ehgm-qty-confirm{background:#d51a40;border-color:#ec4666;font-weight:800;flex:1}
+.ehgm-qty-actions{justify-content:flex-end}
+.ehgm-qty-total{padding:12px;border:1px solid #334861;border-radius:8px;font-size:13px}
+</style>
+<style id="ehgm-v17-ux">
+#ehGMQuickBar{display:flex;align-items:center;gap:10px;padding:9px 15px;background:#0a1321;border-bottom:1px solid #25344c;flex-wrap:wrap}
+#ehGMQuickBar button,#ehGMQuickBar select{background:#17253a;border:1px solid #344966;border-radius:8px;color:#e9eef8;padding:9px 12px;cursor:pointer;font-size:12px}
+#ehGMQuickBar label{display:flex;align-items:center;gap:8px;color:#aebbd0;font-size:12px}
+#ehGMQuickHint{margin-left:auto;color:#8295ac;font-size:12px}
+#ehGMControls{display:grid!important;grid-template-columns:minmax(140px,180px) minmax(200px,1fr) minmax(145px,170px) minmax(145px,170px) minmax(110px,135px)!important;gap:8px!important;padding:12px 15px!important}
+#ehGMControls>*{min-width:0!important;width:100%!important;box-sizing:border-box!important}
+#ehGMQ{grid-column:span 2!important}
+#ehGMIVMin,#ehGMIVMax,#ehGMQMin,#ehGMQMax,#ehGMLvMin,#ehGMLvMax{display:none!important}
+#ehGeneralMarket.ehgm-filters-open #ehGMIVMin,#ehGeneralMarket.ehgm-filters-open #ehGMIVMax,#ehGeneralMarket.ehgm-filters-open #ehGMQMin,#ehGeneralMarket.ehgm-filters-open #ehGMQMax,#ehGeneralMarket.ehgm-filters-open #ehGMLvMin,#ehGeneralMarket.ehgm-filters-open #ehGMLvMax{display:block!important}
+#ehGMWorkspace{min-height:0!important}
+#ehGMNav{min-width:155px!important;max-width:180px!important;overflow:auto!important}
+#ehGMNav button{transition:background .14s,border-color .14s!important}
+#ehGMNav button.active{background:#971c38!important;border-color:#e83d60!important;color:#fff!important;font-weight:800}
+#ehGMList{scroll-behavior:smooth}
+#ehGMList .ehgm-row{min-height:57px!important;transition:background .12s,border-color .12s!important;cursor:pointer}
+#ehGMList .ehgm-row:hover{background:#18283e!important;border-color:#d93b5b!important}
+#ehGMList .ehgm-row:focus-within{outline:1px solid #ff5575}
+#ehGMDetail{min-width:190px!important;overflow:auto!important}
+#ehGMPageBar{gap:12px!important}
+@media(max-width:1050px){
+ #ehGMControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #ehGMQ{grid-column:span 2!important}
+ #ehGMDetail{max-width:230px!important}
+ #ehGMQuickHint{display:none}
+}
+@media(max-width:800px){
+ #ehGMControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #ehGMNav{min-width:125px!important;max-width:145px!important}
+ #ehGMDetail{display:none!important}
+}
+</style>
+<style id="ehgm-v18-css">
+#ehGMSpecies{border:1px solid #c52b50!important;background:#192a40;color:#fff;font-weight:700}
+#ehGMPageBar .ehgm-server-jump{width:68px;background:#15243a;border:1px solid #456080;border-radius:7px;color:#fff;padding:7px;text-align:center}
+#ehGMPageBar{flex-wrap:wrap;justify-content:center}
+</style>
+<style id="ehgm-v19-compact">
+/* Barra principal de búsqueda en una sola fila; herramientas secundarias plegables. */
+#ehGMQuickBar{padding:5px 10px!important;gap:6px!important}
+#ehGMQuickBar button,#ehGMQuickBar select{padding:5px 8px!important;min-height:29px!important}
+#ehGMQuickHint{display:none!important}
+#ehGMControls{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:6px!important;padding:7px 10px!important;min-height:0!important}
+#ehGMControls input,#ehGMControls select,#ehGMControls button{min-height:32px!important;padding:5px 8px!important;font-size:12px!important;width:auto!important;flex:0 1 auto!important}
+#ehGMCat{flex:0 0 130px!important}
+#ehGMQ{flex:1 1 230px!important;min-width:190px!important}
+#ehGMCurrency{flex:0 0 125px!important}
+#ehGMSort{flex:0 0 118px!important}
+#ehGMRefresh{flex:0 0 100px!important}
+#ehGMSpecies,#ehGMFavOnly,#ehGMProfile,#ehGMSaveProfile,#ehGMClear,#ehGMHistoryBtn,#ehGMTeleport,#ehGMIVMin,#ehGMIVMax,#ehGMQMin,#ehGMQMax,#ehGMLvMin,#ehGMLvMax{display:none!important}
+#ehGeneralMarket.ehgm-filters-open #ehGMSpecies,#ehGeneralMarket.ehgm-filters-open #ehGMFavOnly,#ehGeneralMarket.ehgm-filters-open #ehGMProfile,#ehGeneralMarket.ehgm-filters-open #ehGMSaveProfile,#ehGeneralMarket.ehgm-filters-open #ehGMClear,#ehGeneralMarket.ehgm-filters-open #ehGMHistoryBtn,#ehGeneralMarket.ehgm-filters-open #ehGMTeleport,#ehGeneralMarket.ehgm-filters-open #ehGMIVMin,#ehGeneralMarket.ehgm-filters-open #ehGMIVMax,#ehGeneralMarket.ehgm-filters-open #ehGMQMin,#ehGeneralMarket.ehgm-filters-open #ehGMQMax,#ehGeneralMarket.ehgm-filters-open #ehGMLvMin,#ehGeneralMarket.ehgm-filters-open #ehGMLvMax{display:block!important;flex:0 1 120px!important}
+#ehGeneralMarket.ehgm-filters-open #ehGMSpecies{flex:1 1 180px!important}
+#ehGMStats{padding:5px 10px!important;font-size:11px!important}
+@media(max-width:760px){#ehGMCat{flex:0 0 110px!important}#ehGMQ{flex:1 1 170px!important}#ehGMControls{gap:5px!important}}
+</style>
+<style id="ehV27Styles">
+.ehgm-alert-box{border:1px solid #36415a;background:#111b2c;border-radius:9px;padding:9px 12px;margin:6px 0;color:#d8e4f7;font-size:12px}
+.ehgm-alert-box summary{cursor:pointer;font-weight:700}
+.ehgm-alert-settings{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.ehgm-alert-settings label{display:flex;align-items:center;gap:5px}
+.ehgm-alert-settings input[type=number]{width:60px;padding:5px;background:#0b1422;border:1px solid #47546b;border-radius:5px;color:white}
+.ehgm-alert-entry{padding:6px 0;border-bottom:1px solid #28354b}
+</style></head>
 <body>
 
 <div id="ehStatusCenter" aria-hidden="true">
@@ -847,9 +1018,16 @@ html.eh-reduce-motion *,html.eh-reduce-motion *::before,html.eh-reduce-motion *:
 </div>
 <div id="ehGeneralMarket">
   <div id="ehGMHead"><b>🌐 Mercado Global — Nexus Por Escarlata Hispana</b><span id="ehGMSafety">Comprobando…</span><select id="ehGMTrainer" title="Entrenador"></select><button id="ehGMClose">✕</button></div>
+  <div id="ehGMQuickBar">
+    <button id="ehGMFiltersToggle" type="button" aria-expanded="false">⚙ Filtros avanzados</button>
+    <button id="ehGMSearchClear" type="button">✕ Borrar búsqueda</button>
+    <label>Resultados <select id="ehGMPageSize"><option value="30">30</option><option value="60" selected>60</option><option value="100">100</option></select></label>
+    <span id="ehGMQuickHint">Busca, filtra y selecciona un anuncio para ver sus detalles.</span>
+  </div>
   <div id="ehGMControls">
     <select id="ehGMCat"><option value="Pokemon">Pokémon</option><option value="Items">Ítems</option><option value="Stones">Stones</option><option value="Poke Balls">Poké Balls</option><option value="Diamonds">Diamantes</option><option value="All">Todo</option></select>
-    <input id="ehGMQ" list="ehGMQOptions" autocomplete="off" placeholder="🔎 Buscar y seleccionar Pokémon o ítem…"><datalist id="ehGMQOptions"></datalist>
+    <input id="ehGMQ" list="ehGMQOptions" autocomplete="off" placeholder="🔎 Buscar Pokémon (ej.: geo, Geodude) u objeto…"><datalist id="ehGMQOptions"></datalist>
+    <input id="ehGMSpecies" list="ehGMSpeciesOptions" placeholder="Especie (nombre o #ID)" autocomplete="off"><datalist id="ehGMSpeciesOptions"></datalist>
     <input id="ehGMIVMin" type="number" min="0" max="192" placeholder="IV mín.">
     <input id="ehGMIVMax" type="number" min="0" max="192" placeholder="IV máx.">
     <input id="ehGMQMin" type="number" min="0" step="0.01" placeholder="Calidad mín.">
@@ -860,13 +1038,15 @@ html.eh-reduce-motion *,html.eh-reduce-motion *::before,html.eh-reduce-motion *:
     <select id="ehGMSort"><option value="level-desc">Nivel ↓</option><option value="level-asc">Nivel ↑</option><option value="iv-desc">IV ↓</option><option value="iv-asc">IV ↑</option><option value="quality-desc">Calidad ↓</option><option value="quality-asc">Calidad ↑</option><option value="price-asc">Precio ↑</option><option value="price-desc">Precio ↓</option></select>
     <button id="ehGMFavOnly" title="Mostrar solo favoritos">☆ Solo favoritos</button>
     <button id="ehGMRefresh" class="accent">↻ Actualizar</button>
+    <button id="ehGMDeepStart" type="button" title="Carga todas las páginas de Pokémon para aplicar los filtros al catálogo descargado. Puede tardar mucho tiempo.">⬇ Cargar todos los Pokémon</button><button id="ehGMDeepStop" type="button" disabled>■ Detener búsqueda</button>
     <select id="ehGMProfile"><option value="">Perfil de búsqueda…</option></select>
     <button id="ehGMSaveProfile">💾 Guardar perfil</button>
     <button id="ehGMClear">🧹 Limpiar</button>
     <button id="ehGMHistoryBtn">🕘 Historial</button>
     <button id="ehGMTeleport" class="accent">🧭 Ir al mercado</button>
   </div>
-  <div id="ehGMStats"></div><div id="ehGMList"></div>
+  <div id="ehGMWorkspace"><aside id="ehGMNav"><b>🛒 Categorías</b><button data-market-cat="All">🌐 Todos</button><button data-market-cat="Pokemon">◉ Pokémon</button><button data-market-cat="Items">🎒 Objetos</button><button data-market-cat="Stones">💎 Stones</button><button data-market-cat="Poke Balls">🔴 Poké Balls</button><button data-market-cat="Diamonds">💠 Diamantes</button><div class="ehgm-nav-hint">Explora anuncios incluso cuando estás en hunt. Las compras requieren estar fuera de hunt.</div></aside><section id="ehGMResults"><details id="ehGMAlerts" class="ehgm-alert-box"><summary>🔔 Alertas inteligentes (solo avisos, sin compras)</summary><div class="ehgm-alert-settings"><label><input type="checkbox" id="ehGMAlertEnabled"> Activar avisos de anuncios consultados</label><label>IV mínimo <input type="number" id="ehGMAlertIV" min="0" max="192" value="170"></label><label>Calidad mínima <input type="number" id="ehGMAlertQuality" min="0" max="10" step="0.05" value="2"></label><label>Descuento frente a referencia (%) <input type="number" id="ehGMAlertDiscount" min="5" max="90" value="30"></label><button id="ehGMAlertClear" type="button">Limpiar avisos</button></div><div id="ehGMAlertLog"></div><small>Las referencias se calculan solo con anuncios de la página actual. No se supervisa todo el mercado ni se ejecutan compras.</small></details>
+<div id="ehGMDeepStatus" role="status" aria-live="polite" style="display:none;padding:9px 12px;background:#142237;color:#e7edf9;border-radius:7px;margin:4px 0 8px"></div><div id="ehGMStats"></div><div id="ehGMList"></div></section><aside id="ehGMDetail"><b>✦ DETALLES DEL ANUNCIO</b><div id="ehGMDetailBody"><p>Selecciona un anuncio para ver sus detalles.</p></div></aside></div><div id="ehGMPageBar" class="ehgm-pagebar" aria-label="Paginación del mercado"></div>
   <div id="ehGMHistory" style="display:none"></div>
   <div id="ehGMStatus">Selecciona una cuenta activa.</div>
 </div>
@@ -1397,6 +1577,7 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
           wv.executeJavaScript(POPUP_SCRIPT).catch(() => {});
           wv.executeJavaScript(cleanScript(cleanOn)).catch(() => {});
           wv.executeJavaScript(SELLGUARD).catch(() => {});
+          wv.executeJavaScript(GREEN_MARK_ITEMS).catch(e => { console.warn('[Nexus Mark Verde] Falló inyección:', e && e.message || e); });
           wv.executeJavaScript('window.__ehSellGuardOn=' + (sellGuardOn ? 'true' : 'false') + ';window.__ehSellLock=' + JSON.stringify(sellLock) + ';window.__ehSellTxt=' + JSON.stringify([t('sgAviso'), t('sgConfirma')])).catch(() => {});
           wv.executeJavaScript(QOL_UI).catch(() => {});
           // Hunt Analyzer del mapa ahora viaja dentro de Calculadora Escarlata, que ya usa la inyección estable del juego.
@@ -1450,7 +1631,7 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
         if (String(e.url || '').startsWith('https://poke.idleworld.online/play')) armaVolta(); // o login vai pro /play com router.push, sem dom-ready
       });
       // saiu do /login por rota interna da SPA (sem novo dom-ready): agora sim os userscripts entram
-      wv.addEventListener('did-navigate-in-page', (e) => { try { if (e.isMainFrame && !usNoLoginUrl(e.url)) { injectEscarlataCalculator(wv); injectEhMarket(wv); if (wv.__ehSemScripts) injectScripts(wv); } } catch {} });
+      wv.addEventListener('did-navigate-in-page', (e) => { try { if (e.isMainFrame && !usNoLoginUrl(e.url)) { injectEscarlataCalculator(wv); injectEhMarket(wv); wv.executeJavaScript(GREEN_MARK_ITEMS).catch(err => console.warn('[Nexus Mark Verde] Navegación SPA:', err?.message || err)); if (wv.__ehSemScripts) injectScripts(wv); } } catch {} });
 
       panel.querySelector('.reload').onclick = () => { if (!off[i]) { try { wv.reloadIgnoringCache(); } catch { wv.reload(); } } };
       panel.querySelector('.expand').onclick = () => toggleExpand(i);
@@ -1727,7 +1908,7 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
     return d;
   }
   const ecoBtn = document.getElementById('eco');
-  let eco = lsGet('eco') !== '0'; // ligado por padrao
+  let eco = lsGet('eco') === '1'; // ECO OFF por defecto; respeta la preferencia guardada
   // Limita o requestAnimationFrame do jogo. Troca TAMBEM o cancelAnimationFrame, com ids proprios (acima de 1e9, nunca
   // colidem com os nativos): o jogo encerra varios loops so com cancelAnimationFrame (barra da onda na pesca, etiquetas
   // da cidade), e sem isso cada loop "cancelado" seguia vivo pra sempre, um a mais por onda. Teste: test/eco-raf.test.js
@@ -1757,7 +1938,9 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
     : `(()=>{const s=document.getElementById('pg-ultra');if(s)s.remove();})()`;
   const ecoFps = () => leve() ? 1 : (eco ? 15 : 0);
   function applyEco() {
-    ecoBtn.textContent = eco ? t('eco') : t('ecoOff');
+    ecoBtn.textContent = eco ? '⚡ ECO ON' : '⚡ ECO OFF';
+    ecoBtn.title = eco ? 'ECO activado: limita los FPS del juego para ahorrar recursos. Haz clic para desactivar.' : 'ECO desactivado: FPS sin límite ECO. Haz clic para activar.';
+    ecoBtn.setAttribute('aria-pressed', eco ? 'true' : 'false');
     ecoBtn.classList.toggle('on', eco);
     webviews.forEach((w, i) => {
       if (off[i]) return;
@@ -1775,12 +1958,13 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
     // nao volta e o vigia de 60s do app recarregava a conta, que ia pra cidade. Avisa o app enquanto ele estiver aberto
     ['alert', 'confirm', 'prompt'].forEach(k => { const o = window[k]; if (typeof o !== 'function') return; window[k] = function (...a) { console.log('__PGDLG__1'); try { return o.apply(window, a); } finally { console.log('__PGDLG__0'); } }; });
     // base sempre protegida + o que o usuario travou na engrenagem (window.__ehSellLock)
-    const BASE = ['strange pheromone', 'rare pokémon picture', 'rare pokemon picture'];
+    const BASE = ['strange pheromone', 'rare pokémon picture', 'rare pokemon picture', 'ruby'];
     const listaProt = () => { const u = Array.isArray(window.__ehSellLock) ? window.__ehSellLock : []; return BASE.concat(u); };
     const nomeItem = (id) => { try { const P = window.__poke; const doc = P && P.api && P.api['/game/items.json']; const it = doc && doc.items && doc.items.find(x => x.id === id); return it ? it.name : ''; } catch (x) { return ''; } };
     const nL=v=>{const m=String(v==null?'':v).match(/[0-9]+([.,][0-9]+)?/);return m?+m[0].replace(',','.'):0};
     const OF2 = window.fetch;
     window.fetch = function(...a) {
+      let blockedSale = false;
       try {
         const u = (a[0] && a[0].url) || a[0]; const ini = a[1] || {};
         if (typeof u === 'string' && ini.body && typeof ini.body === 'string') {
@@ -1791,19 +1975,159 @@ S.supBase=cur;if(S.picBase==null){S.picBase=now;}else{if(now>S.picBase){const do
             ids.forEach(id => { const p = LP.find(x => x.id === id); if (p && (p.shiny || nL(p.quality) >= 1.7)) { const q = nL(p.quality); const lab = q >= 4 ? 'Divina' : q >= 3 ? 'Anciã' : q >= 2 ? 'Mítica' : q >= 1.7 ? 'Lendária' : q >= 1.5 ? 'Épica' : q >= 1.3 ? 'Rara' : q >= 1.1 ? 'Incomum' : q >= 1 ? 'Comum' : 'Fraca'; avisos.push((p.shiny ? '✨ SHINY ' : '') + (p.name || '?') + ' · Nv ' + (p.level != null ? p.level : '?') + ' · IV ' + (p.ivTotal != null ? nL(p.ivTotal) : '?') + '/192 · ' + lab + ' ×' + q.toFixed(2)); } });
           } else if (/\\/api\\/game\\/(shop|flint)\\/sell/.test(u)) {
             const b = JSON.parse(ini.body); const its = b && b.items ? b.items : (b && b.itemId ? [{ itemId: b.itemId, qty: b.qty }] : []);
-            const PROT = listaProt();
-            its.forEach(x => { const nm = nomeItem(x.itemId); if (nm && PROT.includes(nm.toLowerCase())) avisos.push(nm + ' x' + (x.qty || 1)); });
+            const PROT = listaProt().concat(Array.isArray(window.__ehGreenMarkNames) ? window.__ehGreenMarkNames : []);
+            its.forEach(x => { const nm = nomeItem(x.itemId); if (nm && PROT.some(z => String(z).toLowerCase() === nm.toLowerCase())) avisos.push(nm + ' x' + (x.qty || 1)); });
           }
           if (avisos.length && window.__ehSellGuardOn !== false) {
             const T = window.__ehSellTxt || ['Nexus Por Escarlata Hispana: voce esta vendendo coisas valiosas:', 'Confirmar a venda?'];
             const ok = window.confirm(T[0] + '\\n\\n' + avisos.join('\\n') + '\\n\\n' + T[1]);
-            if (!ok) return Promise.reject(new Error('Venda cancelada pelo Nexus Por Escarlata Hispana'));
+            if (!ok) blockedSale = true;
           }
         }
-      } catch (x) {}
+      } catch (x) { console.warn('[Nexus SellGuard] No se pudo analizar la venta:', x); }
+      if (blockedSale) return Promise.reject(new Error('Venta cancelada por Nexus: objeto protegido'));
       return OF2.apply(this, a);
     };
   })()`;
+
+  // Sincroniza los nombres verdes reales del Hunt Analyzer con Tienda de Mark.
+  // No se usa rare ni precio: solo el color computado observado en el juego.
+  const GREEN_MARK_ITEMS = String.raw`(() => {
+    if (window.__ehGreenMarkItemsV4) return {ok:true,already:true};
+    const green = 'rgb(111, 214, 138)';
+    const storageKey = 'nexus-green-mark-catalog-v1';
+    const norm = s => String(s || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase();
+    const valid = s => s && s.length <= 100 && !/[<>\r\n]/.test(s);
+    let saved = [];
+    try { const x = JSON.parse(localStorage.getItem(storageKey) || '[]'); if (Array.isArray(x)) saved = x.filter(v => typeof v === 'string' && valid(v)).slice(0, 2000); } catch (_) {}
+    const known = new Set(['ruby', ...saved.map(norm)]);
+    let savePending = false;
+    const save = () => {
+      if (savePending) return;
+      savePending = true;
+      setTimeout(() => {
+        savePending = false;
+        try { localStorage.setItem(storageKey, JSON.stringify([...known].slice(0, 2000))); } catch (_) {}
+      }, 400);
+    };
+    const apply = () => {
+      let learned = 0, colored = 0;
+      document.querySelectorAll('.ha-drop-name').forEach(el => {
+        const name = norm(el.textContent);
+        if (valid(name) && getComputedStyle(el).color === green && !known.has(name)) {
+          known.add(name); learned++;
+        }
+      });
+      if (learned) save();
+      document.querySelectorAll('.mks-name').forEach(el => {
+        const name = norm(el.textContent);
+        if (!known.has(name)) return;
+        el.style.setProperty('color', '#6fd68a', 'important');
+        el.style.setProperty('-webkit-text-fill-color', '#6fd68a', 'important');
+        el.dataset.ehGreenMark = name;
+        el.title = 'Nexus: objeto verde; revisar antes de vender';
+        colored++;
+      });
+      // Intercambios: colorear el selector de objetos y las etiquetas visibles
+      // de las casillas de oferta, sin alterar botones, cantidades ni confirmaciones.
+      let tradeColored = 0;
+      document.querySelectorAll('.trd-pick-n').forEach(el => {
+        const name = norm(el.textContent);
+        if (!known.has(name)) return;
+        el.style.setProperty('color', '#6fd68a', 'important');
+        el.style.setProperty('-webkit-text-fill-color', '#6fd68a', 'important');
+        el.dataset.ehGreenTrade = name;
+        el.title = 'Nexus: objeto verde; revisa antes de intercambiar';
+        tradeColored++;
+      });
+      window.__ehGreenMarkNames = [...known];
+      window.__ehGreenMarkLast = {found:colored, tradeFound:tradeColored, learned, total:known.size, persisted:true, names:[...known], time:Date.now()};
+    };
+    window.__ehGreenMarkItemsV4 = true;
+    const observer = new MutationObserver(() => {
+      if (window.__ehGreenMarkPending) return;
+      window.__ehGreenMarkPending = true;
+      setTimeout(() => {window.__ehGreenMarkPending = false; apply();}, 250);
+    });
+    observer.observe(document.documentElement, {subtree:true,childList:true,characterData:true});
+    setInterval(apply, 1500);
+    save();
+    apply();
+    return {ok:true,found:window.__ehGreenMarkLast.found};
+  })()`;
+
+  // Mark V5: las rutas internas SPA no disparan dom-ready. Verificación de inyección
+  // independiente y recuperable por cuenta, sin tocar login ni datos de sesión.
+  const ensureGreenMark = async (wv) => {
+    try {
+      if (!wv || !/\/play(?:[/?#]|$)/.test(wv.getURL() || '')) return;
+      const loaded = await wv.executeJavaScript('Boolean(window.__ehGreenMarkItemsV4)');
+      if (!loaded) await wv.executeJavaScript(GREEN_MARK_ITEMS);
+    } catch (err) { console.warn('[Nexus Mark Verde] Inyección:', err?.message || err); }
+  };
+  setInterval(() => {
+    for (let j = 0; j < webviews.length; j++) if (!off[j]) ensureGreenMark(webviews[j]);
+  }, 5000);
+
+  // V9: catálogo compartido por las cuatro cuentas, persistido en la ventana principal.
+  // Solo incorpora nombres previamente observados verdes por Hunt Analyzer.
+  const globalGreenKey = 'nexus-green-mark-global-v1';
+  const greenNorm = s => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
+  let globalGreen = new Set(['ruby']);
+  try {
+    const prev = JSON.parse(localStorage.getItem(globalGreenKey) || '[]');
+    if (Array.isArray(prev)) prev.forEach(x => { if (typeof x === 'string' && x.length <= 100 && !/[<>\r\n]/.test(x)) globalGreen.add(greenNorm(x)); });
+  } catch (_) {}
+  let greenSyncBusy = false;
+  async function syncGlobalGreen() {
+    if (greenSyncBusy) return;
+    greenSyncBusy = true;
+    try {
+      for (let i = 0; i < webviews.length; i++) {
+        const w = webviews[i];
+        if (!w || off[i] || !/\/play(?:[/?#]|$)/.test(w.getURL() || '')) continue;
+        try {
+          const names = await w.executeJavaScript('Array.isArray(window.__ehGreenMarkNames) ? window.__ehGreenMarkNames : []');
+          if (Array.isArray(names)) names.forEach(x => {
+            if (typeof x === 'string' && x.length <= 100 && !/[<>\r\n]/.test(x)) globalGreen.add(greenNorm(x));
+          });
+        } catch (_) {}
+      }
+      const names = [...globalGreen].filter(Boolean).slice(0, 2000);
+      localStorage.setItem(globalGreenKey, JSON.stringify(names));
+      for (let i = 0; i < webviews.length; i++) {
+        const w = webviews[i];
+        if (!w || off[i] || !/\/play(?:[/?#]|$)/.test(w.getURL() || '')) continue;
+        try {
+          await w.executeJavaScript(`(() => {
+            const names = ${JSON.stringify(names)};
+            const key = 'nexus-green-mark-catalog-v1';
+            const local = JSON.parse(localStorage.getItem(key) || '[]');
+            const all = [...new Set([...names, ...(Array.isArray(local) ? local : [])])];
+            localStorage.setItem(key, JSON.stringify(all));
+            window.__ehGreenMarkNames = all;
+            document.querySelectorAll('.mks-name').forEach(el => {
+              const name = String(el.textContent || '').trim().replace(/\s+/g,' ').toLowerCase();
+              if (!all.includes(name)) return;
+              el.style.setProperty('color','#6fd68a','important');
+              el.style.setProperty('-webkit-text-fill-color','#6fd68a','important');
+              el.dataset.ehGreenMark = name;
+            });
+            document.querySelectorAll('.trd-pick-n').forEach(el => {
+              const name = String(el.textContent || '').trim().replace(/\s+/g,' ').toLowerCase();
+              if (!all.includes(name)) return;
+              el.style.setProperty('color','#6fd68a','important');
+              el.style.setProperty('-webkit-text-fill-color','#6fd68a','important');
+              el.dataset.ehGreenTrade = name;
+              el.title = 'Nexus: objeto verde; revisa antes de intercambiar';
+            });
+            return all.length;
+          })()`);
+        } catch (_) {}
+      }
+    } finally { greenSyncBusy = false; }
+  }
+  setInterval(() => { syncGlobalGreen().catch(e => console.warn('[Nexus] Sincronización catálogo verde:', e)); }, 6500);
 
   // ----- Filtros na Pokedex e no Mercado (so leitura: esconde/ordena o que ja esta na tela) -----
   const QOL_UI = `(() => {
@@ -4819,14 +5143,25 @@ lw:!!(window.__loginWatch||window.document?.querySelector('input[autocomplete=on
 
   // ===== Mercado Global Escarlata =====
   let ehMarketCode = null;
+  // La carga inicial puede coincidir con una navegación del webview.
+  // No marcar como preparado hasta comprobar que la API está realmente expuesta.
+  const ehMarketInjecting = new WeakMap();
   async function injectEhMarket(wv) {
-    if (usNoLogin(wv)) return;
-    try {
+    if (!wv || usNoLogin(wv)) return false;
+    if (ehMarketInjecting.has(wv)) return ehMarketInjecting.get(wv);
+    const task=(async()=>{
       if (ehMarketCode == null) ehMarketCode = (await window.pokeAPI.readPreset('mercado.js')) || '';
-      if (!ehMarketCode) return;
-      const ya = await wv.executeJavaScript("(()=>!!window.__EH_MARKET__)()");
-      if (!ya) await wv.executeJavaScript('(async function(){' + ehMarketCode + '\n})().then(function(){})');
-    } catch {}
+      if (!ehMarketCode) throw new Error('No se pudo leer presets/mercado.js');
+      let ready=await wv.executeJavaScript('Boolean(window.__EH_MARKET__?.apiRaw && window.__EH_MARKET__?.listingsRaw)');
+      if (!ready) {
+        await wv.executeJavaScript('(async function(){' + ehMarketCode + '\n})().then(function(){})');
+        ready=await wv.executeJavaScript('Boolean(window.__EH_MARKET__?.apiRaw && window.__EH_MARKET__?.listingsRaw)');
+      }
+      if (!ready) throw new Error('El módulo de mercado no terminó de inicializarse');
+      return true;
+    })();
+    ehMarketInjecting.set(wv,task);
+    try{return await task}finally{ehMarketInjecting.delete(wv)}
   }
 
   async function injectScripts(wv) {
@@ -5184,6 +5519,12 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
 .eh-advisor-table-wrap{overflow:auto;flex:1;padding:0 14px 14px}.eh-advisor-table{width:100%;border-collapse:collapse;font-size:12px}.eh-advisor-table th{position:sticky;top:0;background:#11192b;color:#9eabc3;text-align:left;padding:10px 8px;border-bottom:1px solid #34415e}.eh-advisor-table td{padding:10px 8px;border-bottom:1px solid #1e2940}.eh-advisor-table tr:hover td{background:#111a2c}.eh-rank{color:#71809c}.eh-huntname{font-weight:800;color:#f2f5fb}.eh-xp{color:#68b9ff;font-weight:800}.eh-loot{color:#f3c54b;font-weight:800}.eh-skill{color:#d6d9e2}.eh-best{color:#53d88a;font-size:10px;font-weight:900;margin-left:6px}.eh-real{margin-left:6px;color:#55e49b;font-size:9px;font-weight:900}.eh-est{margin-left:6px;color:#8794aa;font-size:9px;font-weight:800}
 
 @media(max-width:850px){:root{--eh-side:62px}#ehBrandText,.eh-title,.eh-account b,.eh-account small{display:none}#ehNav{grid-template-columns:1fr;padding:7px}.eh-nav{font-size:0!important}.eh-nav span{font-size:18px}#ehOptionList{grid-template-columns:1fr}#ehOptionsPane{padding:10px}.eh-options-card{width:98vw;height:95vh}}
+
+/* V36 Hunt Advisor: interfaz compacta y herramientas adicionales */
+.eh-advisor-extra{padding:9px 16px;background:#0d1424;border-bottom:1px solid #26334a;max-height:255px;overflow:auto}
+.eh-advisor-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:end}.eh-advisor-filters label{font-size:10px;color:#a6b4cf;min-width:120px;flex:1}.eh-advisor-filters input,.eh-advisor-filters select{display:block;width:100%;background:#101c30;color:#eef3ff;border:1px solid #34415e;border-radius:7px;padding:6px;margin-top:3px}.eh-advisor-filters button{padding:8px;border-radius:7px;background:#291927;border:1px solid #a83b50;color:#fff;cursor:pointer}
+.eh-advisor-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:9px}.eh-advisor-highlight{display:flex;flex-direction:column;gap:3px;background:#131f35;border:1px solid #30435d;border-radius:8px;padding:9px}.eh-advisor-highlight b{color:#fff;font-size:12px}.eh-advisor-highlight span{font-weight:800;color:#70c3ff}.eh-advisor-highlight small{color:#a8b6ce;font-size:10px}
+.eh-advisor-compare{margin-top:8px}.eh-advisor-compare-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:6px}.eh-advisor-compare-grid>div{background:#172039;border-radius:7px;padding:8px;display:flex;flex-direction:column;gap:4px;font-size:11px}.eh-advisor-history{margin-top:8px;padding:8px;background:#111c31;border-radius:8px;font-size:11px}.eh-advisor-history[hidden]{display:none}.eh-advisor-history-scroll{max-height:110px;overflow:auto}.eh-advisor-history-scroll>div{padding:5px;border-bottom:1px solid #34415e}.eh-advisor-actions{white-space:nowrap}.eh-advisor-actions button{background:transparent;color:#f4c84f;border:1px solid #35425b;border-radius:5px;cursor:pointer;padding:3px 6px;margin-right:3px}
 </style>
 <div id="ehSidebar"><div id="ehBrand"><img src="assets/nexus-emblema.png" alt="Nexus"><div id="ehBrandText">NEXUS<div class="eh-brand-by">POR ESCARLATA HISPANA</div><div class="eh-sub">POKE IDLE WORLD</div></div><button id="ehCollapse" title="Contraer menú">‹</button></div>
   <button id="ehCalculator" title="Abrir Calculadora de IV global"><span>🧮</span> <span class="eh-jp-text">Calculadora de IV</span></button>
@@ -5240,11 +5581,14 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
       <label>Ordenar por<select id="ehAdvisorSort"><option value="xph">XP/h ↓</option><option value="kph">Kills/h ↓</option><option value="loot">Botín/h ↓</option></select></label>
       <button id="ehAdvisorCalc">▶ Calcular</button>
     </div>
-    <div id="ehAdvisorInfo" class="eh-advisor-info">Selecciona un entrenador y un Pokémon.</div>
+    <div id="ehAdvisorExtra" class="eh-advisor-extra">
+ <div class="eh-advisor-filters"><label>Buscar hunt<input id="ehAdvisorSearch" placeholder="Nombre de hunt"></label><label>Nivel mínimo<input id="ehAdvisorMinHunt" type="number" min="1" placeholder="Todos"></label><label>Efectividad mínima (%)<input id="ehAdvisorMinEff" type="number" min="0" max="100" placeholder="Todas"></label><label>Tipo de datos<select id="ehAdvisorEvidence"><option value="all">Todas</option><option value="real">Con medición real</option><option value="estimated">Solo estimadas</option></select></label><label>Vista<select id="ehAdvisorView"><option value="all">Todas las hunts</option><option value="favorites">★ Favoritas</option></select></label><button id="ehAdvisorHistoryBtn">📈 Historial real</button></div>
+ <div id="ehAdvisorHighlights" class="eh-advisor-highlights"></div><div id="ehAdvisorCompare" class="eh-advisor-compare"></div><div id="ehAdvisorHistory" class="eh-advisor-history" hidden></div>
+ </div><div id="ehAdvisorInfo" class="eh-advisor-info">Selecciona un entrenador y un Pokémon.</div>
 
 <div class="eh-advisor-table-wrap">
       <table class="eh-advisor-table"><thead><tr>
-        <th>#</th><th>Hunt</th><th>Nivel</th><th>Kills/h</th><th>XP/h</th><th>Botín/h</th><th>Habilidad</th>
+        <th>#</th><th>★ / Comparar</th><th>Hunt</th><th>Nivel</th><th>Kills/h</th><th>XP/h</th><th>Botín/h</th><th>Habilidad</th>
       </tr></thead><tbody id="ehAdvisorRows"></tbody></table>
     </div>
 </div>
@@ -5257,17 +5601,68 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
  const body=document.body, menu=$('menu'), list=$('ehOptionList');
 
  let ehGMIndex=-1, ehGMTimer=null, ehGMCountdownTimer=null, ehGMSafetyTimer=null, ehGMNextRefresh=0, ehGMRows=[], ehGMCanPurchase=false, ehGMLocationState='unknown';
+ let ehGMFetchBusy=false,ehGMFetchQueued=false,ehGMFailures=0,ehGMLastOk=0,ehGMLastError='';
  const EHGM_REFRESH_MS=20000;
  const ehGMCountdownText=()=>Math.max(0,Math.ceil((ehGMNextRefresh-Date.now())/1000));
  const ehGMUpdateCountdown=()=>{const st=$('ehGMStatus');if(!st||!$('ehGeneralMarket')?.classList.contains('show')||!ehGMNextRefresh)return;const base=st.dataset.base||`${ehGMRows.length} anuncios`;st.textContent=`${base} · próxima actualización en ${ehGMCountdownText()} s`;};
  const ehGMStopAutoRefresh=()=>{clearInterval(ehGMTimer);clearInterval(ehGMCountdownTimer);clearInterval(ehGMSafetyTimer);ehGMTimer=ehGMCountdownTimer=ehGMSafetyTimer=null;ehGMNextRefresh=0;};
- const ehGMStartAutoRefresh=()=>{ehGMStopAutoRefresh();ehGMNextRefresh=Date.now()+EHGM_REFRESH_MS;ehGMUpdateCountdown();ehGMCountdownTimer=setInterval(ehGMUpdateCountdown,250);ehGMTimer=setInterval(async()=>{await ehGMFetch(false);ehGMNextRefresh=Date.now()+EHGM_REFRESH_MS;ehGMUpdateCountdown();},EHGM_REFRESH_MS);ehGMSafetyTimer=setInterval(()=>ehGMUpdateSafety(true),2000);};
+ const ehGMStartAutoRefresh=()=>{ehGMStopAutoRefresh();ehGMNextRefresh=Date.now()+EHGM_REFRESH_MS;ehGMUpdateCountdown();ehGMCountdownTimer=setInterval(ehGMUpdateCountdown,250);ehGMTimer=setInterval(async()=>{if(ehGMFetchBusy||Date.now()<ehGMNextRefresh)return;try{await ehGMFetch(false)}catch(e){console.warn('[Nexus Mercado]',e)}ehGMNextRefresh=Date.now()+Math.min(120000,EHGM_REFRESH_MS*Math.pow(2,Math.min(ehGMFailures,3)));ehGMUpdateCountdown();},2000);ehGMSafetyTimer=setInterval(()=>ehGMUpdateSafety(true),2000);};
  const ehGMManualRefresh=async()=>{await ehGMFetch(false);ehGMStartAutoRefresh();};
  const ehGMWebview=()=>ehGMIndex>=0&&webviews[ehGMIndex]&&!off[ehGMIndex]?webviews[ehGMIndex]:null;
+ // Alertas opt-in: solo anuncios observados en las páginas descargadas, sin compra automática.
+ const EHGM_ALERT_KEY='nexus-market-alerts-v27';
+ const ehGMAlertConfig=()=>{try{return {...{enabled:false,minIV:170,minQuality:2,discount:30},...JSON.parse(localStorage.getItem(EHGM_ALERT_KEY)||'{}')}}catch{return {enabled:false,minIV:170,minQuality:2,discount:30}}};
+ const ehGMAlertSeen=new Map();
+ const ehGMAlertList=[];
+ const ehGMCheckAlerts=()=>{
+   const cfg=ehGMAlertConfig();if(!cfg.enabled||!Array.isArray(ehGMRows))return;
+   const groups=new Map();
+   for(const e of ehGMRows){const n=String(e.name||e.title||e.itemName||e.pokemonName||'').trim().toLowerCase(),p=Number(e.price);if(!n||!(p>0))continue;const k=n+'|'+String(e.currency||'');if(!groups.has(k))groups.set(k,[]);groups.get(k).push(p)}
+   const now=Date.now();for(const [id,t] of ehGMAlertSeen)if(now-t>24*3600000)ehGMAlertSeen.delete(id);
+   for(const e of ehGMRows){
+     const id=String(e.id||e.ids?.[0]||'');if(!id||ehGMAlertSeen.has(id))continue;
+     const n=String(e.name||e.title||e.itemName||e.pokemonName||'').trim(),p=Number(e.price)||0,iv=Number(e.ivTotal||0),q=Number(e.quality||0);
+     const ps=groups.get(n.toLowerCase()+'|'+String(e.currency||''))||[];
+     const typical=ps.length>=10?ehGMReferencePrice(ps):0;
+     const reasons=[];
+     if($('ehGMCat').value==='Pokemon'&&iv>=Number(cfg.minIV))reasons.push('IV '+iv);
+     if($('ehGMCat').value==='Pokemon'&&q>=Number(cfg.minQuality))reasons.push('calidad '+q.toFixed(2));
+     if(typical>0&&p<=typical*(1-Number(cfg.discount)/100))reasons.push('precio '+Math.round((1-p/typical)*100)+'% menor que la referencia de esta página');
+     if(!reasons.length)continue;
+     ehGMAlertSeen.set(id,now);ehGMAlertList.unshift({time:now,name:n,price:p,currency:e.currency||'',reason:reasons.join(' · '),id});
+   }
+   ehGMAlertList.length=Math.min(100,ehGMAlertList.length);
+   ehGMRenderAlerts();
+ };
+ const ehGMRenderAlerts=()=>{
+   const el=$('ehGMAlertLog');if(!el)return;
+   el.textContent='';for(const a of ehGMAlertList.slice(0,12)){
+     const div=document.createElement('div');div.className='ehgm-alert-entry';div.textContent=new Date(a.time).toLocaleTimeString('es-CL')+' · '+a.name+' · '+a.reason+' · '+Number(a.price).toLocaleString('es-CL')+' '+a.currency;el.appendChild(div)
+   }
+   if(!ehGMAlertList.length)el.textContent='Sin alertas en las páginas consultadas.';
+ };
+ const ehGMSetupAlerts=()=>{
+   const cfg=ehGMAlertConfig();
+   for(const [id,key] of [['ehGMAlertIV','minIV'],['ehGMAlertQuality','minQuality'],['ehGMAlertDiscount','discount']]){$(id).value=cfg[key];$(id).onchange=()=>{const c=ehGMAlertConfig();c[key]=Number($(id).value);localStorage.setItem(EHGM_ALERT_KEY,JSON.stringify(c))}}
+   $('ehGMAlertEnabled').checked=!!cfg.enabled;
+   $('ehGMAlertEnabled').onchange=()=>{const c=ehGMAlertConfig();c.enabled=$('ehGMAlertEnabled').checked;localStorage.setItem(EHGM_ALERT_KEY,JSON.stringify(c));if(c.enabled)ehGMCheckAlerts()};
+   $('ehGMAlertClear').onclick=()=>{ehGMAlertList.length=0;ehGMAlertSeen.clear();ehGMRenderAlerts()};
+   ehGMRenderAlerts();
+ };
+
  const EHGM_PREF='ehMarketPrefsV1',EHGM_FAV='ehMarketFavsV1';
  const ehGMGetPrefs=()=>{try{return JSON.parse(localStorage.getItem(EHGM_PREF)||'{}')}catch{return{}}};
  const ehGMSavePrefs=()=>{const ids=['ehGMCat','ehGMQ','ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax','ehGMCurrency','ehGMSort','ehGMTrainer'];const o={};ids.forEach(id=>{const e=$(id);if(e)o[id]=e.value});o.favOnly=$('ehGMFavOnly')?.classList.contains('on')||false;localStorage.setItem(EHGM_PREF,JSON.stringify(o))};
- const ehGMLoadPrefs=()=>{const o=ehGMGetPrefs();Object.entries(o).forEach(([id,v])=>{if(id==='favOnly')return;const e=$(id);if(e&&[...e.options||[]].some?.(x=>x.value===String(v)))e.value=String(v);else if(e&&e.tagName==='INPUT')e.value=String(v)});$('ehGMFavOnly')?.classList.toggle('on',!!o.favOnly)};
+ const ehGMLoadPrefs=()=>{const o=ehGMGetPrefs();
+   // V28: un filtro avanzado persistente (p.ej. nivel mínimo 150) ocultaba páginas completas.
+   // Migración una sola vez, conservando cuenta, categoría, moneda y favoritos.
+   if(!localStorage.getItem('ehMarketV28FilterMigration')){
+     for(const id of ['ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax'])delete o[id];
+     delete o.favOnly;
+     localStorage.setItem('ehMarketV28FilterMigration','1');
+     localStorage.setItem(EHGM_PREF,JSON.stringify(o));
+   }
+Object.entries(o).forEach(([id,v])=>{if(id==='favOnly')return;const e=$(id);if(e&&[...e.options||[]].some?.(x=>x.value===String(v)))e.value=String(v);else if(e&&e.tagName==='INPUT')e.value=String(v)});$('ehGMFavOnly')?.classList.toggle('on',!!o.favOnly)};
  const ehGMFavs=()=>{try{return new Set(JSON.parse(localStorage.getItem(EHGM_FAV)||'[]'))}catch{return new Set()}};
  const ehGMToggleFav=n=>{const a=ehGMFavs(),k=String(n||'').trim().toLowerCase();a.has(k)?a.delete(k):a.add(k);localStorage.setItem(EHGM_FAV,JSON.stringify([...a]));ehGMRender()};
  const ehGMTrainerName=i=>{try{const d=lastData?.[i]||{},lead=(d.team||[]).find(x=>x.ld)||(d.team||[])[0],pn=lead?.name||lead?.pokemonName||'';return `${String(d.name||d.trainer||d.character||`Entrenador ${i+1}`)}${pn?` · ${pn}`:''}`}catch{return `Entrenador ${i+1}`}};
@@ -5284,8 +5679,33 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
  };
  const ehGMCur=v=>/DIAM|^DD$/i.test(String(v||''))?'DIAMONDS':'GOLD';
  const ehGMEsc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- async function ehGMEnsure(w){await injectEhMarket(w);}
- async function ehGMLocation(w){try{return await w.executeJavaScript(`(()=>{const city=/\b(?:cerulean(?: city)?|pewter(?: city)?|lavender(?: town)?|viridian(?: city)?|saffron(?: city)?|celadon(?: city)?|fuchsia(?: city)?|cinnabar(?: island)?|pallet(?: town)?|vermili(?:o|a)n(?: city)?|cassino|casino|pok[eé]mon\s*center|pokemon\s*center|centro\s*pok[eé]mon|mercado|market)\b/i;const loc=String(document.querySelector('.phud-tloc,[data-guide="player-location"],[data-guide="location"],.phud-location,.location-name')?.textContent||'').trim();const marketOpen=[...document.querySelectorAll('[data-guide*="market" i],[data-guide*="mercado" i],.market-window,.global-market,.marketplace')].some(x=>{const cs=getComputedStyle(x);return cs.display!=='none'&&cs.visibility!=='hidden'&&x.getClientRects().length>0});const centerOpen=[...document.querySelectorAll('[data-guide*="pokemon-center" i],[data-guide*="pokecenter" i],.pokemon-center,.pokecenter')].some(x=>{const cs=getComputedStyle(x);return cs.display!=='none'&&cs.visibility!=='hidden'&&x.getClientRects().length>0});const battle=[...document.querySelectorAll('[data-guide="capture-bar"],.hunt-ui,.battle-window,.hunt-window,.wild-pokemon,.battle-area,.battle-screen')].some(x=>{const cs=getComputedStyle(x);return cs.display!=='none'&&cs.visibility!=='hidden'&&x.getClientRects().length>0});const here=[...document.querySelectorAll('.hunt-marker.here,[data-guide^="hunt-"].here')].some(x=>!city.test((x.querySelector('.hunt-name')?.textContent||x.textContent||'').trim()));if(battle||here)return {state:'hunt',loc};if((loc&&city.test(loc))||marketOpen||centerOpen)return {state:'city',loc:loc||'Centro Pokémon / Mercado'};if(loc)return {state:'hunt',loc};return {state:'unknown',loc:''}})()`)}catch{return {state:'unknown',loc:''}}}
+ async function ehGMEnsure(w){
+   let lastError;
+   for(let attempt=0;attempt<5;attempt++){
+     if(attempt)await new Promise(resolve=>setTimeout(resolve,450*(attempt+1)));
+     try{
+       if(await injectEhMarket(w))return true;
+       lastError=new Error('La cuenta aún está cargando el juego');
+     }catch(e){lastError=e}
+   }
+   throw new Error('Mercado no disponible en esta cuenta: '+(lastError?.message||'espera a que termine de cargar el juego'));
+ }
+ async function ehGMLocation(w){try{return await w.executeJavaScript(String.raw`(()=>{
+ const city=/\b(?:cerulean(?: city)?|pewter(?: city)?|lavender(?: town)?|viridian(?: city)?|saffron(?: city)?|celadon(?: city)?|fuchsia(?: city)?|cinnabar(?: island)?|pallet(?: town)?|vermilion(?: city)?|vermillion(?: city)?|cassino|casino|pok[eé]mon\s*center|pokemon\s*center|centro\s*pok[eé]mon)\b/i;
+ const selectors=['.phud-tloc','[data-guide="player-location"]','[data-guide="location"]','.phud-location','.location-name'];
+ const loc=selectors.map(sel=>document.querySelector(sel)?.textContent?.trim()||'').find(Boolean)||'';
+ const visible=x=>{try{const cs=getComputedStyle(x);return cs.display!=='none'&&cs.visibility!=='hidden'&&x.getClientRects().length>0}catch{return false}};
+ const battle=[...document.querySelectorAll('[data-guide="capture-bar"],.hunt-ui,.battle-window,.hunt-window,.wild-pokemon,.battle-area,.battle-screen')].some(visible);
+ const here=[...document.querySelectorAll('.hunt-marker.here,[data-guide^="hunt-"].here')].some(x=>visible(x)&&!city.test((x.querySelector('.hunt-name')?.textContent||x.textContent||'').trim()));
+ const nativeHunt=typeof window.__EH_MARKET__?.isInHunt==='function'?window.__EH_MARKET__.isInHunt():null;
+ if(battle||here)return {state:'hunt',loc,reason:battle?'battle':'hunt-marker'};
+ if(loc&&city.test(loc))return {state:'city',loc,reason:'location-name'};
+ if(loc)return {state:'hunt',loc,reason:'other-location'};
+ // The game helper recognizes out-of-hunt state even when location HUD is absent.
+ // Do not rely on an open marketplace window: that window can also be opened during a hunt.
+ if(nativeHunt===false)return {state:'city',loc:'Fuera de hunt (juego)',reason:'game-state'};
+ return {state:'unknown',loc,reason:'insufficient-evidence'};
+})()`)}catch(e){return {state:'unknown',loc:'',reason:String(e?.message||e)}}}
  async function ehGMInHunt(w){const x=await ehGMLocation(w);return x.state!=='city'}
  const ehGMHistoryAdd=e=>{try{const a=JSON.parse(localStorage.getItem('ehMarketHistoryV1')||'[]'),r=e.item||e.pokemon||e.product||{};a.unshift({at:new Date().toISOString(),trainer:ehGMTrainerName(ehGMIndex),name:e.name||e.title||e.itemName||e.pokemonName||r.name||'—',iv:e.ivTotal??r.ivTotal??e.iv??r.iv??null,quality:e.quality??r.quality??e.q??r.q??null,price:e.price??e.totalPrice??e.value??0,currency:e.currency||e.currencyType||r.currency||r.currencyType||''});localStorage.setItem('ehMarketHistoryV1',JSON.stringify(a.slice(0,100)))}catch{}};
 
@@ -5295,7 +5715,7 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
  const ehGMRefreshProfiles=()=>{const e=$('ehGMProfile');if(!e)return;const v=e.value;e.innerHTML='<option value="">Perfil de búsqueda…</option>'+ehGMProfiles().map((x,i)=>`<option value="${i}">${ehGMEsc(x.name)}</option>`).join('');if([...e.options].some(o=>o.value===v))e.value=v};
  const ehGMSaveProfile=()=>{const name=prompt('Nombre del perfil de búsqueda:');if(!name)return;const ids=['ehGMCat','ehGMQ','ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax','ehGMCurrency','ehGMSort'];const values={};ids.forEach(id=>values[id]=$(id)?.value??'');const a=ehGMProfiles();a.push({name,values});localStorage.setItem(EHGM_PROFILES,JSON.stringify(a.slice(-20)));ehGMRefreshProfiles()};
  const ehGMApplyProfile=i=>{const x=ehGMProfiles()[Number(i)];if(!x)return;Object.entries(x.values||{}).forEach(([id,v])=>{if($(id))$(id).value=v});ehGMSavePrefs();ehGMRender()};
- const ehGMClearFilters=()=>{['ehGMQ','ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax'].forEach(id=>{if($(id))$(id).value=''});$('ehGMCurrency').value='ALL';$('ehGMSort').value='level-desc';$('ehGMFavOnly').classList.remove('on');ehGMSavePrefs();ehGMRender()};
+ const ehGMClearFilters=()=>{['ehGMQ','ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax'].forEach(id=>{if($(id))$(id).value=''});$('ehGMCurrency').value='ALL';$('ehGMSort').value='level-desc';$('ehGMFavOnly').classList.remove('on');$('ehGMSpecies').value='';localStorage.removeItem('ehMarketSpeciesV18');ehGMServerPage=1;ehGMSavePrefs();ehGMFetch(false)};
  const ehGMShowHistory=()=>{const h=$('ehGMHistory'),l=$('ehGMList'),st=$('ehGMStats');const open=h.style.display==='none';h.style.display=open?'block':'none';l.style.display=open?'none':'';st.style.display='none';if(!open){ehGMRender();return}let a=[];try{a=JSON.parse(localStorage.getItem('ehMarketHistoryV1')||'[]')}catch{}h.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><b>🕘 Historial de compras (${a.length})</b><button id="ehGMClearHistory">Borrar historial</button></div>`+(a.length?a.map(x=>`<div class="ehgm-hrow"><span>${new Date(x.at).toLocaleString('es-CL')}</span><b>${ehGMEsc(x.name)}</b><span>${x.iv!=null?'IV '+x.iv:''}${x.quality!=null?' · C '+x.quality:''}</span><strong>${Number(x.price||0).toLocaleString('es-CL')} ${ehGMCur(x.currency)==='DIAMONDS'?'DD':'$'}</strong></div>`).join(''):'<p>Sin compras registradas.</p>');$('ehGMClearHistory').onclick=()=>{if(confirm('¿Borrar historial?')){localStorage.removeItem('ehMarketHistoryV1');ehGMShowHistory();ehGMShowHistory()}}};
 
  const ehGMUpdateSafety=async(rerender=false)=>{
@@ -5306,47 +5726,455 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
    catch{ehGMCanPurchase=false;ehGMLocationState='unknown';el.textContent='⚠️ UBICACIÓN NO CONFIRMADA — compras bloqueadas';el.classList.remove('safe');if(rerender&&before!==ehGMCanPurchase)ehGMRender();return false}
  };
 
+ const EHGM_SPECIES=["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran Female", "Nidorina", "Nidoqueen", "Nidoran Male", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
+ const ehGMNormSpecies=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+ const ehGMAutoSpecies=()=>{
+   if($('ehGMCat').value!=='Pokemon')return null;
+   const raw=$('ehGMQ').value.trim();if(!raw)return null;
+   if(/^#\d+$/.test(raw)){const n=Number(raw.slice(1));return n>0&&n<=2000?n:null}
+   const key=ehGMNormSpecies(raw);
+   if(!key)return null;
+   const matches=EHGM_SPECIES.map((name,i)=>({name,id:i+1})).filter(x=>ehGMNormSpecies(x.name).startsWith(key));
+   return matches.length===1?matches[0].id:null;
+ };
+ const ehGMEffectiveSpecies=()=>ehGMResolveSpecies()||ehGMAutoSpecies();
+ const ehGMResolveSpecies=()=>{
+   const raw=$('ehGMSpecies').value.trim();if(!raw)return null;
+   if(/^#?\d+$/.test(raw)){const n=Number(raw.replace('#',''));return n>0&&n<=2000?n:null}
+   const match=EHGM_SPECIES.findIndex(n=>ehGMNormSpecies(n)===ehGMNormSpecies(raw));
+   return match>=0?match+1:null;
+ };
+ let ehGMServerPage=1,ehGMServerPages=1,ehGMServerTotal=0,ehGMServerMode=false,ehGMFetchSerial=0;
+ let ehGMDeep={active:false,stop:false,rows:[],seen:new Set(),next:1,totalPages:0,scanned:0,sid:null,account:null,signature:'',batch:Infinity,complete:false};
+ const ehGMDeepSignature=()=>JSON.stringify({account:ehGMIndex,cat:$('ehGMCat').value,sid:ehGMEffectiveSpecies()});
+ const ehGMDeepReset=()=>{ehGMDeep.stop=true;ehGMDeep.active=false;ehGMDeep.rows=[];ehGMDeep.seen=new Set();ehGMDeep.next=1;ehGMDeep.scanned=0;ehGMDeep.totalPages=0;ehGMDeep.signature='';ehGMDeep.complete=false;$('ehGMDeepStart').textContent='⬇ Cargar todos los Pokémon';$('ehGMDeepStart').disabled=false;$('ehGMDeepStop').disabled=true;$('ehGMDeepStatus').style.display='none'};
+ const ehGMDeepPause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const ehGMDeepStatus=msg=>{const el=$('ehGMDeepStatus');el.style.display='block';el.textContent=msg};
+ async function ehGMDeepScan(){
+   if(ehGMDeep.active)return;
+   if($('ehGMCat').value!=='Pokemon'){ehGMDeepStatus('La búsqueda por páginas está disponible para Pokémon.');return}
+   const sid=ehGMEffectiveSpecies();
+   // Sin especie, se descarga el catálogo completo de Pokémon; con especie, solo esa especie.
+   const w=ehGMWebview();if(!w){ehGMDeepStatus('No hay una cuenta activa.');return}
+   const sig=ehGMDeepSignature();
+   if(sig!==ehGMDeep.signature){ehGMDeepReset();ehGMDeep.signature=sig;ehGMDeep.sid=sid;ehGMDeep.account=ehGMIndex}
+   if(ehGMDeep.complete){ehGMRows=ehGMDeep.rows;ehGMServerMode=false;ehGMRender();ehGMDeepStatus('Catálogo completo en memoria: '+ehGMDeep.rows.length+' anuncios. Los filtros se aplican a todo lo cargado.');return}
+   ehGMDeep.active=true;ehGMDeep.stop=false;
+   $('ehGMDeepStart').disabled=true;$('ehGMDeepStop').disabled=false;
+   ehGMStopAutoRefresh();
+   try{
+     await ehGMEnsure(w);
+     let count=0;
+     while(!ehGMDeep.stop&&count<ehGMDeep.batch&&(ehGMDeep.totalPages===0||ehGMDeep.next<=ehGMDeep.totalPages)){
+       if(ehGMDeepSignature()!==sig||ehGMWebview()!==w)throw Error('Cambió la búsqueda o la cuenta. Inicia una búsqueda nueva.');
+       const page=ehGMDeep.next;
+       const result=await w.executeJavaScript(`(async()=>{const M=window.__EH_MARKET__;if(!M)throw Error('Módulo de mercado no disponible');const p=new URLSearchParams({browse:'pokemon',page:String(${page}),sort:'recent'});if(${JSON.stringify(sid)}!==null)p.set('speciesId',String(${JSON.stringify(sid)}));const d=await M.apiRaw('/api/game/market?'+p.toString());return {rows:M.listingsRaw(d),pages:Number(d.pages)||0,total:Number(d.total)||0}})()`);
+       if(ehGMDeep.stop)break;
+       if(!result||!Array.isArray(result.rows))throw Error('El servidor no devolvió anuncios válidos.');
+       if(!ehGMDeep.totalPages)ehGMDeep.totalPages=Math.max(1,Math.floor(result.pages)||1);
+       for(const e of result.rows){const key=String(e.id??e.ids?.[0]??JSON.stringify(e));if(!ehGMDeep.seen.has(key)){ehGMDeep.seen.add(key);ehGMDeep.rows.push(e)}}
+       ehGMDeep.next++;ehGMDeep.scanned++;count++;
+       if(ehGMDeep.scanned===1||ehGMDeep.scanned%10===0||ehGMDeep.next>ehGMDeep.totalPages){ehGMRows=ehGMDeep.rows;ehGMServerMode=false;ehGMPage=0;ehGMRender();}
+       ehGMDeepStatus(`Descargando catálogo: ${ehGMDeep.scanned}/${ehGMDeep.totalPages} páginas revisadas · ${ehGMDeep.rows.length} anuncios únicos examinados. Se aplican tus filtros a todos los anuncios revisados.`);
+       // Sin espera fija: cada página se solicita tras completar la anterior.
+     }
+     if(ehGMDeep.stop)ehGMDeepStatus(`Búsqueda detenida. ${ehGMDeep.scanned} páginas revisadas; puedes continuar con el siguiente lote.`);
+     else if(ehGMDeep.next>ehGMDeep.totalPages){ehGMDeep.complete=true;ehGMRows=ehGMDeep.rows;ehGMServerMode=false;ehGMRender();ehGMDeepStatus(`Catálogo completo: ${ehGMDeep.scanned} páginas y ${ehGMDeep.rows.length} anuncios únicos. Ahora los filtros revisan todo lo descargado.`);}
+     else ehGMDeepStatus(`Búsqueda interrumpida: ${ehGMDeep.scanned}/${ehGMDeep.totalPages} páginas. Puedes reanudar desde la página ${ehGMDeep.next}.`);
+   }catch(e){ehGMDeepStatus('Búsqueda interrumpida: '+String(e?.message||e))}
+   finally{ehGMDeep.active=false;ehGMDeep.stop=false;$('ehGMDeepStart').disabled=false;$('ehGMDeepStart').textContent=ehGMDeep.complete?'✓ Catálogo cargado':ehGMDeep.next>1?'▶ Reanudar descarga':'⬇ Cargar todos los Pokémon';$('ehGMDeepStop').disabled=true;}
+ }
+ // V35: caché persistente IndexedDB (sin credenciales, solo anuncios públicos).
+ // Guardamos bloques pequeños para no depender del límite de localStorage.
+ const ehGMCacheDB=()=>new Promise((resolve,reject)=>{
+   if(!('indexedDB' in window)){reject(Error('IndexedDB no disponible'));return}
+   const req=indexedDB.open('nexus-market-cache-v35',1);
+   req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('pokemon'))db.createObjectStore('pokemon')};
+   req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('Error de caché'));
+ });
+ const ehGMCacheGet=async key=>{
+   const db=await ehGMCacheDB();
+   try{return await new Promise((resolve,reject)=>{
+     const tx=db.transaction('pokemon','readonly'),req=tx.objectStore('pokemon').get(key);
+     req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+   })}finally{db.close()}
+ };
+ const ehGMCachePut=async (key,value)=>{
+   const db=await ehGMCacheDB();
+   try{await new Promise((resolve,reject)=>{
+     const tx=db.transaction('pokemon','readwrite');
+     tx.objectStore('pokemon').put(value,key);
+     tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);
+   })}finally{db.close()}
+ };
+ // Se almacenan páginas por separado; así una interrupción no pierde todo el catálogo.
+ let ehGMCacheReady=false,ehGMCacheRestoring=false,ehGMCacheSavedAt=0,ehGMCacheError='';
+ let ehGMVerifiedRemoved=new Set(); // V40: ausencias confirmadas tras dos barridos completos.
+ let ehGMMissingPasses=new Map();
+ const ehGMCachePersistPage=async(page,rows,pages)=>{
+   await ehGMCachePut('page:'+page,rows);
+   ehGMCacheSavedAt=Date.now();
+   await ehGMCachePut('meta',{page:Math.max(page+1,ehGMAuto.page),pages,savedAt:ehGMCacheSavedAt,finished:ehGMAuto.finished});
+ };
+ const ehGMCacheRestore=async()=>{
+   if(ehGMCacheReady||ehGMCacheRestoring)return;
+   ehGMCacheRestoring=true;
+   try{
+     const meta=await ehGMCacheGet('meta');
+     try{const removed=await ehGMCacheGet('verified:removed');if(Array.isArray(removed))ehGMVerifiedRemoved=new Set(removed);const misses=await ehGMCacheGet('verified:misses');if(Array.isArray(misses))ehGMMissingPasses=new Map(misses)}catch{}
+     if(meta&&Number.isInteger(meta.page)&&meta.page>=1){
+       const last=Math.min(meta.page-1,10000);
+       const batchSize=50;
+       for(let start=1;start<=last;start+=batchSize){
+         const batch=await Promise.all(Array.from({length:Math.min(batchSize,last-start+1)},(_,k)=>ehGMCacheGet('page:'+(start+k))));
+         for(const rows of batch)if(Array.isArray(rows))for(const row of rows){
+           const id=String(row?.id??row?.ids?.[0]??'');
+           if(id&&!ehGMVerifiedRemoved.has(id)&&!ehGMAuto.seen.has(id)){ehGMAuto.seen.add(id);ehGMAuto.rows.push(row)}
+         }
+       }
+       ehGMAuto.page=Math.max(1,meta.page);
+       ehGMAuto.pages=Number(meta.pages)||0;
+       ehGMAuto.finished=!!meta.finished;
+       ehGMCacheSavedAt=Number(meta.savedAt)||0;
+       try{const live=await ehGMCacheGet('live:recent');if(Array.isArray(live?.rows)){
+         const byId=new Map(ehGMAuto.rows.map((r,i)=>[String(r.id??r.ids?.[0]??''),i]));
+         for(const row of live.rows){const id=String(row.id??row.ids?.[0]??'');if(!id||ehGMVerifiedRemoved.has(id))continue;if(byId.has(id))ehGMAuto.rows[byId.get(id)]=row;else{ehGMAuto.seen.add(id);ehGMAuto.rows.push(row)}}
+       }}catch{}
+       ehGMAutoSync();
+       ehGMDeepStatus('Catálogo recuperado del disco: '+ehGMAuto.rows.length+' anuncios. Último guardado: '+(ehGMCacheSavedAt?new Date(ehGMCacheSavedAt).toLocaleString('es-CL'):'desconocido')+'. Los datos pueden estar desactualizados; se actualizarán anuncios recientes al iniciar sesión.');
+     }
+   }catch(err){ehGMCacheError=String(err?.message||err);console.warn('Caché Pokémon:',err)}
+   finally{ehGMCacheReady=true;ehGMCacheRestoring=false}
+ };
+ const ehGMAutoRecentRefresh=async w=>{
+   // Solo primeras páginas; evita repetir miles de solicitudes en cada arranque.
+   const limit=Math.min(10,Math.max(1,ehGMAuto.pages||10));
+   for(let page=1;page<=limit&&!ehGMAuto.stopped;page++){
+     const result=await w.executeJavaScript(`(async()=>{const M=window.__EH_MARKET__;const d=await M.apiRaw('/api/game/market?browse=pokemon&page=${page}&sort=recent');return {rows:M.listingsRaw(d),pages:Number(d.pages)||0}})()`);
+     if(!Array.isArray(result?.rows))break;
+     await ehGMCachePersistPage(page,result.rows,result.pages||ehGMAuto.pages);
+     // Actualizar anuncios existentes, conservar los anteriores hasta la próxima reconstrucción.
+     const byId=new Map(ehGMAuto.rows.map((row,i)=>[String(row.id??row.ids?.[0]??''),i]));
+     for(const row of result.rows){
+       const id=String(row.id??row.ids?.[0]??'');if(!id)continue;
+       ehGMVerifiedRemoved.delete(id);
+       if(byId.has(id))ehGMAuto.rows[byId.get(id)]=row;
+       else{ehGMAuto.seen.add(id);ehGMAuto.rows.push(row)}
+     }
+     if(page%3===0)ehGMAutoSync();
+     // No se ignoran los límites del servidor.
+     await ehGMDeepPause(650);
+   }
+   ehGMAutoSync();
+ };
+ // V39: actualización ligera cada 20 segundos, sin lanzar un barrido de 3.400 páginas.
+ // La ausencia en una página ordenada por recientes NO prueba que el anuncio se vendió.
+ let ehGMLiveBusy=false,ehGMLiveLast=0,ehGMLiveError='',ehGMLiveChecked=0;
+ let ehGMLiveNewDuringScan=new Set();
+ async function ehGMLiveRefresh(){
+   if(ehGMLiveBusy||ehGMAuto.running||ehGMAuto.stopped||!ehGMCacheReady||!ehGMAuto.rows.length)return;
+   const w=webviews.find((v,i)=>v&&!off[i]);if(!w)return;
+   ehGMLiveBusy=true;
+   try{
+     await ehGMEnsure(w);
+     // Página 1 es la fuente de nuevos anuncios. Una sola petición por ciclo.
+     const data=await w.executeJavaScript(`(async()=>{const M=window.__EH_MARKET__;if(!M)throw Error('Mercado no disponible');const d=await M.apiRaw('/api/game/market?browse=pokemon&page=1&sort=recent');return {rows:M.listingsRaw(d),pages:Number(d.pages)||0}})()`);
+     if(!Array.isArray(data?.rows))throw Error('Respuesta de mercado inválida');
+     const index=new Map(ehGMAuto.rows.map((row,i)=>[String(row.id??row.ids?.[0]??''),i]));
+     let added=0;
+     for(const row of data.rows){const id=String(row.id??row.ids?.[0]??'');if(!id)continue;
+       ehGMVerifiedRemoved.delete(id);
+       if(ehGMReconcile.running)ehGMLiveNewDuringScan.add(id);
+       if(index.has(id))ehGMAuto.rows[index.get(id)]=row;
+       else{index.set(id,ehGMAuto.rows.length);ehGMAuto.seen.add(id);ehGMAuto.rows.push(row);added++}
+     }
+     // Guardar un registro separado de la actualización: no sobreescribir la página
+     // histórica 1 porque se perderían anuncios válidos del catálogo persistente.
+     try{await ehGMCachePut('live:recent',{rows:data.rows,updatedAt:Date.now()})}catch{}
+     ehGMLiveLast=Date.now();ehGMLiveChecked=data.rows.length;ehGMLiveError='';
+     ehGMAutoSync();
+     if($('ehGMCat').value==='Pokemon')ehGMDeepStatus('Mercado actualizado: '+data.rows.length+' anuncios recientes verificados, '+added+' nuevos. El catálogo histórico puede incluir anuncios vendidos aún no verificados.');
+   }catch(err){
+     ehGMLiveError=String(err?.message||err);
+     // No insistir si el servidor limita las solicitudes.
+     if(/muitas\s+requisi|too\s+many\s+requests|demasiadas\s+solicitudes|rate.?limit|\b429\b/i.test(ehGMLiveError))ehGMLiveLast=Date.now()+120000;
+   }finally{ehGMLiveBusy=false}
+ }
+ setInterval(()=>{if(Date.now()>=ehGMLiveLast+20000)ehGMLiveRefresh().catch(console.warn)},20000);
+ // V40: reconciliación verificable de ventas.
+ // No eliminamos por ausencia de una página: SOLO al finalizar correctamente
+ // todas las páginas de una instantánea completa del mercado oficial.
+ const ehGMReconcile={running:false,page:1,pages:0,ids:new Set(),rows:new Map(),checked:0,lastComplete:0,errors:0,waitUntil:0};
+ const ehGMReconcileSave=async()=>{
+   await ehGMCachePut('verify:progress',{page:ehGMReconcile.page,pages:ehGMReconcile.pages,ids:[...ehGMReconcile.ids],rows:[...ehGMReconcile.rows],checked:ehGMReconcile.checked});
+ };
+ const ehGMReconcileRestore=async()=>{
+   try{
+     const v=await ehGMCacheGet('verify:progress');
+     if(v&&Number.isInteger(v.page)&&v.page>1&&Array.isArray(v.ids)&&Array.isArray(v.rows)){
+       ehGMReconcile.page=v.page;ehGMReconcile.pages=v.pages||0;
+       ehGMReconcile.ids=new Set(v.ids);ehGMReconcile.rows=new Map(v.rows);ehGMReconcile.checked=v.checked||0;
+     }
+   }catch(e){console.warn('Reanudación de verificación:',e)}
+ };
+ const ehGMReconcileRun=async()=>{
+   if(ehGMReconcile.running||!ehGMCacheReady||!ehGMAuto.finished||ehGMAuto.running||ehGMAuto.stopped||ehGMLiveBusy)return;
+   const w=webviews.find((v,i)=>v&&!off[i]);if(!w)return;
+   ehGMReconcile.running=true;
+   try{
+     await ehGMEnsure(w);
+     if(ehGMReconcile.page===1)ehGMLiveNewDuringScan.clear();
+     // Una sola solicitud a la vez, espaciada para respetar el servidor.
+     // Un ciclo completo de miles de páginas tarda bastante: no prometemos
+     // detectar todas las ventas en 20 segundos.
+     while(ehGMReconcile.page<=Math.max(1,ehGMReconcile.pages||1)){
+       if(ehGMAuto.running||ehGMAuto.stopped)break;
+       const page=ehGMReconcile.page;
+       let result;
+       try{
+         result=await w.executeJavaScript(`(async()=>{const M=window.__EH_MARKET__;if(!M)throw Error('Mercado no disponible');const d=await M.apiRaw('/api/game/market?browse=pokemon&page=${page}&sort=recent');return {rows:M.listingsRaw(d),pages:Number(d.pages)||0}})()`);
+       }catch(e){
+         ehGMReconcile.errors++;
+         const rate=/muitas\s+requisi|too\s+many\s+requests|demasiadas\s+solicitudes|rate.?limit|\b429\b/i.test(String(e?.message||e));
+         // Nunca marcar vendidos si hubo errores o limitación.
+         const wait=Math.min(300000,rate?30000*Math.pow(2,Math.min(3,ehGMReconcile.errors-1)):15000);
+         ehGMReconcile.waitUntil=Date.now()+wait;
+         ehGMDeepStatus('Verificación de ventas en espera ('+Math.ceil(wait/1000)+'s). Página '+page+'. Ningún anuncio se elimina sin comprobación completa.');
+         await ehGMDeepPause(wait);
+         if(ehGMReconcile.errors>=5)break;
+         continue;
+       }
+       if(!Array.isArray(result?.rows)||!Number.isInteger(result.pages)||result.pages<1)break;
+       ehGMReconcile.errors=0;
+       ehGMReconcile.pages=Math.max(ehGMReconcile.pages,result.pages);
+       for(const row of result.rows){const id=String(row.id??row.ids?.[0]??'');if(id){ehGMReconcile.ids.add(id);ehGMReconcile.rows.set(id,row)}}
+       ehGMReconcile.checked++;
+       ehGMReconcile.page++;
+       if(page%25===0){await ehGMReconcileSave();ehGMDeepStatus('Verificando anuncios vigentes: '+page+'/'+ehGMReconcile.pages+' páginas. Las ventas se retiran al terminar la revisión.')}
+       await ehGMDeepPause(1100);
+     }
+     if(ehGMReconcile.pages>0&&ehGMReconcile.page>ehGMReconcile.pages){
+       // Instantánea completa: reconciliar por ID. Conservar publicaciones
+       // descubiertas por el sondeo reciente mientras se realizaba el barrido.
+       const valid=ehGMReconcile.ids, keepNew=ehGMLiveNewDuringScan;
+       const removed=[];
+       for(const r of ehGMAuto.rows){const id=String(r.id??r.ids?.[0]??'');if(!id)continue;
+         if(valid.has(id)||keepNew.has(id)){ehGMMissingPasses.delete(id);continue}
+         const misses=(ehGMMissingPasses.get(id)||0)+1;ehGMMissingPasses.set(id,misses);
+         if(misses>=2){removed.push(id);ehGMVerifiedRemoved.add(id);ehGMMissingPasses.delete(id)}
+       }
+       await ehGMCachePut('verified:misses',[...ehGMMissingPasses]);
+       // Guardar exclusiones antes de actualizar UI: los registros históricos
+       // permanecen en IndexedDB, pero no reaparecen tras reiniciar.
+       await ehGMCachePut('verified:removed',[...ehGMVerifiedRemoved]);
+       const byId=new Map(ehGMAuto.rows.map(r=>[String(r.id??r.ids?.[0]??''),r]));
+       for(const [id,row] of ehGMReconcile.rows)byId.set(id,row);
+       ehGMAuto.rows=[...byId].filter(([id])=>!ehGMVerifiedRemoved.has(id)).map(([,r])=>r);
+       ehGMAuto.seen=new Set(ehGMAuto.rows.map(r=>String(r.id??r.ids?.[0]??'')));
+       ehGMAutoSync();
+       ehGMReconcile.lastComplete=Date.now();
+       ehGMDeepStatus('Verificación completa: '+removed.length+' anuncios retirados tras dos revisiones; '+ehGMAuto.rows.length+' vigentes o publicados durante el barrido.');
+       ehGMReconcile.page=1;ehGMReconcile.pages=0;ehGMReconcile.ids.clear();ehGMReconcile.rows.clear();ehGMReconcile.checked=0;
+       await ehGMCachePut('verify:progress',null);
+       await ehGMCachePut('verify:lastComplete',ehGMReconcile.lastComplete);
+     }else await ehGMReconcileSave();
+   }catch(e){console.warn('Verificación progresiva:',e)}
+   finally{ehGMReconcile.running=false}
+ };
+ ehGMReconcileRestore().catch(console.warn);
+ // Evita lanzar otra revisión mientras la anterior continúa; el sondeo de
+ // nuevos anuncios sigue cada 20 s cuando no hay limitaciones.
+ setInterval(()=>{if(!ehGMReconcile.running&&ehGMAuto.finished&&ehGMCacheReady&&(!ehGMReconcile.lastComplete||Date.now()-ehGMReconcile.lastComplete>=30*60*1000))ehGMReconcileRun().catch(console.warn)},60000);
+ // V32: catálogo general automático después del inicio de sesión, independiente de la pestaña visible.
+ // Una sola descarga compartida: los anuncios son públicos; no repetimos 3400 solicitudes por cuenta.
+ const ehGMAuto={running:false,stopped:false,finished:false,rows:[],seen:new Set(),page:1,pages:0,source:-1,errors:0,started:false,rateLimits:0,waitUntil:0,requests:0};
+ const ehGMAutoSync=()=>{
+   if($('ehGMCat').value!=='Pokemon'||!ehGMAuto.rows.length||ehGMDeep.active)return;
+   // No sobreescribir una búsqueda profunda específica iniciada manualmente.
+   if(ehGMDeep.rows.length&&ehGMDeep.sid!==null)return;
+   ehGMRows=ehGMAuto.rows;ehGMServerMode=false;ehGMPage=Math.max(0,ehGMPage);ehGMRender();
+ };
+ const ehGMAutoStatus=()=>{
+   const n=ehGMAuto.rows.length,pg=ehGMAuto.page-1,tot=ehGMAuto.pages||'?';
+   return ehGMAuto.finished?`Catálogo guardado: ${n} anuncios (${pg}/${tot} páginas). Actualización reciente en segundo plano.`:
+     ehGMAuto.stopped?`Catálogo automático pausado: ${n} anuncios (${pg}/${tot} páginas).`:
+     `Descarga automática: ${n} anuncios · ${pg}/${tot} páginas · ${ehGMAuto.requests} consultas. Puedes seguir usando Nexus.`;
+ };
+ async function ehGMAutoStart(){
+   if(!ehGMCacheReady){await ehGMCacheRestore();return}
+   if(ehGMAuto.running||ehGMAuto.stopped)return;
+   if(ehGMAuto.finished&&ehGMAuto.started)return;
+   // No iniciar hasta detectar una sesión del juego realmente autenticada.
+   let i=-1;
+   for(let j=0;j<webviews.length;j++){
+     if(!webviews[j]||off[j])continue;
+     try{
+       const ready=await webviews[j].executeJavaScript(`(()=>{try{const t=JSON.parse(sessionStorage.getItem('pokeweb:tokens')||'null');return !!(t&&t.accessToken)&&location.pathname.startsWith('/play')}catch{return false}})()`);
+       if(ready){i=j;break}
+     }catch{}
+   }
+   if(i<0)return;
+   ehGMAuto.running=true;ehGMAuto.started=true;ehGMAuto.source=i;
+   try{
+     const w=webviews[i];await ehGMEnsure(w);
+     if(ehGMAuto.rows.length){try{await ehGMAutoRecentRefresh(w)}catch(err){console.warn('Actualización reciente pendiente:',err)}}
+     if(ehGMAuto.finished){ehGMAuto.started=true;return;}
+     while(!ehGMAuto.stopped&&!ehGMAuto.finished){
+       if(!w||off[i])throw Error('La cuenta de origen se desconectó');
+       const page=ehGMAuto.page;
+       let r;
+       try{
+         r=await w.executeJavaScript(`(async()=>{const M=window.__EH_MARKET__;if(!M)throw Error('Mercado todavía no disponible');const p=new URLSearchParams({browse:'pokemon',page:String(${page}),sort:'recent'});const d=await M.apiRaw('/api/game/market?'+p);return {rows:M.listingsRaw(d),pages:Number(d.pages)||0}})()`);
+         ehGMAuto.requests++;
+       }catch(err){
+         const msg=String(err?.message||err);
+         // Solo reintentar automáticamente si el servidor indica límite de solicitudes.
+         // No enviar otra solicitud mientras dure el enfriamiento.
+         if(/muitas\s+requisi|too\s+many\s+requests|demasiadas\s+solicitudes|rate.?limit|\b429\b/i.test(msg)){
+           ehGMAuto.rateLimits++;
+           if(ehGMAuto.rateLimits>8)throw Error('Límite del mercado repetido 8 veces. Descarga pausada; reanuda más tarde.');
+           const waitMs=Math.min(300000,30000*Math.pow(2,Math.min(4,ehGMAuto.rateLimits-1)));
+           ehGMAuto.waitUntil=Date.now()+waitMs;
+           while(!ehGMAuto.stopped&&Date.now()<ehGMAuto.waitUntil){
+             const secs=Math.ceil((ehGMAuto.waitUntil-Date.now())/1000);
+             ehGMDeepStatus(`Mercado limitado por el servidor. Esperando ${secs}s para reintentar página ${page} · ${ehGMAuto.rows.length} Pokémon guardados · ${ehGMAuto.requests} consultas completadas. Puedes detener la descarga.`);
+             await ehGMDeepPause(Math.min(1000,Math.max(1,ehGMAuto.waitUntil-Date.now())));
+           }
+           if(ehGMAuto.stopped)break;
+           ehGMAuto.waitUntil=0;
+           continue; // misma página; no duplicar ni saltar anuncios
+         }
+         throw err;
+       }
+       if(!r||!Array.isArray(r.rows)||!Number.isFinite(r.pages)||r.pages<1)throw Error('Respuesta de mercado inválida');
+       ehGMAuto.pages=Math.max(ehGMAuto.pages,r.pages);
+       for(const row of r.rows){const id=String(row.id??row.ids?.[0]??'');if(!id||ehGMAuto.seen.has(id))continue;ehGMAuto.seen.add(id);ehGMAuto.rows.push(row)}
+       ehGMAuto.page++;ehGMAuto.errors=0;ehGMAuto.rateLimits=0;ehGMAuto.waitUntil=0;
+       try{await ehGMCachePersistPage(page,r.rows,ehGMAuto.pages)}catch(cacheErr){ehGMCacheError=String(cacheErr?.message||cacheErr)}
+       if(page===1||page%20===0||page>=ehGMAuto.pages){ehGMAutoSync();ehGMDeepStatus(ehGMAutoStatus())}
+       if(page>=ehGMAuto.pages){ehGMAuto.finished=true;try{await ehGMCachePut('meta',{page:ehGMAuto.page,pages:ehGMAuto.pages,savedAt:Date.now(),finished:true})}catch{}break}
+       // Ritmo preventivo para evitar ciclos de limitación del servidor.
+       await ehGMDeepPause(650);
+     }
+   }catch(e){
+     ehGMAuto.errors++;
+     ehGMDeepStatus('Descarga automática pausada: '+String(e?.message||e)+'. Se conservaron '+ehGMAuto.rows.length+' anuncios y la página '+ehGMAuto.page+' para reanudar.');
+     ehGMAuto.stopped=true;
+   }finally{ehGMAuto.running=false;ehGMAutoSync();if(ehGMAuto.finished)ehGMDeepStatus(ehGMAutoStatus())}
+ }
+ // Comprobar inicio de sesión sin interrumpir la carga del juego. No se reinicia al cambiar pestañas.
+ ehGMCacheRestore().catch(console.warn);
+ setInterval(()=>{if(!ehGMAuto.started&&!ehGMAuto.running&&!ehGMAuto.stopped&&!ehGMAuto.finished)ehGMAutoStart().catch(console.warn)},5000);
+
+ let ehGMServerInfo=null;
+ let ehGMPage=0;
+ let EHGM_PAGE_SIZE=60;
  async function ehGMFetch(resetClock=true){
-   const w=ehGMWebview(), st=$('ehGMStatus'); if(!w){st.dataset.base='No hay cuenta activa.';st.textContent=st.dataset.base;return;}
-   st.dataset.base='Actualizando mercado…';st.textContent=st.dataset.base;
+   if(ehGMDeep.active)return;
+   if(ehGMAuto.rows.length&&$('ehGMCat').value==='Pokemon'&&!ehGMDeep.rows.length){ehGMAutoSync();return;}
+   if(ehGMDeep.rows.length){ehGMRows=ehGMDeep.rows;ehGMServerMode=false;ehGMRender();return;}
+   if(ehGMFetchBusy){ehGMFetchQueued=true;return;}
+   ehGMFetchBusy=true;
+   const serial=++ehGMFetchSerial;
+   const w=ehGMWebview(),st=$('ehGMStatus');if(!w){st.dataset.base='No hay cuenta activa';st.textContent=st.dataset.base;ehGMFetchBusy=false;return}
+   const cat=$('ehGMCat').value;
+   const rawSpecies=$('ehGMSpecies').value.trim();
+   const sid=cat==='Pokemon'?ehGMEffectiveSpecies():null;
+   if(cat==='Pokemon'&&rawSpecies&&!sid){
+     st.dataset.base='Selecciona una especie válida de la lista o introduce su número de Pokédex (ej.: 74).';st.textContent=st.dataset.base;
+     ehGMRows=[];ehGMServerMode=false;ehGMRender();st.textContent=st.dataset.base;ehGMFetchBusy=false;return;
+   }
+   st.dataset.base='Consultando el mercado…';st.textContent=st.dataset.base;
    try{
      await ehGMEnsure(w);
      if(!ehGMItemIconsLoaded)await ehGMLoadItemIcons(w);
-     const cat=$('ehGMCat').value;
-     ehGMRows=await w.executeJavaScript(`(async()=>{
+     const payload=await w.executeJavaScript(`(async()=>{
        const M=window.__EH_MARKET__;
        if(!M)throw new Error('El módulo de mercado todavía no está cargado');
-       const read=async category=>M.listingsRaw(await M.apiRaw('/api/game/market?category='+encodeURIComponent(category)));
-       let rows=await read(${JSON.stringify(cat)});
-       if(${JSON.stringify(cat)}==='Pokemon' && !rows.length){
-         // Algunos servidores clasifican Pokémon en el listado general.
-         // Nunca mezclar objetos con Pokémon: filtrar únicamente entradas identificables.
-         const all=await read('All');
-         rows=all.filter(e=>{
-           const r=e.pokemon||e.product||{};
-           const kind=String(e.kind||e.category||e.type||r.kind||r.category||'').toLowerCase();
-           return /pok[eé]mon|pokemon/.test(kind)||Boolean(e.pokemon)||Boolean(e.pokemonId||e.speciesId||r.speciesId||r.pokemonId);
-         });
+       const cat=${JSON.stringify(cat)},sid=${JSON.stringify(sid)},page=${JSON.stringify(ehGMServerPage)};
+       if(cat==='Pokemon'){
+         const params=new URLSearchParams({browse:'pokemon',page:String(page),sort:'recent'});
+         if(sid)params.set('speciesId',String(sid));
+         const data=await M.apiRaw('/api/game/market?'+params.toString());
+         return {rows:M.listingsRaw(data),total:Number(data.total),pages:Number(data.pages),page:Number(data.page),official:true};
        }
-       return rows;
+       const data=await M.apiRaw('/api/game/market?category='+encodeURIComponent(cat));
+       return {rows:M.listingsRaw(data),total:null,pages:1,page:1,official:false};
      })()`);
-     ehGMRefreshSearchOptions();
-     await ehGMUpdateSafety(false);
-     ehGMRender();
-   }catch(e){st.dataset.base='No se pudo cargar el mercado: '+(e?.message||e);st.textContent=st.dataset.base;}
+     if(serial!==ehGMFetchSerial)return;
+     ehGMRows=Array.isArray(payload.rows)?payload.rows:[];
+     ehGMServerMode=!!payload.official&&Number.isFinite(payload.pages)&&payload.pages>0;
+     ehGMServerPages=ehGMServerMode?Math.floor(payload.pages):1;
+     ehGMServerTotal=Number.isFinite(payload.total)?payload.total:ehGMRows.length;
+     ehGMServerPage=ehGMServerMode?Math.max(1,Math.min(ehGMServerPages,payload.page||ehGMServerPage)):1;
+     ehGMServerInfo={received:ehGMRows.length,pages:ehGMServerPages,hasPaging:ehGMServerMode,total:ehGMServerTotal};
+     ehGMPage=0;
+     ehGMFailures=0;ehGMLastOk=Date.now();ehGMLastError='';
+     ehGMRefreshSearchOptions();await ehGMUpdateSafety(false);ehGMRender();ehGMCheckAlerts();
+   }catch(e){if(serial===ehGMFetchSerial){ehGMFailures++;ehGMLastError=String(e?.message||e);st.dataset.base='Error al consultar el mercado: '+ehGMLastError;st.textContent=st.dataset.base}}
+   finally{ehGMFetchBusy=false;if(ehGMFetchQueued){ehGMFetchQueued=false;setTimeout(()=>ehGMFetch(false),0)}}
    if(resetClock&&$('ehGeneralMarket')?.classList.contains('show'))ehGMStartAutoRefresh();
  }
+ const ehGMPurchaseQty=e=>{
+   const r=e.item||e.product||{};
+   const advertised=Math.max(1,Math.floor(Number(e.quantity??e.qty??e.amount??r.quantity??e.ids?.length??1)||1));
+   const ids=Array.isArray(e.ids)?e.ids.filter(x=>x!==null&&x!==undefined):null;
+   return ids?.length?Math.min(advertised,ids.length):advertised;
+ };
+ function ehGMQuantityDialog(e){
+   const r=e.item||e.pokemon||e.product||{};
+   const n=String(e.name||e.title||e.itemName||e.pokemonName||r.name||'anuncio');
+   const p=Number(e.price??e.totalPrice??e.value??0);
+   const isPokemon=$('ehGMCat').value==='Pokemon'||String(e.kind||'').toLowerCase()==='pokemon';
+   const max=isPokemon?1:ehGMPurchaseQty(e);
+   const currency=ehGMCur(e.currency||r.currency)==='DIAMONDS'?'DD':'Dollars';
+   return new Promise(resolve=>{
+     const overlay=document.createElement('div');overlay.className='ehgm-qty-overlay';
+     overlay.innerHTML=`<section class="ehgm-qty-modal" role="dialog" aria-modal="true" aria-label="Confirmar compra">
+       <div class="ehgm-qty-heading"><b>🛒 Comprar en Mercado Global</b><button type="button" class="ehgm-qty-close" aria-label="Cerrar">✕</button></div>
+       <div class="ehgm-qty-name"></div>
+       <div class="ehgm-qty-meta"></div>
+       <label for="ehgm-qty-input">Cantidad que deseas comprar</label>
+       <div class="ehgm-qty-controls"><button type="button" data-step="-1">−</button><input id="ehgm-qty-input" type="number" min="1" step="1"><button type="button" data-step="1">+</button><button type="button" class="ehgm-qty-max">Máximo</button></div>
+       <div class="ehgm-qty-total"></div>
+       <p class="ehgm-qty-note">Se enviará una sola solicitud de compra. El servidor confirmará la cantidad y el precio finales.</p>
+       <div class="ehgm-qty-actions"><button type="button" class="ehgm-qty-cancel">Cancelar</button><button type="button" class="ehgm-qty-confirm">Confirmar compra</button></div>
+     </section>`;
+     document.body.appendChild(overlay);
+     const input=overlay.querySelector('input');
+     const close=v=>{overlay.remove();resolve(v)};
+     const clamp=v=>Math.max(1,Math.min(max,Math.floor(Number(v)||1)));
+     const update=()=>{input.value=String(clamp(input.value));overlay.querySelector('.ehgm-qty-total').textContent='Precio anunciado: '+p.toLocaleString('es-CL')+' '+currency+' · Cantidad solicitada: '+input.value};
+     overlay.querySelector('.ehgm-qty-name').textContent=n;
+     overlay.querySelector('.ehgm-qty-meta').textContent='Cantidad disponible en el anuncio: '+max.toLocaleString('es-CL');
+     input.max=String(max);input.value='1';input.disabled=max===1;
+     overlay.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{input.value=String(clamp(Number(input.value)+Number(b.dataset.step)));update()});
+     overlay.querySelector('.ehgm-qty-max').onclick=()=>{input.value=String(max);update()};
+     input.oninput=update;
+     overlay.querySelector('.ehgm-qty-close').onclick=()=>close(null);
+     overlay.querySelector('.ehgm-qty-cancel').onclick=()=>close(null);
+     overlay.querySelector('.ehgm-qty-confirm').onclick=()=>close(clamp(input.value));
+     overlay.onclick=ev=>{if(ev.target===overlay)close(null)};
+     update();input.focus();input.select();
+   });
+ }
+ let ehGMBuyPending=false;
  async function ehGMBuy(e){
-   const w=ehGMWebview(); if(!w)return;
-   if(!(await ehGMUpdateSafety(false))){alert('🔒 Solo puedes comprar cuando la cuenta esté en una ciudad, Centro Pokémon o Mercado.');return;}
-   const p=Number(e.price??e.totalPrice??e.value??0), r=e.item||e.pokemon||e.product||{}, n=e.name||e.title||e.itemName||e.pokemonName||r.name||'anuncio';
-   if(!confirm(`Comprar ${n} por ${p.toLocaleString('es-CL')} ${ehGMCur(e.currency||r.currency)==='DIAMONDS'?'DD':'Dollars'}?`))return;
+   if(ehGMBuyPending)return;
+   const w=ehGMWebview();if(!w)return;
+   if(!(await ehGMUpdateSafety(false))){alert('🔒 Solo puedes comprar cuando la cuenta esté fuera de hunt.');return;}
+   const qty=await ehGMQuantityDialog(e);
+   if(qty==null)return;
+   if(!(await ehGMUpdateSafety(false))){alert('🔒 La ubicación cambió. Compra cancelada.');return;}
+   ehGMBuyPending=true;
    try{
-     if(!(await ehGMUpdateSafety(false))){alert('🔒 La ubicación cambió. La compra solo está permitida en una ciudad, Centro Pokémon o Mercado.');return;}
      const cat=$('ehGMCat').value;
-     await w.executeJavaScript(`window.__EH_MARKET__.buyRaw(${JSON.stringify(e)},${JSON.stringify(cat)})`);ehGMHistoryAdd(e);
+     const result=await w.executeJavaScript(`window.__EH_MARKET__.buyRaw(${JSON.stringify(e)},${JSON.stringify(cat)},${Number(qty)})`);
+     if(result?.success===false||result?.error)throw new Error(String(result.message||result.error||'El servidor rechazó la compra'));
+     ehGMHistoryAdd({...e,quantity:qty});
      await ehGMFetch();
    }catch(err){alert('No se pudo comprar: '+(err?.message||err));}
+   finally{ehGMBuyPending=false;}
  }
    let ehGMItemIcons=new Map(),ehGMItemIconsLoaded=false;
    const EHGM_ORIGIN='https://poke.idleworld.online';
@@ -5360,26 +6188,78 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
    const a=prices.map(Number).filter(x=>Number.isFinite(x)&&x>0).sort((x,y)=>x-y);
    if(!a.length)return {price:0,count:0,total:0,share:0};
    if(a.length<5){const price=a[Math.floor((a.length-1)/2)];return {price,count:a.length,total:a.length,share:1}}
-   const median=a[Math.floor((a.length-1)/2)];let best=[];
-   for(const center of a){const lo=center*.85,hi=center*1.15,cl=a.filter(x=>x>=lo&&x<=hi);
-     if(cl.length>best.length)best=cl;
-     else if(cl.length===best.length&&cl.length){const bm=best[Math.floor((best.length-1)/2)]||Infinity,cm=cl[Math.floor((cl.length-1)/2)]||Infinity;if(Math.abs(cm-median)<Math.abs(bm-median))best=cl}
+   const median=a[Math.floor((a.length-1)/2)];let bestStart=0,bestEnd=0,left=0,right=0;
+   // Para cada centro, avanzar punteros monótonos: O(n) después de ordenar.
+   for(let i=0;i<a.length;i++){
+     const lo=a[i]*.85,hi=a[i]*1.15;
+     while(left<a.length&&a[left]<lo)left++;
+     if(right<left)right=left;
+     while(right<a.length&&a[right]<=hi)right++;
+     const len=right-left,old=bestEnd-bestStart;
+     if(len>old||(len===old&&len>0&&Math.abs(a[left+Math.floor((len-1)/2)]-median)<Math.abs(a[bestStart+Math.floor((old-1)/2)]-median))){bestStart=left;bestEnd=right}
    }
-   if(!best.length)best=[median];
-   return {price:best[Math.floor((best.length-1)/2)],count:best.length,total:a.length,share:best.length/a.length};
+   const count=bestEnd-bestStart,price=a[bestStart+Math.floor((Math.max(count,1)-1)/2)];
+   return {price,count,total:a.length,share:count/a.length};
  };
  const ehGMReferencePrice=prices=>ehGMPriceCluster(prices).price;
 
+ // Clasificación local conservadora: la API antigua devuelve categorías mezcladas.
+ // Nunca presentar materiales como Poké Balls cuando el servidor no separa correctamente.
+ const ehGMCategoryMatches=(e,selected)=>{
+   if(selected==='All')return true;
+   const r=e.item||e.pokemon||e.product||{};
+   const name=String(e.name||e.title||e.itemName||e.pokemonName||r.name||'').trim();
+   const raw=String(e.category||e.subcategory||e.itemCategory||e.itemType||r.category||r.type||'').toLowerCase();
+   const kind=String(e.kind||r.kind||'').toLowerCase();
+   if(selected==='Pokemon')return kind==='pokemon'||raw==='pokemon'||!!e.speciesId;
+   if(selected==='Diamonds')return /diamond|diamante/.test(raw+' '+kind+' '+name.toLowerCase());
+   if(selected==='Poke Balls'){
+     if(/pokemon|stone|material|ingredient|berry/.test(raw+' '+kind))return false;
+     return /(?:^|\s)(?:pok[eé]\s*ball|great\s*ball|ultra\s*ball|master\s*ball|safari\s*ball|premier\s*ball|luxury\s*ball|dusk\s*ball|quick\s*ball|timer\s*ball|repeat\s*ball|net\s*ball|nest\s*ball|dive\s*ball|heal\s*ball|friend\s*ball|love\s*ball|level\s*ball|moon\s*ball|heavy\s*ball|fast\s*ball|lure\s*ball|dream\s*ball|beast\s*ball|idle\s*ball|park\s*ball|sport\s*ball|cherish\s*ball)(?:$|\s)/i.test(name)||/poke.?ball|pok[eé].?ball|capture.?ball/.test(raw);
+   }
+   if(selected==='Stones')return /stone|piedra/i.test(name)||/stone/.test(raw);
+   if(selected==='Items')return !ehGMCategoryMatches(e,'Pokemon')&&!ehGMCategoryMatches(e,'Diamonds')&&!ehGMCategoryMatches(e,'Poke Balls')&&!ehGMCategoryMatches(e,'Stones');
+   return true;
+ };
  function ehGMRender(){
-   const q=$('ehGMQ').value.toLowerCase(), ivMin=$('ehGMIVMin').value===''?null:Number($('ehGMIVMin').value), ivMax=$('ehGMIVMax').value===''?null:Number($('ehGMIVMax').value), qMin=$('ehGMQMin').value===''?null:Number($('ehGMQMin').value), qMax=$('ehGMQMax').value===''?null:Number($('ehGMQMax').value), lvMin=$('ehGMLvMin').value===''?null:Number($('ehGMLvMin').value), lvMax=$('ehGMLvMax').value===''?null:Number($('ehGMLvMax').value), cf=$('ehGMCurrency').value, sort=$('ehGMSort').value, cat=$('ehGMCat').value;
+   const deepVisible=$('ehGMCat').value==='Pokemon';$('ehGMDeepStart').style.display=deepVisible?'':'none';$('ehGMDeepStop').style.display=deepVisible?'':'none';if(ehGMAuto.started){$('ehGMDeepStart').textContent=ehGMAuto.finished?'✓ Catálogo cargado':ehGMAuto.stopped?'▶ Reanudar descarga':'⬇ Descarga automática activa';$('ehGMDeepStart').disabled=ehGMAuto.running||ehGMAuto.finished;$('ehGMDeepStop').disabled=!ehGMAuto.running;}
+   const q=$('ehGMQ').value.trim().toLocaleLowerCase('es'), ivMin=$('ehGMIVMin').value===''?null:Number($('ehGMIVMin').value), ivMax=$('ehGMIVMax').value===''?null:Number($('ehGMIVMax').value), qMin=$('ehGMQMin').value===''?null:Number($('ehGMQMin').value), qMax=$('ehGMQMax').value===''?null:Number($('ehGMQMax').value), lvMin=$('ehGMLvMin').value===''?null:Number($('ehGMLvMin').value), lvMax=$('ehGMLvMax').value===''?null:Number($('ehGMLvMax').value), cf=$('ehGMCurrency').value, sort=$('ehGMSort').value, cat=$('ehGMCat').value;
    const lvl=e=>Number(e.level??e.pokemon?.level??e.product?.level??0), price=e=>Number(e.price??e.totalPrice??e.value??0);
    const ivOf=e=>{const r=e.item||e.pokemon||e.product||{};return Number(e.ivTotal??r.ivTotal??e.iv??r.iv??0)};
    const qualityOf=e=>{const r=e.item||e.pokemon||e.product||{};const v=e.quality??r.quality??e.q??r.q;return v==null||v===''?null:Number(v)};
-   const favs=ehGMFavs(),favOnly=$('ehGMFavOnly')?.classList.contains('on');let a=ehGMRows.filter(e=>{const r=e.item||e.pokemon||e.product||{},n=String(e.name||e.title||e.itemName||e.pokemonName||r.name||''),c=ehGMCur(e.currency||e.currencyType||r.currency||r.currencyType),iv=ivOf(e),qual=qualityOf(e),fk=n.trim().toLowerCase();return(!q||n.toLowerCase().includes(q))&&(ivMin==null||iv>=ivMin)&&(ivMax==null||iv<=ivMax)&&(qMin==null||(qual!=null&&qual>=qMin))&&(qMax==null||(qual!=null&&qual<=qMax))&&(lvMin==null||lvl(e)>=lvMin)&&(lvMax==null||lvl(e)<=lvMax)&&(cf==='ALL'||c===cf)&&(!favOnly||favs.has(fk))});
+   const favs=ehGMFavs(),favOnly=$('ehGMFavOnly')?.classList.contains('on');let a=ehGMRows.filter(e=>{if(!ehGMCategoryMatches(e,cat))return false;const r=e.item||e.pokemon||e.product||{},n=String(e.name||e.title||e.itemName||e.pokemonName||r.name||''),c=ehGMCur(e.currency||e.currencyType||r.currency||r.currencyType),iv=ivOf(e),qual=qualityOf(e),fk=n.trim().toLowerCase();return(!q||n.toLocaleLowerCase('es').includes(q))&&(ivMin==null||iv>=ivMin)&&(ivMax==null||iv<=ivMax)&&(qMin==null||(qual!=null&&qual>=qMin))&&(qMax==null||(qual!=null&&qual<=qMax))&&(lvMin==null||lvl(e)>=lvMin)&&(lvMax==null||lvl(e)<=lvMax)&&(cf==='ALL'||c===cf)&&(!favOnly||favs.has(fk))});
    if(sort==='level-desc')a.sort((x,y)=>lvl(y)-lvl(x)||ivOf(y)-ivOf(x));else if(sort==='level-asc')a.sort((x,y)=>lvl(x)-lvl(y));else if(sort==='iv-desc')a.sort((x,y)=>ivOf(y)-ivOf(x));else if(sort==='iv-asc')a.sort((x,y)=>ivOf(x)-ivOf(y));else if(sort==='quality-desc')a.sort((x,y)=>(qualityOf(y)??-1)-(qualityOf(x)??-1));else if(sort==='quality-asc')a.sort((x,y)=>(qualityOf(x)??1e9)-(qualityOf(y)??1e9));else if(sort==='price-asc')a.sort((x,y)=>price(x)-price(y));else a.sort((x,y)=>price(y)-price(x));
    const groups=new Map();a.forEach(e=>{const r=e.item||e.pokemon||e.product||{},n=String(e.name||e.title||e.itemName||e.pokemonName||r.name||'').trim().toLowerCase(),c=ehGMCur(e.currency||e.currencyType||r.currency||r.currencyType),k=n+'|'+c;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(price(e))});const stats=$('ehGMStats'),exact=q.trim()?a.filter(e=>String(e.name||e.title||e.itemName||e.pokemonName||(e.item||e.pokemon||e.product||{}).name||'').toLowerCase().includes(q.trim())):[];if(exact.length){const ps=exact.map(price).filter(Number.isFinite),mn=Math.min(...ps),mx=Math.max(...ps),pc=ehGMPriceCluster(ps),av=pc.price;stats.style.display='block';stats.textContent=`Precios filtrados: mínimo ${Math.round(mn).toLocaleString('es-CL')} · precio típico ${Math.round(av).toLocaleString('es-CL')} (${pc.count}/${pc.total} anuncios en el rango principal) · máximo ${Math.round(mx).toLocaleString('es-CL')}`}else stats.style.display='none';const list=$('ehGMList');list.innerHTML='';
-   a.slice(0,300).forEach(e=>{const r=e.item||e.pokemon||e.product||{},n=e.name||e.title||e.itemName||e.pokemonName||r.name||'—',p=price(e),l=lvl(e),ivt=e.ivTotal??r.ivTotal??e.iv??r.iv,qual=qualityOf(e),qty=Number(e.quantity??e.qty??e.amount??e.ids?.length??1),c=ehGMCur(e.currency||e.currencyType||r.currency||r.currencyType);const row=document.createElement('div');row.className='ehgm-row';const g=groups.get(String(n).trim().toLowerCase()+'|'+c)||[],pc=ehGMPriceCluster(g),avg=pc.price;const reliable=pc.total>=10&&pc.count>=6&&pc.share>=.40;if(reliable&&avg>0){if(p<=avg*.5)row.classList.add('ehgm-deal','ehgm-great');else if(p<=avg*.75)row.classList.add('ehgm-good')}row.innerHTML=`<button class="ehgm-star" title="Favorito">${favs.has(String(n).trim().toLowerCase())?'★':'☆'}</button>${(()=>{const srcs=ehGMImageSources(e,cat);if(srcs[0]==='__DIAMOND__')return '<span class="ehgm-img-fallback">💎</span>';if(!srcs.length)return `<span class="ehgm-img-fallback">${cat==='Pokemon'?'◉':'🎒'}</span>`;return `<img class="ehgm-img" src="${ehGMEsc(srcs[0])}" data-fallbacks="${ehGMEsc(JSON.stringify(srcs.slice(1)))}" alt="">`})()}<div><b>${ehGMEsc(n)}${l?` <span style="color:#aab6c7;font-size:13px;font-weight:700">Nv.${l}</span>`:''}</b><small>${ivt!=null?`IV <b style="display:inline;font-size:12.5px">${ehGMEsc(ivt)}/192</b>`:''}${cat==='Pokemon'&&qual!=null?` &nbsp;•&nbsp; Calidad <b style="display:inline;font-size:12.5px">${Number(qual).toFixed(2)}</b>`:''}${cat!=='Pokemon'?`Cantidad ${qty.toLocaleString('es-CL')}`:''}</small></div><strong>${c==='DIAMONDS'?'💎 '+p.toLocaleString('es-CL')+' DD':'💲 '+p.toLocaleString('es-CL')+' Dollars'}</strong>`;const im=row.querySelector('.ehgm-img');if(im)im.onerror=()=>{let a=[];try{a=JSON.parse(im.dataset.fallbacks||'[]')}catch{}const nx=a.shift();if(nx){im.dataset.fallbacks=JSON.stringify(a);im.src=nx}else im.outerHTML=`<span class="ehgm-img-fallback">${cat==='Pokemon'?'◉':'🎒'}</span>`};row.querySelector('.ehgm-star').onclick=()=>ehGMToggleFav(n);if(ehGMCanPurchase){const b=document.createElement('button');b.textContent='Comprar';b.onclick=()=>ehGMBuy(e);row.appendChild(b)}list.appendChild(row)});
-   const gmst=$('ehGMStatus');gmst.dataset.base=`${a.length} anuncios`;if(ehGMNextRefresh)ehGMUpdateCountdown();else gmst.textContent=`${a.length} anuncios · próxima actualización en 20 s`;
+   if(!a.length&&ehGMRows.length){const note=document.createElement('div');note.className='ehgm-empty-hint';note.textContent=ehGMDeep.rows.length?'No hay coincidencias entre los '+ehGMRows.length+' anuncios descargados.':'No hay coincidencias en los '+ehGMRows.length+' anuncios de esta página. Usa «Cargar todos los Pokémon» para aplicar filtros al mercado completo.';list.appendChild(note)}
+
+   const pageCount=Math.max(1,Math.ceil(a.length/EHGM_PAGE_SIZE));ehGMPage=Math.max(0,Math.min(ehGMPage,pageCount-1));
+   a.slice(ehGMPage*EHGM_PAGE_SIZE,(ehGMPage+1)*EHGM_PAGE_SIZE).forEach(e=>{const r=e.item||e.pokemon||e.product||{},n=e.name||e.title||e.itemName||e.pokemonName||r.name||'—',p=price(e),l=lvl(e),ivt=e.ivTotal??r.ivTotal??e.iv??r.iv,qual=qualityOf(e),qty=Number(e.quantity??e.qty??e.amount??e.ids?.length??1),c=ehGMCur(e.currency||e.currencyType||r.currency||r.currencyType);const row=document.createElement('div');row.className='ehgm-row';const g=groups.get(String(n).trim().toLowerCase()+'|'+c)||[],pc=ehGMPriceCluster(g),avg=pc.price;const reliable=pc.total>=10&&pc.count>=6&&pc.share>=.40;if(reliable&&avg>0){if(p<=avg*.5)row.classList.add('ehgm-deal','ehgm-great');else if(p<=avg*.75)row.classList.add('ehgm-good')}row.innerHTML=`<button class="ehgm-star" title="Favorito">${favs.has(String(n).trim().toLowerCase())?'★':'☆'}</button>${(()=>{const srcs=ehGMImageSources(e,cat);if(srcs[0]==='__DIAMOND__')return '<span class="ehgm-img-fallback">💎</span>';if(!srcs.length)return `<span class="ehgm-img-fallback">${cat==='Pokemon'?'◉':'🎒'}</span>`;return `<img class="ehgm-img" src="${ehGMEsc(srcs[0])}" data-fallbacks="${ehGMEsc(JSON.stringify(srcs.slice(1)))}" alt="">`})()}<div><b>${ehGMEsc(n)}${l?` <span style="color:#aab6c7;font-size:13px;font-weight:700">Nv.${l}</span>`:''}</b><small>${ivt!=null?`IV <b style="display:inline;font-size:12.5px">${ehGMEsc(ivt)}/192</b>`:''}${cat==='Pokemon'&&qual!=null?` &nbsp;•&nbsp; Calidad <b style="display:inline;font-size:12.5px">${Number(qual).toFixed(2)}</b>`:''}${cat!=='Pokemon'?`Cantidad ${qty.toLocaleString('es-CL')}`:''}</small></div><strong>${c==='DIAMONDS'?'💎 '+p.toLocaleString('es-CL')+' DD':'💲 '+p.toLocaleString('es-CL')+' Dollars'}</strong>`;const im=row.querySelector('.ehgm-img');if(im)im.onerror=()=>{let a=[];try{a=JSON.parse(im.dataset.fallbacks||'[]')}catch{}const nx=a.shift();if(nx){im.dataset.fallbacks=JSON.stringify(a);im.src=nx}else im.outerHTML=`<span class="ehgm-img-fallback">${cat==='Pokemon'?'◉':'🎒'}</span>`};row.querySelector('.ehgm-star').onclick=ev=>{ev.stopPropagation();ehGMToggleFav(n)};
+   row.onclick=()=>{const panel=$('ehGMDetailBody');if(!panel)return;panel.innerHTML=`<div class="ehgm-detail-name">${ehGMEsc(n)}</div><p>${l?'Nivel '+l+' · ':''}${ivt!=null?'IV '+ehGMEsc(ivt)+'/192 · ':''}${qual!=null?'Calidad '+Number(qual).toFixed(2):''}</p><h3>${c==='DIAMONDS'?'💎 '+p.toLocaleString('es-CL')+' DD':'💲 '+p.toLocaleString('es-CL')+' Dollars'}</h3><p>${ehGMCanPurchase?'🟢 Fuera de hunt: puedes comprar':'🔒 En hunt o ubicación no confirmada: compras bloqueadas'}</p><p>Datos del anuncio seleccionado. La cobertura total del servidor aún no está verificada.</p>`};
+   if(ehGMCanPurchase){const b=document.createElement('button');b.textContent='Comprar';b.onclick=ev=>{ev.stopPropagation();ehGMBuy(e)};row.appendChild(b)}else{const b=document.createElement('button');b.textContent=ehGMLocationState==='unknown'?'🔒 Verificar':'🔒 En hunt';b.disabled=true;b.title='Solo disponible fuera de hunt y con ubicación confirmada';b.className='ehgm-buy-locked';row.appendChild(b)}list.appendChild(row)});
+   $('ehGMPageSize').disabled=ehGMServerMode;
+   const pagebar=$('ehGMPageBar');if(pagebar){
+     pagebar.innerHTML='';
+     const prev=document.createElement('button');prev.textContent='← Anterior';
+     const next=document.createElement('button');next.textContent='Siguiente →';
+     const info=document.createElement('span');
+     if(ehGMServerMode){
+       prev.disabled=ehGMServerPage<=1;next.disabled=ehGMServerPage>=ehGMServerPages;
+       prev.onclick=()=>{ehGMServerPage--;ehGMFetch(false);$('ehGMList').scrollTop=0};
+       next.onclick=()=>{ehGMServerPage++;ehGMFetch(false);$('ehGMList').scrollTop=0};
+       info.textContent=`${ehGMServerTotal.toLocaleString('es-CL')} anuncios ${ehGMEffectiveSpecies()?'de la especie':'en el mercado general'} · Página ${ehGMServerPage}/${ehGMServerPages} · ${a.length}/${ehGMRows.length} visibles`;
+       const jump=document.createElement('input');jump.type='number';jump.min='1';jump.max=String(ehGMServerPages);jump.value=String(ehGMServerPage);jump.title='Ir a página del servidor';jump.className='ehgm-server-jump';
+       const go=document.createElement('button');go.textContent='Ir';go.onclick=()=>{const n=Math.floor(Number(jump.value));if(n>=1&&n<=ehGMServerPages){ehGMServerPage=n;ehGMFetch(false)}};
+       pagebar.append(prev,info,next,jump,go);
+     }else{
+       prev.disabled=ehGMPage===0;next.disabled=ehGMPage>=pageCount-1;
+       prev.onclick=()=>{ehGMPage--;ehGMRender();$('ehGMList').scrollTop=0};
+       next.onclick=()=>{ehGMPage++;ehGMRender();$('ehGMList').scrollTop=0};
+       info.textContent=`${a.length?'Mostrando '+(ehGMPage*EHGM_PAGE_SIZE+1)+'–'+Math.min(a.length,(ehGMPage+1)*EHGM_PAGE_SIZE):'Sin resultados'} de ${a.length} filtrados · ${ehGMRows.length} recibidos · Página ${ehGMPage+1}/${pageCount}`;
+       pagebar.append(prev,info,next);
+     }
+   }
+   document.querySelectorAll('#ehGMNav [data-market-cat]').forEach(b=>{const active=b.dataset.marketCat===cat;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+   const gmst=$('ehGMStatus');gmst.dataset.base=ehGMServerMode?`Pokémon: ${ehGMServerTotal.toLocaleString('es-CL')} anuncios, ${ehGMServerPages} páginas · filtros y orden locales a la página cargada`:`${a.length} filtrados de ${ehGMRows.length} recibidos · cobertura total del servidor sin verificar`;if(ehGMNextRefresh)ehGMUpdateCountdown();else gmst.textContent=`${a.length} anuncios · próxima actualización en 20 s`;
  }
  async function ehGMTeleport(){
    const w=ehGMWebview(),btn=$('ehGMTeleport');if(!w||btn?.classList.contains('busy'))return;const original=btn.textContent;btn.classList.add('busy');btn.textContent='🧭 Preparando…';
@@ -5431,16 +6311,34 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
    const ca=$('ehToolActivity');if(ca)ca.onclick=()=>showEhTab('activity');
    const cm=$('ehToolMarketHistory');if(cm)cm.onclick=()=>showEhTab('marketHistory');
    $('ehGMClose').onclick=()=>{ehGMStopAutoRefresh();if($('ehGeneralMarket').classList.contains('eh-embedded'))showEhTab('advisor');else $('ehGeneralMarket').classList.remove('show')};
-   $('ehGMRefresh').onclick=ehGMManualRefresh;$('ehGMTeleport').onclick=ehGMTeleport;$('ehGMSaveProfile').onclick=ehGMSaveProfile;$('ehGMProfile').onchange=e=>ehGMApplyProfile(e.target.value);$('ehGMClear').onclick=ehGMClearFilters;$('ehGMHistoryBtn').onclick=ehGMShowHistory;ehGMRefreshProfiles();$('ehGMTrainer').onchange=async e=>{ehGMIndex=+e.target.value;ehGMSavePrefs();await ehGMManualRefresh()};
-   $('ehGMCat').onchange=()=>{ehGMSavePrefs();ehGMManualRefresh()};$('ehGMQ').oninput=()=>{ehGMSavePrefs();ehGMRender()};['ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax'].forEach(id=>$(id).oninput=()=>{ehGMSavePrefs();ehGMRender()});$('ehGMCurrency').onchange=()=>{ehGMSavePrefs();ehGMRender()};$('ehGMSort').onchange=()=>{ehGMSavePrefs();ehGMRender()};$('ehGMFavOnly').onclick=()=>{$('ehGMFavOnly').classList.toggle('on');ehGMSavePrefs();ehGMRender()};
+   $('ehGMDeepStart').onclick=()=>{if(ehGMAuto.started){ehGMAuto.stopped=false;ehGMAutoStart();}else ehGMDeepScan()}; $('ehGMDeepStop').onclick=()=>{ehGMDeep.stop=true;ehGMAuto.stopped=true;ehGMDeepStatus('Deteniendo la descarga al finalizar la solicitud actual…')};
+   $('ehGMRefresh').onclick=ehGMManualRefresh;$('ehGMTeleport').onclick=ehGMTeleport;$('ehGMSaveProfile').onclick=ehGMSaveProfile;$('ehGMProfile').onchange=e=>ehGMApplyProfile(e.target.value);$('ehGMClear').onclick=ehGMClearFilters;$('ehGMHistoryBtn').onclick=ehGMShowHistory;ehGMRefreshProfiles();$('ehGMTrainer').onchange=async e=>{ehGMDeepReset();ehGMServerPage=1;ehGMIndex=+e.target.value;ehGMSavePrefs();await ehGMManualRefresh()};
+   $('ehGMNav').onclick=e=>{ehGMDeepReset();const b=e.target.closest('[data-market-cat]');if(!b)return;$('ehGMCat').value=b.dataset.marketCat;$('ehGMDetailBody').innerHTML='<p>Selecciona un anuncio para ver sus detalles.</p>';ehGMRows=[];ehGMPage=0;ehGMServerPage=1;ehGMServerMode=false;ehGMRender();ehGMSavePrefs();ehGMManualRefresh()};
+   const filterToggle=$('ehGMFiltersToggle');
+   filterToggle.onclick=()=>{
+     const expanded=$('ehGeneralMarket').classList.toggle('ehgm-filters-open');
+     filterToggle.setAttribute('aria-expanded',String(expanded));
+     filterToggle.textContent=expanded?'⚙ Ocultar filtros avanzados':'⚙ Filtros avanzados';
+   };
+   ehGMSetupAlerts();
+   $('ehGMSearchClear').onclick=()=>{$('ehGMQ').value='';$('ehGMSpecies').value='';localStorage.removeItem('ehMarketSpeciesV18');ehGMPage=0;ehGMServerPage=1;ehGMSavePrefs();ehGMFetch(false);$('ehGMQ').focus()};
+   $('ehGMSpeciesOptions').innerHTML=EHGM_SPECIES.map((n,i)=>`<option value="${ehGMEsc(n)}" label="#${i+1}"></option>`).join('');
+   $('ehGMSpecies').value=localStorage.getItem('ehMarketSpeciesV18')||'';
+   let ehGMSpeciesTimer=0;
+   $('ehGMSpecies').oninput=()=>{ehGMDeepReset();clearTimeout(ehGMSpeciesTimer);ehGMSpeciesTimer=setTimeout(()=>{localStorage.setItem('ehMarketSpeciesV18',$('ehGMSpecies').value);ehGMServerPage=1;ehGMFetch(false)},450)};
+   $('ehGMPageSize').onchange=e=>{EHGM_PAGE_SIZE=Number(e.target.value)||60;ehGMPage=0;ehGMRender()};
+   let ehGMSearchTimer=0;
+   $('ehGMQ').oninput=()=>{if($('ehGMCat').value==='Pokemon'&&ehGMDeep.rows.length&&ehGMDeep.sid!==null)ehGMDeepReset();if($('ehGMCat').value==='Pokemon'&&$('ehGMSpecies').value){$('ehGMSpecies').value='';localStorage.removeItem('ehMarketSpeciesV18')}clearTimeout(ehGMSearchTimer);ehGMSearchTimer=setTimeout(()=>{ehGMPage=0;ehGMSavePrefs();if($('ehGMCat').value==='Pokemon'&&(ehGMAuto.rows.length||ehGMDeep.rows.length)){if(ehGMAuto.rows.length)ehGMRows=ehGMAuto.rows;ehGMServerMode=false;ehGMRender()}else if($('ehGMCat').value==='Pokemon'){ehGMServerPage=1;ehGMFetch(false)}else ehGMRender()},420)};
+   $('ehGMCat').onchange=()=>{ehGMDeepReset();$('ehGMDetailBody').innerHTML='<p>Selecciona un anuncio para ver sus detalles.</p>';ehGMPage=0;ehGMServerPage=1;ehGMSavePrefs();ehGMManualRefresh();if($('ehGMCat').value==='Pokemon')ehGMAutoSync()};['ehGMIVMin','ehGMIVMax','ehGMQMin','ehGMQMax','ehGMLvMin','ehGMLvMax'].forEach(id=>$(id).oninput=()=>{ehGMSavePrefs();ehGMRender()});$('ehGMCurrency').onchange=()=>{ehGMSavePrefs();ehGMRender()};$('ehGMSort').onchange=()=>{ehGMPage=0;ehGMSavePrefs();ehGMRender()};$('ehGMFavOnly').onclick=()=>{$('ehGMFavOnly').classList.toggle('on');ehGMSavePrefs();ehGMRender()};
  },0);
 
- const EH_STATE_IDS=['dock','alerts','sellguard','chat','cleanHud','muteAll','awake','minTray','sndShiny','voltaHunt','layout','propNat','scriptsBtn'];
+ const EH_STATE_IDS=['eco','dock','alerts','sellguard','chat','cleanHud','muteAll','awake','minTray','sndShiny','voltaHunt','layout','propNat','scriptsBtn'];
  function syncEhOptionStates(){
    // Reaplica los estados reales guardados antes de pintar el panel.
    // Así el menú no puede quedar visualmente "apagado" después del login.
    try{applyDock()}catch{} try{applyAlerts()}catch{} try{applySellGuard()}catch{}
    try{applyChat()}catch{} try{applyClean()}catch{} try{applyMute()}catch{}
+   try{ecoBtn.textContent = eco ? '⚡ ECO ON' : '⚡ ECO OFF'; ecoBtn.classList.toggle('on', eco)}catch{}
    try{applyAwake()}catch{} try{applyMinTray()}catch{} try{applySndShiny()}catch{}
    try{applyVoltaHunt()}catch{} try{applyPropNat()}catch{}
    EH_STATE_IDS.forEach(id=>{
@@ -5528,7 +6426,6 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
    if(['control','activity','marketHistory'].includes(tab)){const host=ehPanels[tab],cc=$('ehCommandCenter');if(host&&cc&&cc.parentElement!==host){host.appendChild(cc);cc.classList.add('eh-embedded');} window.ehOpenControlCenter?.(tab==='activity'?'activity':tab==='marketHistory'?'market':'summary');}
  };
  ehTabs.forEach(b=>b.onclick=()=>showEhTab(b.dataset.ehtab));
-
  $('ehToolsBtn').onclick=()=>{const m=$('ehToolsModal');if(m)m.style.removeProperty('display');openAdvisor()};
  $('ehToolsClose').onclick=()=>$('ehToolsModal').classList.remove('show');
  $('ehToolsModal').onclick=e=>{if(e.target===$('ehToolsModal'))$('ehToolsModal').classList.remove('show')};
@@ -5550,6 +6447,33 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
  let ehAdvisorData=[];
  const ehAdvisorPokemonByPanel={};
  const ehAdvisorRenderedByPanel={};
+ const EH_ADVISOR_FAV='nexus-advisor-favorites-v36',EH_ADVISOR_HISTORY='nexus-advisor-measurements-v36';
+ const ehAdvisorRead=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')||fallback}catch{return fallback}};
+ const ehAdvisorFavs=new Set(ehAdvisorRead(EH_ADVISOR_FAV,[]));
+ const ehAdvisorCompared=new Set();
+ const ehAdvisorHistory=ehAdvisorRead(EH_ADVISOR_HISTORY,[]);
+ const ehAdvisorKey=(r,pkm,z)=>[r.d.cid||r.i,pkm.id||pkm.name,z.x.sl||z.x.name].join('|');
+ function ehAdvisorCapture(r,pkm,rows){
+   let changed=false,now=Date.now();
+   for(const z of rows){if(!z.m)continue;
+     const key=ehAdvisorKey(r,pkm,z),stamp=Number(z.m.t)||0;
+     if(!stamp||ehAdvisorHistory.some(x=>x.key===key&&x.sourceTime===stamp))continue;
+     ehAdvisorHistory.push({key,at:now,sourceTime:stamp,trainer:r.d.name||'',pokemon:pkm.name||'',hunt:z.x.name,xph:z.m.xph,kph:z.m.kph,gph:z.m.gph,samples:z.m.n,confidence:Math.round(z.m.conf*100)});changed=true;
+   }
+   if(changed){ehAdvisorHistory.splice(0,Math.max(0,ehAdvisorHistory.length-2500));try{localStorage.setItem(EH_ADVISOR_HISTORY,JSON.stringify(ehAdvisorHistory))}catch(e){console.warn('Historial Advisor',e)}}
+ }
+ function ehAdvisorDrawHistory(){const box=$('ehAdvisorHistory');if(!box||box.hidden)return;
+   const r=ehAdvisorData[+$('ehAdvisorAccount').value||0],pkm=r&&(r.d.team||[])[+$('ehAdvisorPokemon').value||0];
+   const prefix=r&&pkm?[r.d.cid||r.i,pkm.id||pkm.name].join('|')+'|':'';
+   const a=ehAdvisorHistory.filter(x=>x.key.startsWith(prefix)).slice(-100).reverse();
+   box.innerHTML='<b>📈 Historial de mediciones reales registradas</b><p>Se guarda una medición cuando el juego proporciona estadísticas reales nuevas. No se generan mediciones artificiales. El historial empieza desde V36.</p>'+(a.length?'<div class="eh-advisor-history-scroll">'+a.map(x=>'<div>'+new Date(x.at).toLocaleString('es-CL')+' · <b>'+esc(x.hunt)+'</b> · '+fmtAdvisor(x.xph)+' XP/h · '+fmtAdvisor(x.kph)+' kills/h · '+x.confidence+'% confianza</div>').join('')+'</div>':'<p>Aún no hay mediciones reales nuevas para este Pokémon.</p>');
+ }
+ $('ehAdvisorHistoryBtn').onclick=()=>{const el=$('ehAdvisorHistory');el.hidden=!el.hidden;ehAdvisorDrawHistory()};
+ for(const id of ['ehAdvisorSearch','ehAdvisorMinHunt','ehAdvisorMinEff','ehAdvisorEvidence','ehAdvisorView'])$(id).addEventListener('input',()=>renderAdvisor());
+ $('ehAdvisorRows').addEventListener('click',e=>{const btn=e.target.closest('button[data-adv-key]');if(!btn)return;const key=btn.dataset.advKey;
+   if(btn.dataset.advAction==='fav'){ehAdvisorFavs.has(key)?ehAdvisorFavs.delete(key):ehAdvisorFavs.add(key);localStorage.setItem(EH_ADVISOR_FAV,JSON.stringify([...ehAdvisorFavs]))}
+   else{ehAdvisorCompared.has(key)?ehAdvisorCompared.delete(key):ehAdvisorCompared.add(key);if(ehAdvisorCompared.size>3)ehAdvisorCompared.delete(ehAdvisorCompared.values().next().value)}renderAdvisor();
+ });
  async function ehEnsureAdvisorForPanel(panelIndex){
    try{
      let r=ehAdvisorData.find(x=>x&&x.i===panelIndex);
@@ -5591,38 +6515,38 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
  function fmtAdvisor(n){
    n=Math.round(+n||0); if(n>=1e6)return (n/1e6).toFixed(2).replace('.',',')+'M'; if(n>=1e3)return (n/1e3).toFixed(1).replace('.',',')+'k'; return nf(n);
  }
+ // V37: las mediciones del Pokémon seleccionado prevalecen sobre la simulación.
+ // No usar la medición heredada por cuenta para otro líder: puede corresponder a otro Pokémon.
  function advisorMeasured(r,pkm,hunt){
    try{
-     const hk=hkey(hunt.sl||hunt.name), pk=String((pkm.id||'')+'|'+(pkm.name||'')+'|'+(pkm.level||0)).toLowerCase();
-     const exact=(huntStats[String(r.d.cid||'')+'|poke|'+pk]||{})[hk];
-     const legacy=(huntStats[String(r.d.cid||'')]||{})[hk];
-     const m=exact||legacy;
+     const hk=hkey(hunt.sl||hunt.name),pk=String((pkm.id||'')+'|'+(pkm.name||'')+'|'+(pkm.level||0)).toLowerCase();
+     const m=(huntStats[String(r.d.cid||'')+'|poke|'+pk]||{})[hk];
      if(!m||!(+m.xph>0)||!(+m.kph>0))return null;
-     const age=Date.now()-(+m.t||0); if(age>21*864e5)return null;
-     const n=Math.max(1,+m.n||1), conf=Math.min(.92,(exact?.35:.18)+Math.min(.57,n*.07));
-     return {xph:+m.xph||0,kph:+m.kph||0,gph:+m.gph||0,n,conf,exact:!!exact};
+     const age=Date.now()-(+m.t||0);if(age<0||age>21*864e5)return null;
+     const n=Math.max(1,+m.n||1),conf=Math.min(.95,.55+Math.min(.4,n*.05));
+     return {xph:+m.xph,kph:+m.kph,gph:+m.gph||0,n,conf,exact:true,t:+m.t||0};
    }catch{return null}
  }
- 
  function ehAdvisorRows(r,pkm,maxLv){
    if(!r||!pkm||!huntsCache||!huntsCache.length)return [];
    const sp=pkm.dt?(pkm.shiny?'shiny ditto':'ditto'):String(pkm.name||'').toLowerCase();
    const A={sp,level:+pkm.level||1,q:+pkm.q||0,ivt:+pkm.ivt||0,tlv:+r.d.level||0,cid:r.d.cid,pi:r.i,tms:pkm.dt?null:(Array.isArray(pkm.tms)?pkm.tms:null)};
-   calibraTempo();
-   const rows=[];
+   calibraTempo();const rows=[];
    huntsCache.forEach(x=>{
-     const sg=sugCalc(A,x); if(!sg||!(sg.ritmo>=.15))return;
+     const sg=sugCalc(A,x);if(!sg)return;
      const hl=+x.level||+((movesByName[x.sp]||{}).hl)||0;
      if(hl>maxLv)return;
-     const theoK=+sg.kh||0,theoX=+sg.xph||0,theoLoot=theoK*(+x.gk||0),m=advisorMeasured(r,pkm,x),w=m?m.conf:0;
-     const kph=m?Math.round(theoK*(1-w)+m.kph*w):theoK;
-     const xph=m?Math.round(theoX*(1-w)+m.xph*w):theoX;
-     const measuredLoot=m&&m.gph>0?m.gph:0;
-     const loot=m&&measuredLoot>0?Math.round(theoLoot*(1-w)+measuredLoot*w):theoLoot;
-     rows.push({x,sg,hl,kph,xph,loot,m});
-   });
-   return rows;
+     const m=advisorMeasured(r,pkm,x);
+     if(!m&&!(sg.ritmo>=.15))return;
+     const theoK=+sg.kh||0,theoX=+sg.xph||0,theoLoot=theoK*(+x.gk||0);
+     // No mezclar 37,39M estimados con 25,23M medidos: la medición tiene prioridad.
+     const kph=m?Math.round(m.kph):theoK;
+     const xph=m?Math.round(m.xph):theoX;
+     const loot=m&&m.gph>0?Math.round(m.gph):theoLoot;
+     rows.push({x,sg,hl,kph,xph,loot,m,estimated:!m,orreEstimate:!m&&String(x.ar||'').toLowerCase()==='orre'});
+   });return rows;
  }
+
 async function renderAdvisor(){
    const r=ehAdvisorData[+$('ehAdvisorAccount').value||0];
    const pkm=r&&(r.d.team||[])[+$('ehAdvisorPokemon').value||0];
@@ -5634,13 +6558,22 @@ async function renderAdvisor(){
    }
    const maxLv=Math.max(1,+$('ehAdvisorMaxLevel').value||(+pkm.level||1));
    const rows=ehAdvisorRows(r,pkm,maxLv);
+   ehAdvisorCapture(r,pkm,rows);
    const sort=$('ehAdvisorSort').value||'xph';
    rows.sort((a,b)=>(b[sort]||0)-(a[sort]||0)||b.xph-a.xph||b.loot-a.loot);
    ehAdvisorRenderedByPanel[r.i]=rows.map(z=>({name:z.x.name,slug:z.x.sl||'',species:z.x.sp||'',level:z.hl,kph:z.kph,xph:z.xph,loot:z.loot,eff:+z.sg.eff||1,real:!!z.m,conf:z.m?Math.round(z.m.conf*100):0}));
    const sortName=sort==='kph'?'Kills/h':sort==='loot'?'Botín/h':'XP/h';
    const measuredN=rows.filter(z=>z.m).length;
-   $('ehAdvisorInfo').innerHTML='<b>'+esc(pkm.name)+'</b> Nv '+nf(pkm.level||0)+' · Hunts hasta Nv '+nf(maxLv)+' · '+rows.length+' resultados · ordenadas por '+sortName+' · '+measuredN+' con medición real';
-   $('ehAdvisorRows').innerHTML=rows.slice(0,100).map((z,i)=>'<tr><td class="eh-rank">'+(i+1)+'</td><td class="eh-huntname">'+esc(z.x.name)+(i===0?'<span class="eh-best">MEJOR</span>':'')+(z.m?'<span class="eh-real">REAL '+Math.round(z.m.conf*100)+'%</span>':'<span class="eh-est">EST.</span>')+'</td><td>'+nf(z.hl)+'</td><td>'+fmtAdvisor(z.kph)+'</td><td class="eh-xp">'+fmtAdvisor(z.xph)+'</td><td class="eh-loot">$'+fmtAdvisor(z.loot)+'</td><td class="eh-skill">'+(z.sg.fis?'⚔ ':'🔮 ')+esc(z.sg.nome||'—')+(z.sg.tm?' · TM '+esc(z.sg.tm):'')+'</td></tr>').join('')||'<tr><td colspan="7" style="padding:24px;text-align:center;color:#8994aa">No se encontraron hunts viables para este Pokémon.</td></tr>';
+   const search=$('ehAdvisorSearch').value.trim().toLowerCase(),minLevel=Number($('ehAdvisorMinHunt').value)||0,minEff=Number($('ehAdvisorMinEff').value)||0,evidence=$('ehAdvisorEvidence').value,view=$('ehAdvisorView').value;
+   const filtered=rows.filter(z=>(!search||String(z.x.name).toLowerCase().includes(search))&&z.hl>=minLevel&&(+z.sg.eff||0)*100>=minEff&&(evidence==='all'||(evidence==='real'?!!z.m:!z.m))&&(view!=='favorites'||ehAdvisorFavs.has(ehAdvisorKey(r,pkm,z))));
+   $('ehAdvisorInfo').innerHTML='<b>'+esc(pkm.name)+'</b> Nv '+nf(pkm.level||0)+' · Hunts hasta Nv '+nf(maxLv)+' · '+filtered.length+' de '+rows.length+' resultados · ordenadas por '+sortName+' · '+measuredN+' con medición real'+(rows.some(z=>z.orreEstimate)?' · ⚠ Orre sin medición: XP/h provisional':'');
+   const bestXP=rows.reduce((a,z)=>!a||z.xph>a.xph?z:a,null),bestLoot=rows.reduce((a,z)=>!a||z.loot>a.loot?z:a,null),bestReal=rows.filter(z=>z.m).sort((a,b)=>b.xph-a.xph)[0];
+   $('ehAdvisorHighlights').innerHTML=[['⚡ Mejor XP/h',bestXP,'xph'],['💰 Mejor botín/h',bestLoot,'loot'],['✓ Mejor con datos reales',bestReal,'xph']].map(([label,z,field])=>'<div class="eh-advisor-highlight"><small>'+label+'</small><b>'+esc(z?.x.name||'Sin mediciones')+'</b><span>'+(z?(field==='loot'?'$':'')+fmtAdvisor(z[field]):'—')+'</span><small>'+(z?.m?'Medición real · '+Math.round(z.m.conf*100)+'% confianza':(z?.orreEstimate?'Orre · estimación no calibrada':'Estimación'))+'</small></div>').join('');
+   const selected=rows.filter(z=>ehAdvisorCompared.has(ehAdvisorKey(r,pkm,z)));
+   $('ehAdvisorCompare').innerHTML=selected.length?'<b>⚖ Comparador ('+selected.length+'/3)</b><div class="eh-advisor-compare-grid">'+selected.map(z=>'<div><strong>'+esc(z.x.name)+'</strong><span>XP/h: '+fmtAdvisor(z.xph)+'</span><span>Botín/h: $'+fmtAdvisor(z.loot)+'</span><span>Kills/h: '+fmtAdvisor(z.kph)+'</span><span>Efectividad calculada: '+Math.round((+z.sg.eff||0)*100)+'%</span><small>'+(z.m?'Medición real':'Estimado')+'</small></div>').join('')+'</div>':'';
+   $('ehAdvisorRows').innerHTML=filtered.slice(0,200).map((z,i)=>{const key=ehAdvisorKey(r,pkm,z),safeKey=esc(key);
+     return '<tr><td class="eh-rank">'+(i+1)+'</td><td class="eh-advisor-actions"><button data-adv-action="fav" data-adv-key="'+safeKey+'" title="Favorito">'+(ehAdvisorFavs.has(key)?'★':'☆')+'</button><button data-adv-action="compare" data-adv-key="'+safeKey+'" title="Comparar">'+(ehAdvisorCompared.has(key)?'☑':'□')+'</button></td><td class="eh-huntname">'+esc(z.x.name)+(i===0?'<span class="eh-best">MEJOR</span>':'')+(z.m?'<span class="eh-real">REAL · '+Math.round(z.m.conf*100)+'% confianza</span>':(z.orreEstimate?'<span class="eh-est" title="Orre: el modelo puede sobreestimar el ritmo; se calibrará con mediciones de este Pokémon">ORRE · EST. NO CALIBRADA</span>':'<span class="eh-est">EST.</span>'))+'</td><td>'+nf(z.hl)+'</td><td>'+fmtAdvisor(z.kph)+'</td><td class="eh-xp">'+fmtAdvisor(z.xph)+'</td><td class="eh-loot">$'+fmtAdvisor(z.loot)+'</td><td class="eh-skill">'+(z.sg.fis?'⚔ ':'🔮 ')+esc(z.sg.nome||'—')+(z.sg.tm?' · TM '+esc(z.sg.tm):'')+'</td></tr>'}).join('')||'<tr><td colspan="8" style="padding:24px;text-align:center;color:#8994aa">No hay hunts que cumplan estos filtros.</td></tr>';
+   ehAdvisorDrawHistory();
  }
 
  $('ehOptionsBtn').onclick=()=>{syncEhOptionStates();body.classList.add('eh-options-open');$('ehOptionsPane')?.classList.add('show');};
@@ -5730,11 +6663,11 @@ async function renderAdvisor(){
    const accounts=await Promise.all(views.map(async(w,i)=>{
      const base={slot:i+1,ready:!!w && !w.isLoading?.(),state:'desconocido'};
      try{const u=new URL(w.getURL?.()||'about:blank');base.state=u.protocol==='https:'?'sitio cargado':'sin juego cargado';}catch{}
-     try{const x=await Promise.race([w.executeJavaScript(`(()=>({hasGame:!!window.__poke,online:navigator.onLine,marketUI:!!document.querySelector('[data-guide*=market],.market-window,.global-market'),gameReady:document.readyState}))()`),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Tiempo de espera agotado')),3500))]);Object.assign(base,x||{});}catch(e){base.error='No se pudo consultar el estado de la cuenta';}
+     try{const x=await Promise.race([w.executeJavaScript(`(()=>({hasGame:!!window.__poke,online:navigator.onLine,marketUI:!!document.querySelector('[data-guide*=market],.market-window,.global-market'),gameReady:document.readyState,markDebug:(()=>{const norm=s=>String(s||'').trim().toLowerCase();const all=[...document.querySelectorAll('body *')];const exact=all.filter(e=>e.children.length===0&&norm(e.textContent)==='ruby').slice(0,5);const markVisible=all.some(e=>e.children.length===0&&/tienda de mark|mark.s shop/i.test(e.textContent||''));return {markTitleFound:markVisible,rubyMatches:exact.length,greenScriptLoaded:!!window.__ehGreenMarkItemsV4,greenLast:window.__ehGreenMarkLast||null,ruby:exact.map(e=>({tag:e.tagName,classes:String(e.className||'').slice(0,120),parentTag:e.parentElement?.tagName||'',parentClasses:String(e.parentElement?.className||'').slice(0,120),computedColor:getComputedStyle(e).color,inlineColor:e.style.color||'',marked:e.dataset.ehGreenMark==='ruby',visible:!!e.getClientRects().length}))}})()}))()`),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Tiempo de espera agotado')),3500))]);Object.assign(base,x||{});}catch(e){base.error='No se pudo consultar el estado de la cuenta';}
      return base;
    }));
    let update=null;try{update=await window.pokeAPI?.getUpdateStatus?.();}catch{}
-   return {app:'Nexus',version:String(window.pokeAPI?.appVersion||'1.0.7'),time:new Date().toISOString(),platform:navigator.platform,online:navigator.onLine,webviews:views.length,accounts,update:update?{state:update.state||'',version:update.version||''}:null,checks:{marketModule:typeof window.ehGMFetch==='function'?'disponible':'no comprobado',alerts:'requiere prueba de evento real',marketConnection:'requiere consulta desde Mercado Global'}};
+   return {app:'Nexus',version:String(window.pokeAPI?.appVersion||'1.0.7'),time:new Date().toISOString(),platform:navigator.platform,online:navigator.onLine,webviews:views.length,accounts,update:update?{state:update.state||'',version:update.version||''}:null,checks:{marketModule:typeof ehGMFetch==='function'?'disponible':'no comprobado',marketLastSuccess:ehGMLastOk?new Date(ehGMLastOk).toISOString():'sin consulta exitosa',marketConsecutiveFailures:ehGMFailures,marketLastError:ehGMLastError,marketBusy:ehGMFetchBusy,marketListingsLoaded:ehGMRows.length,marketPages:ehGMServerPages,alertsEnabled:ehGMAlertConfig().enabled,marketConnection:'requiere consulta desde Mercado Global'}};
  }
  async function renderDiag(){const d=await diagnostic(),t=JSON.stringify(d,null,2),x=$('ehDiagPane');if(x)x.textContent=t;return t;}
  $('ehDiagBtn')?.addEventListener('click',async()=>{const b=$('ehDiagBtn');try{if(b)b.disabled=true;await renderDiag();}finally{if(b)b.disabled=false;}});

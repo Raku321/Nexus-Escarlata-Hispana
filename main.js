@@ -352,7 +352,7 @@ ipcMain.handle('clipboard:write', (_e, text) => { try { clipboard.writeText(Stri
 // ===== Actualizaciones SIN TOKEN =====
 // Consulta el último Release PÚBLICO de GitHub mediante HTTPS anónimo.
 // Actualizador público propio, sin credenciales.
-const UPDATE_API='https://api.github.com/repos/Raku321/Escarlata-Hispana/releases/latest';
+const UPDATE_API='https://api.github.com/repos/Raku321/Nexus-Escarlata-Hispana/releases/latest';
 let updateState={state:'idle',version:app.getVersion(),availableVersion:null,percent:0,message:'Estás actualizado.'};
 let updateAsset=null, updateFile=null;
 const sendUpdateState=()=>{try{BrowserWindow.getAllWindows().forEach(w=>{if(!w.isDestroyed())w.webContents.send('update:status',updateState)})}catch{}};
@@ -380,7 +380,7 @@ async function checkUpdates(){
   const assets=Array.isArray(r.assets)?r.assets:[];
   const asset=assets.find(a=>new RegExp('^Instalador-Nexus-'+latest.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\.exe$','i').test(String(a.name||'')));
   if(!asset||!asset.browser_download_url)throw new Error('El Release no contiene el instalador esperado');
-  const expected='https://github.com/Raku321/Escarlata-Hispana/releases/download/';
+  const expected='https://github.com/Raku321/Nexus-Escarlata-Hispana/releases/download/';
   if(!String(asset.browser_download_url).startsWith(expected))throw new Error('URL de descarga no permitida');
   updateAsset={version:latest,url:asset.browser_download_url,name:asset.name,size:Number(asset.size)||0};
   return setUpdateState({state:'available',availableVersion:latest,percent:0,message:'Nueva versión v'+latest+' disponible.'})
@@ -551,9 +551,9 @@ app.whenReady().then(() => {
   // gravado no disco ou arrastado pra janela abria sem a CSP e com o pokeAPI). Passa so a recarga da propria pagina:
   // o importar backup termina em location.reload(), que no Electron 43 tambem dispara will-navigate. Pro navegador de
   // fora vao so os links fixos da interface; antes ia qualquer URL, e um XSS mandava as senhas na query de um link.
-  const LINKS = new Set(['https://github.com/Raku321/Escarlata-Hispana', 'https://github.com/Raku321/Escarlata-Hispana',
-    'https://github.com/Raku321/Escarlata-Hispana', '',
-    'https://github.com/Raku321/Escarlata-Hispana/releases/latest']); // selo de versao nova no instalador/portatil
+  const LINKS = new Set(['https://github.com/Raku321/Nexus-Escarlata-Hispana', 'https://github.com/Raku321/Nexus-Escarlata-Hispana',
+    'https://github.com/Raku321/Nexus-Escarlata-Hispana', '',
+    'https://github.com/Raku321/Nexus-Escarlata-Hispana/releases/latest']); // selo de versao nova no instalador/portatil
   const linkFixo = (url) => { if (LINKS.has(url)) abreFora(url); };
   win.webContents.on('will-navigate', (e, url) => { if (url !== win.webContents.getURL()) { e.preventDefault(); linkFixo(url); } });
   win.webContents.setWindowOpenHandler(({ url }) => { linkFixo(url); return { action: 'deny' }; });

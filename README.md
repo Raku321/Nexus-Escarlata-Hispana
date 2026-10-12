@@ -1,11 +1,9 @@
-# Nexus — Escarlata Hispana
+# Nexus 1.0.8 — Escarlata Hispana
 
-Cliente de escritorio para Poke Idle World.
+Código fuente de Nexus V40. Repositorio oficial: https://github.com/Raku321/Nexus-Escarlata-Hispana
 
-## Descargar
+Para generar el instalador de Windows, ejecutar `INSTALAR NEXUS.bat` en Windows con Node.js instalado.
 
-Las versiones para Windows se publicarán en [Releases](https://github.com/Raku321/Nexus-Escarlata-Hispana/releases).
+**Importante:** mantener el número 1.0.8 no hará que las instalaciones existentes de 1.0.8 detecten automáticamente una actualización; se necesita un número superior para el mecanismo habitual de comparación de versiones.
 
-La versión prevista es **v1.0.7**. El instalador para Windows se distribuirá como `Instalador-Nexus-1.0.7.exe`.
-
-> Nota: el instalador aún no se ha publicado en Releases.
+No se incluyen registros de cambios históricos ni instrucciones de versiones antiguas.
