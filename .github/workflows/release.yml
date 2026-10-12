@@ -29,7 +29,7 @@ jobs:
         shell: pwsh
         run: |
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
-          if ("v$($pkg.version)" -ne "${{ github.ref_name }}" -and "${{ github.event_name }}" -eq "push") {
+          if ("${{ github.ref_type }}" -eq "tag" -and "v$($pkg.version)" -ne "${{ github.ref_name }}") {
             throw "La etiqueta debe coincidir con package.json"
           }
 
