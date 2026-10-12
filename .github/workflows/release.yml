@@ -53,3 +53,17 @@ jobs:
         shell: pwsh
         run: |
           gh release create "${{ github.ref_name }}" dist/Instalador-Nexus-*.exe --repo "${{ github.repository }}" --title "Nexus ${{ github.ref_name }}" --generate-notes --latest
+
+      - name: Reemplazar instalador publico 1.0.8 autorizado
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-1.0.8-fix]')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "1.0.8") { throw "Solo se permite publicar 1.0.8" }
+          $files = @(Get-ChildItem dist -Filter 'Instalador-Nexus-1.0.8.exe')
+          if ($files.Count -ne 1) { throw "No se encontro el instalador esperado" }
+          Get-FileHash $files[0].FullName -Algorithm SHA256 | Format-List
+          gh release upload v1.0.8 $files[0].FullName --repo "${{ github.repository }}" --clobber
+          if ($LASTEXITCODE -ne 0) { throw "Fallo al reemplazar el instalador publico" }
