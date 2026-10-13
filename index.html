@@ -699,6 +699,11 @@ webview{background:#050405}
 .eh-tool-main-panel.show{display:block!important}
 #ehAdvisorPanel.show{display:flex!important;flex-direction:column}
 #ehFeaturePanels{display:contents}
+#ehGymsPanel{padding:12px 15px}
+#ehGymsInline{height:100%;overflow:auto}
+#ehGymsInline .pa-gwrap{min-height:100%;align-items:start}
+#ehGymsInline .pa-gbody{min-width:0}
+@media(max-width:850px){#ehGymsInline .pa-gwrap{grid-template-columns:180px minmax(0,1fr)}}
 
 #ehAlertSuggestions{display:none;position:absolute;left:5px;top:44px;width:310px;max-height:260px;overflow:auto;z-index:100;background:#0b121c;border:1px solid #40506a;border-radius:8px;box-shadow:0 12px 28px #000;padding:4px}
 #ehAlertSuggestions.show{display:block}
@@ -865,6 +870,11 @@ webview{background:#050405}
 <style id="eh-internal-tabs-fix">
 #ehToolsModal .eh-tools-card{height:min(840px,94vh)}
 #ehFeaturePanels{display:contents}
+#ehGymsPanel{padding:12px 15px}
+#ehGymsInline{height:100%;overflow:auto}
+#ehGymsInline .pa-gwrap{min-height:100%;align-items:start}
+#ehGymsInline .pa-gbody{min-width:0}
+@media(max-width:850px){#ehGymsInline .pa-gwrap{grid-template-columns:180px minmax(0,1fr)}}
 #ehMarketPanel.show,#ehControlPanel.show,#ehActivityPanel.show,#ehMarketHistoryPanel.show{height:100%;overflow:auto}
 #ehGeneralMarket.eh-embedded{display:flex!important;position:relative!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;box-sizing:border-box!important;z-index:auto!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 #ehGeneralMarket.eh-embedded #ehGMClose{display:none!important}
@@ -3015,7 +3025,7 @@ lw:!!(window.__loginWatch||window.document?.querySelector('input[autocomplete=on
 
   // Sistema de referido eliminado de Nexus Por Escarlata Hispana.
   document.getElementById('reloadAll').onclick = () => webviews.forEach((w, i) => { if (!off[i]) { try { w.reloadIgnoringCache(); } catch { w.reload(); } } }); // ignora cache: resolve pagina de login velha em cache (sem captcha)
-  document.getElementById('faqBtn').onclick = () => window.open('https://github.com/Raku321/Escarlata-Hispana');
+  document.getElementById('faqBtn').onclick = () => window.open('https://github.com/Raku321/Nexus-Escarlata-Hispana');
   // versao pequena ao lado do logo, vinda do processo principal (a UA nao carrega mais o token do app)
   try {
     const vAtual = window.pokeAPI && window.pokeAPI.appVersion;
@@ -3035,13 +3045,13 @@ lw:!!(window.__loginWatch||window.document?.querySelector('input[autocomplete=on
       // instalador, portatil e zip rodam de resources/app.asar (Resources no Mac); o codigo-fonte roda da pasta do repositorio.
       // Quem tem o instalador vai pros downloads dele: o README do codigo-fonte nao aponta pro instalador
       const empacotado = /\/resources\/app(\.asar)?\//i.test(String(location.pathname || ''));
-      a2.onclick = () => window.open(empacotado ? 'https://github.com/Raku321/Escarlata-Hispana/releases/latest' : 'https://github.com/Raku321/Escarlata-Hispana');
+      a2.onclick = () => window.open(empacotado ? 'https://github.com/Raku321/Nexus-Escarlata-Hispana/releases/latest' : 'https://github.com/Raku321/Nexus-Escarlata-Hispana');
       elVer.appendChild(a2);
     };
     const cacheV = lsObj('verNova');
     if (cacheV.tag) vMostra(cacheV.tag);
     if (vAtual && Date.now() - (+cacheV.t || 0) > 22 * 3600e3) setTimeout(() => {
-      fetch('https://api.github.com/repos/Raku321/Escarlata-Hispana/releases/latest').then(r => r.json()).then(j => {
+      fetch('https://api.github.com/repos/Raku321/Nexus-Escarlata-Hispana/releases/latest').then(r => r.json()).then(j => {
         const tag = j && typeof j.tag_name === 'string' ? j.tag_name : '';
         lsSet('verNova', JSON.stringify({ t: Date.now(), tag: /^v?[\d.]{1,12}$/.test(tag) ? tag : '' }));
         vMostra(tag);
@@ -4552,7 +4562,10 @@ lw:!!(window.__loginWatch||window.document?.querySelector('input[autocomplete=on
     if (!best || !(best.gph > alvo)) return '';
     return ' <span title="' + esc(cap(best.k)) + ': ' + ncs(best.gph) + '/h ' + t('cdBetterTip') + '" style="color:#f2c665;cursor:help">\u2197</span>';
   };
-  async function refreshCards(force) {
+  // Poke Azul: el Modo simple de Nexus se sustituye por el de Poke Azul (src/poke-azul/pa.js).
+  // El antiguo queda como refreshCardsNexus por si hiciera falta volver a él.
+  function refreshCards(force) { if (window.PA && window.PA.refreshLow) return window.PA.refreshLow(force); return refreshCardsNexus(force); }
+  async function refreshCardsNexus(force) {
     if (!cardsOn || (cdBusy && Date.now() - cdBusy < 8000)) return; // nao destroi o DOM durante o gesto, mas destrava sozinho se o mouseup se perder
     // Guarda do tick: com foco num campo do painel, o redesenho passivo espera (nao apagar o que
     // o usuario digita). Mudou um select/checkbox, o handler chama com force: sem ele, o foco
@@ -5561,6 +5574,7 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
 <button id="ehToolControl" data-ehtab="control">📊 Centro de estado</button>
 <button id="ehToolActivity" data-ehtab="activity">📜 Actividad</button>
 <button id="ehToolMarketHistory" data-ehtab="marketHistory">📈 Historial mercado</button>
+<button id="ehToolGyms" data-ehtab="gyms">🏆 Gimnasios</button>
 </div>
     <div id="ehFeaturePanels">
 <div id="ehDiagPanel" class="eh-feature-panel eh-tool-main-panel">
@@ -5572,6 +5586,7 @@ body.eh-side-collapsed .eh-account .eh-acctxt,body.eh-side-collapsed .eh-account
 <div id="ehControlPanel" class="eh-tool-main-panel"></div>
 <div id="ehActivityPanel" class="eh-tool-main-panel"></div>
 <div id="ehMarketHistoryPanel" class="eh-tool-main-panel"></div>
+<div id="ehGymsPanel" class="eh-tool-main-panel"><div class="pa-body" id="ehGymsInline"><p>Selecciona Gimnasios para consultar las conquistas y el simulador.</p></div></div>
 </div>
 <div id="ehAdvisorPanel" class="eh-tool-main-panel show">
 <div class="eh-advisor-controls">
@@ -6416,16 +6431,18 @@ Object.entries(o).forEach(([id,v])=>{if(id==='favOnly')return;const e=$(id);if(e
  $('ehStart').onclick=()=>{const b=$('loginAll');if(b)b.click()};
  $('ehAccountsBtn').onclick=()=>{const b=$('accounts');if(b)b.click()};
  const ehTabs=[...document.querySelectorAll('.eh-tools-tabs [data-ehtab]')];
- const ehPanels={advisor:$('ehAdvisorPanel'),diag:$('ehDiagPanel'),market:$('ehMarketPanel'),control:$('ehControlPanel'),activity:$('ehActivityPanel'),marketHistory:$('ehMarketHistoryPanel')};
+ const ehPanels={advisor:$('ehAdvisorPanel'),diag:$('ehDiagPanel'),market:$('ehMarketPanel'),control:$('ehControlPanel'),activity:$('ehActivityPanel'),marketHistory:$('ehMarketHistoryPanel'),gyms:$('ehGymsPanel')};
  const showEhTab=tab=>{
    Object.values(ehPanels).forEach(x=>x&&x.classList.remove('show'));
    ehTabs.forEach(x=>x.classList.toggle('active',x.dataset.ehtab===tab));
    if(ehPanels[tab])ehPanels[tab].classList.add('show');
    if(tab==='market'){const host=$('ehMarketPanel'),gm=$('ehGeneralMarket');if(host&&gm&&gm.parentElement!==host){host.appendChild(gm);gm.classList.add('eh-embedded');} openEhMarket?.(true);}
    else { try{ehGMStopAutoRefresh?.()}catch{} }
+   if(tab==='gyms'){if(window.PA?.openGyms)window.PA.openGyms($('ehGymsInline'));else $('ehGymsInline').textContent='Gimnasios todavía se está cargando.';}
    if(['control','activity','marketHistory'].includes(tab)){const host=ehPanels[tab],cc=$('ehCommandCenter');if(host&&cc&&cc.parentElement!==host){host.appendChild(cc);cc.classList.add('eh-embedded');} window.ehOpenControlCenter?.(tab==='activity'?'activity':tab==='marketHistory'?'market':'summary');}
  };
  ehTabs.forEach(b=>b.onclick=()=>showEhTab(b.dataset.ehtab));
+
  $('ehToolsBtn').onclick=()=>{const m=$('ehToolsModal');if(m)m.style.removeProperty('display');openAdvisor()};
  $('ehToolsClose').onclick=()=>$('ehToolsModal').classList.remove('show');
  $('ehToolsModal').onclick=e=>{if(e.target===$('ehToolsModal'))$('ehToolsModal').classList.remove('show')};
@@ -6599,6 +6616,8 @@ async function renderAdvisor(){
  }
  async function refreshAccounts(){
    const box=$('ehAccountList'); if(!box)return;
+   // Poke Azul: tarjetas de las cuentas como en Poke Azul (src/poke-azul/pa.js)
+   if(window.PA&&window.PA.renderAccounts){const pn=[...document.querySelectorAll('#grid .panel')];$('ehCount').textContent=(pn.length||4)+'/4';return window.PA.renderAccounts(box,pn);}
    const panels=[...document.querySelectorAll('#grid .panel')], n=panels.length||4; $('ehCount').textContent=n+'/4';
    const states=[];
    for(let i=0;i<n;i++){
@@ -6744,5 +6763,8 @@ async function renderAdvisor(){
  try{window.pokeAPI?.onLocalNotify?.(show)}catch{}
 })();
 </script>
+<!-- Poke Azul: Modo simple, Calculadora de IV y Gimnasios -->
+<script src="src/poke-azul/pa-lib.js"></script>
+<script src="src/poke-azul/pa.js"></script>
 </body>
 </html>

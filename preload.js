@@ -17,6 +17,8 @@ contextBridge.exposeInMainWorld('pokeAPI', {
   notify: (title, body) => ipcRenderer.invoke('notify', title, body),
   onLocalNotify: (cb) => ipcRenderer.on('notify:local', (_e, data) => cb(data)),
   copyText: (text) => ipcRenderer.invoke('clipboard:write', String(text || '')),
+  paMem: (ids) => ipcRenderer.invoke('pa:mem', ids),
+  paTrim: (ids) => ipcRenderer.invoke('pa:trim', ids),
   readPreset: (name) => ipcRenderer.invoke('preset:read', name),
   saveBackup: (nome, conteudo, cabecalho) => ipcRenderer.invoke('backup:save', nome, conteudo, cabecalho),
   clearAccount: (i) => ipcRenderer.invoke('conta:limpar', i),

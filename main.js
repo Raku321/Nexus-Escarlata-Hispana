@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, Tray, Menu, powerSaveBlocker, shell, session, Notification, clipboard } = require('electron');
+const { app, BrowserWindow, ipcMain, safeStorage, Tray, Menu, powerSaveBlocker, shell, session, Notification, clipboard, webContents } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
@@ -347,6 +347,28 @@ ipcMain.handle('performance:metrics', () => {
     return {ok:true, processes:rows, cpu:rows.reduce((a,r)=>a+r.cpu,0), ramMB:rows.reduce((a,r)=>a+r.ramMB,0), sampledAt:Date.now()};
   } catch { return {ok:false}; }
 });
+// Poke Azul: memoria de cada panel y limpieza de memoria sin recargar (recolector de basura + aviso de memoria baja)
+ipcMain.handle('pa:mem', (_e, ids) => {
+  try {
+    const byPid = new Map(app.getAppMetrics().map((m) => [m.pid, (m.memory && (m.memory.privateBytes || m.memory.workingSetSize)) || 0]));
+    return (Array.isArray(ids) ? ids : []).map((id) => { const w = webContents.fromId(Number(id)); return w && !w.isDestroyed() ? Math.round((byPid.get(w.getOSProcessId()) || 0) / 1024) : 0; });
+  } catch { return []; }
+});
+ipcMain.handle('pa:trim', async (_e, ids) => {
+  let n = 0;
+  for (const id of Array.isArray(ids) ? ids : []) {
+    const w = webContents.fromId(Number(id));
+    if (!w || w.isDestroyed()) continue;
+    const dbg = w.debugger, mine = !dbg.isAttached();
+    try {
+      if (mine) dbg.attach('1.3');
+      await dbg.sendCommand('HeapProfiler.collectGarbage').catch(() => {});
+      await dbg.sendCommand('Memory.simulatePressureNotification', { level: 'critical' }).catch(() => {});
+      n++;
+    } catch {} finally { try { if (mine && dbg.isAttached()) dbg.detach(); } catch {} }
+  }
+  return n;
+});
 ipcMain.handle('clipboard:write', (_e, text) => { try { clipboard.writeText(String(text || '')); return true; } catch { return false; } });
 
 // ===== Actualizaciones SIN TOKEN =====
@@ -359,33 +381,18 @@ const sendUpdateState=()=>{try{BrowserWindow.getAllWindows().forEach(w=>{if(!w.i
 const setUpdateState=(p)=>{updateState={...updateState,...p,version:app.getVersion()};sendUpdateState();return updateState};
 const versionParts=v=>String(v||'').replace(/^v/i,'').split('.').map(x=>parseInt(x,10)||0);
 function versionGreater(a,b){const A=versionParts(a),B=versionParts(b);for(let i=0;i<Math.max(A.length,B.length);i++){const x=A[i]||0,y=B[i]||0;if(x!==y)return x>y}return false}
-// Red de Chromium: respeta proxies de Windows y usa una espera acotada.
-// Si falla, intentamos HTTPS de Node para redes donde Chromium esté bloqueado.
-async function httpsJson(url){
- const u=new URL(url);
- if(u.protocol!=='https:'||u.hostname!=='api.github.com')throw new Error('Host de actualización no permitido');
- const headers={'User-Agent':'Nexus/'+app.getVersion(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
- let firstError;
- try{
-  const response=await require('electron').net.fetch(u.toString(),{headers,signal:AbortSignal.timeout(20000),cache:'no-store'});
-  if(!response.ok)throw new Error('GitHub HTTP '+response.status);
-  const body=await response.text();
-  if(Buffer.byteLength(body)>2*1024*1024)throw new Error('Respuesta demasiado grande');
-  return JSON.parse(body);
- }catch(e){firstError=e}
- try{
-  return await new Promise((resolve,reject)=>{
-   const req=https.get(u,{headers,timeout:20000},res=>{
-    if(res.statusCode!==200){res.resume();reject(new Error('GitHub HTTP '+res.statusCode));return}
-    let body='',size=0;
-    res.on('data',chunk=>{size+=chunk.length;if(size>2*1024*1024){req.destroy(new Error('Respuesta demasiado grande'));return}body+=chunk.toString('utf8')});
-    res.on('error',reject);
-    res.on('end',()=>{try{resolve(JSON.parse(body))}catch(e){reject(e)}});
-   });
-   req.on('timeout',()=>req.destroy(new Error('Tiempo de espera agotado')));
-   req.on('error',reject);
-  });
- }catch(e){throw new Error('Chromium: '+String(firstError?.message||firstError)+'; Node: '+String(e.message||e))}
+function httpsJson(url,redirects=0){
+ return new Promise((resolve,reject)=>{
+  let u;try{u=new URL(url)}catch(e){reject(e);return}
+  if(u.protocol!=='https:'||u.hostname!=='api.github.com'){reject(new Error('Host de actualización no permitido'));return}
+  const req=https.get(u,{headers:{'User-Agent':'Escarlata-Hispana/'+app.getVersion(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}},res=>{
+   if(res.statusCode>=300&&res.statusCode<400&&res.headers.location&&redirects<3){res.resume();httpsJson(new URL(res.headers.location,u).toString(),redirects+1).then(resolve,reject);return}
+   if(res.statusCode!==200){res.resume();reject(new Error('GitHub HTTP '+res.statusCode));return}
+   let body='',n=0;res.setEncoding('utf8');
+   res.on('data',c=>{n+=Buffer.byteLength(c);if(n>2*1024*1024){req.destroy(new Error('Respuesta demasiado grande'));return}body+=c});
+   res.on('end',()=>{try{resolve(JSON.parse(body))}catch(e){reject(e)}})
+  });req.setTimeout(15000,()=>req.destroy(new Error('timeout')));req.on('error',reject)
+ })
 }
 async function checkUpdates(){
  setUpdateState({state:'checking',message:'Buscando actualizaciones…'});
@@ -399,7 +406,7 @@ async function checkUpdates(){
   if(!String(asset.browser_download_url).startsWith(expected))throw new Error('URL de descarga no permitida');
   updateAsset={version:latest,url:asset.browser_download_url,name:asset.name,size:Number(asset.size)||0};
   return setUpdateState({state:'available',availableVersion:latest,percent:0,message:'Nueva versión v'+latest+' disponible.'})
- }catch(e){const detail=String(e?.message||e).slice(0,240);console.error('[Nexus updater]',detail);return setUpdateState({state:'error',error:detail,message:'No se pudo comprobar la actualización: '+detail})}
+ }catch(e){return setUpdateState({state:'error',message:'No se pudo comprobar la actualización. Inténtalo nuevamente.'})}
 }
 const allowedDownloadHost=h=>h==='github.com'||h==='objects.githubusercontent.com'||h==='release-assets.githubusercontent.com'||h.endsWith('.githubusercontent.com');
 function downloadHttps(url,file,redirects=0){

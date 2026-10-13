@@ -1,4 +1,4 @@
-# Nexus 1.0.8 — Escarlata Hispana
+# Nexus 1.0.9 — Escarlata Hispana
 
 Código fuente de Nexus V40. Repositorio oficial: https://github.com/Raku321/Nexus-Escarlata-Hispana
 
