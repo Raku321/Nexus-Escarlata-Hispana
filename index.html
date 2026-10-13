@@ -6432,13 +6432,28 @@ Object.entries(o).forEach(([id,v])=>{if(id==='favOnly')return;const e=$(id);if(e
  $('ehAccountsBtn').onclick=()=>{const b=$('accounts');if(b)b.click()};
  const ehTabs=[...document.querySelectorAll('.eh-tools-tabs [data-ehtab]')];
  const ehPanels={advisor:$('ehAdvisorPanel'),diag:$('ehDiagPanel'),market:$('ehMarketPanel'),control:$('ehControlPanel'),activity:$('ehActivityPanel'),marketHistory:$('ehMarketHistoryPanel'),gyms:$('ehGymsPanel')};
- const showEhTab=tab=>{
+ const showEhTab=async tab=>{
    Object.values(ehPanels).forEach(x=>x&&x.classList.remove('show'));
    ehTabs.forEach(x=>x.classList.toggle('active',x.dataset.ehtab===tab));
    if(ehPanels[tab])ehPanels[tab].classList.add('show');
    if(tab==='market'){const host=$('ehMarketPanel'),gm=$('ehGeneralMarket');if(host&&gm&&gm.parentElement!==host){host.appendChild(gm);gm.classList.add('eh-embedded');} openEhMarket?.(true);}
    else { try{ehGMStopAutoRefresh?.()}catch{} }
-   if(tab==='gyms'){if(window.PA?.openGyms)window.PA.openGyms($('ehGymsInline'));else $('ehGymsInline').textContent='Gimnasios todavía se está cargando.';}
+   if(tab==='gyms') {
+     const host=$('ehGymsInline');
+     const status=await window.pokeAPI.gymStatus();
+     if(!status.unlocked){
+       host.replaceChildren();
+       const box=document.createElement('div');box.style.cssText='max-width:400px;margin:40px auto;padding:22px;background:#121b30;border:1px solid #6b2637;border-radius:12px;color:#fff';
+       const title=document.createElement('h3');title.textContent='🔒 Gimnasios protegidos';
+       const info=document.createElement('p');info.textContent='Introduce la contraseña para acceder a los gimnasios.';
+       const input=document.createElement('input');input.type='password';input.placeholder='Contraseña';input.autocomplete='off';input.style.cssText='width:100%;box-sizing:border-box;padding:10px;margin:8px 0;color:white;background:#0a1020;border:1px solid #704052;border-radius:6px';
+       const msg=document.createElement('p');msg.setAttribute('role','status');
+       const btn=document.createElement('button');btn.textContent='Desbloquear gimnasios';btn.style.cssText='padding:10px 15px';
+       const submit=async()=>{btn.disabled=true;try{const r=await window.pokeAPI.gymUnlock(input.value);input.value='';if(r.ok){window.PA?.openGyms(host)}else{msg.textContent=r.wait?'Demasiados intentos. Espera '+r.wait+' segundos.':'Contraseña incorrecta';}}catch{msg.textContent='No se pudo verificar la contraseña.'}finally{btn.disabled=false}};
+       btn.onclick=submit;input.onkeydown=e=>{if(e.key==='Enter')submit()};box.append(title,info,input,btn,msg);host.append(box);input.focus();return;
+     }
+     if(window.PA?.openGyms)window.PA.openGyms(host);else host.textContent='Gimnasios todavía se está cargando.';
+   }
    if(['control','activity','marketHistory'].includes(tab)){const host=ehPanels[tab],cc=$('ehCommandCenter');if(host&&cc&&cc.parentElement!==host){host.appendChild(cc);cc.classList.add('eh-embedded');} window.ehOpenControlCenter?.(tab==='activity'?'activity':tab==='marketHistory'?'market':'summary');}
  };
  ehTabs.forEach(b=>b.onclick=()=>showEhTab(b.dataset.ehtab));

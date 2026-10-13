@@ -972,6 +972,30 @@ function isMon(o) {
   return Object.keys(statsOf(o)).filter((k) => k !== 'hp').length >= 2 || (numOr(o.level) != null && (Array.isArray(o.moves) || Array.isArray(o.attacks)));
 }
 
+// Objetos equipados: solamente campos explícitos del Pokémon del gimnasio.
+// No inferir un objeto por sus estadísticas ni confundirlo con inventario.
+function heldOf(o) {
+  if (!o || typeof o !== 'object') return { status: 'unknown' };
+  const keys = ['heldItem', 'held_item', 'equippedItem', 'equipped_item', 'held', 'heldItemData', 'held_item_data'];
+  let found = false, raw;
+  for (const k of keys) if (Object.prototype.hasOwnProperty.call(o, k)) { raw = o[k]; found = true; break; }
+  if (!found && o.equipment && typeof o.equipment === 'object') {
+    for (const k of ['heldItem', 'held_item', 'held']) if (Object.prototype.hasOwnProperty.call(o.equipment, k)) { raw = o.equipment[k]; found = true; break; }
+  }
+  if (!found) return { status: 'unknown' };
+  if (raw == null || raw === false || raw === '' || raw === 0) return { status: 'none' };
+  if (typeof raw === 'string') return { status: 'equipped', name: raw.trim() || null, level: null };
+  if (typeof raw === 'number') return { status: 'equipped', name: null, id: raw, level: null };
+  if (typeof raw !== 'object' || Array.isArray(raw)) return { status: 'unknown' };
+  const name = pick(raw, ['name', 'itemName', 'displayName', 'title', 'label']);
+  const level = numOr(pick(raw, ['level', 'tier', 'rank', 'grade']));
+  const id = pick(raw, ['id', 'itemId', 'item_id']);
+  const icon = pick(raw, ['icon', 'iconUrl', 'image', 'imageUrl', 'sprite']);
+  return { status: 'equipped', name: typeof name === 'string' ? name : null, id: id ?? null,
+    level: level != null && level >= 1 && level <= 8 ? level : null,
+    icon: typeof icon === 'string' && /^https:\/\//i.test(icon) ? icon : null };
+}
+
 function monOf(o) {
   const quality = qualityOf(o);
   return {
@@ -985,6 +1009,7 @@ function monOf(o) {
     quality,
     rarity: rarityName(o, quality),
     moves: movesOf(o),
+    heldItem: heldOf(o),
   };
 }
 

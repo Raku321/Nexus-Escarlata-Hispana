@@ -1,39 +1,47 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-title Nexus 1.0.9 - Instalador
+title Nexus - Instalacion automatica
 set "CI=false"
 set "CSC_IDENTITY_AUTO_DISCOVERY=false"
 set "LOG=%~dp0nexus-compilacion.log"
-echo Nexus 1.0.9 - compilacion optimizada > "%LOG%"
 where node >nul 2>nul || goto :missing
 where npm >nul 2>nul || goto :missing
-echo Verificando dependencias...
+for /f "usebackq delims=" %%V in (`node -p "require('./package.json').version"`) do set "NEXUS_VERSION=%%V"
+if not defined NEXUS_VERSION goto :error
+set "INSTALLER=%~dp0dist\Instalador-Nexus-%NEXUS_VERSION%.exe"
+echo Nexus %NEXUS_VERSION% - compilacion > "%LOG%"
+echo Preparando Nexus %NEXUS_VERSION%...
 call npm ls electron-builder --depth=0 >> "%LOG%" 2>&1
 if errorlevel 1 (
-  echo Instalando dependencias por primera vez...
+  echo Instalando dependencias...
   call npm install --no-fund --no-audit --loglevel=error >> "%LOG%" 2>&1
   if errorlevel 1 goto :error
-) else (
-  echo Dependencias existentes: no se descargan otra vez.
 )
-echo Comprobando sintaxis...
+echo Comprobando archivos...
 node --check main.js >> "%LOG%" 2>&1
 if errorlevel 1 goto :error
 node --check preload.js >> "%LOG%" 2>&1
 if errorlevel 1 goto :error
-echo Compilando instalador... Esto puede tardar varios minutos.
-echo Progreso de compilacion:
+echo Generando instalador. Espera unos minutos...
 call npm run dist -- --publish never
 if errorlevel 1 goto :error
-if not exist "dist\Instalador-Nexus-1.0.9.exe" goto :error
-echo Instalador listo: dist\Instalador-Nexus-1.0.9.exe
-echo Abriendo instalador automaticamente...
-start "" "dist\Instalador-Nexus-1.0.9.exe"
+if not exist "%INSTALLER%" (
+  echo No se encontro el instalador esperado: "%INSTALLER%" >> "%LOG%"
+  goto :error
+)
+echo Instalador generado: "%INSTALLER%"
+echo Abriendo instalador...
+start "" "%INSTALLER%"
+if errorlevel 1 goto :error
 exit /b 0
 :missing
-echo Instala Node.js LTS.
+echo ERROR: Necesitas instalar Node.js LTS.
+pause
 exit /b 1
 :error
-echo Fallo la compilacion. Revisa los mensajes anteriores y nexus-compilacion.log.
+echo.
+echo ERROR: No se pudo generar o abrir el instalador.
+echo Revisa "%LOG%" y los mensajes anteriores.
+pause
 exit /b 1

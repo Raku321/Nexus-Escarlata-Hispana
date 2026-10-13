@@ -1,6 +1,6 @@
 {
   "name": "nexus",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Nexus - cliente multicuenta para Poke Idle World",
   "main": "main.js",
   "author": "Escarlata Hispana",
@@ -41,7 +41,8 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Nexus",
-      "uninstallDisplayName": "Nexus"
+      "uninstallDisplayName": "Nexus",
+      "runAfterFinish": true
     },
     "asar": true,
     "compression": "normal",

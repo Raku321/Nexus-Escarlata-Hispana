@@ -1,6 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('pokeAPI', {
+  gymUnlock: (password) => ipcRenderer.invoke('gym:unlock', password),
+  gymStatus: () => ipcRenderer.invoke('gym:status'),
   getPerformanceMetrics: () => ipcRenderer.invoke('performance:metrics'),
   openPokeMarket: () => ipcRenderer.invoke('pokemarket:open'),
   openDiscordEH: () => ipcRenderer.invoke('discord-eh:open'),

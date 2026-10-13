@@ -107,16 +107,31 @@
   }
 
   // ================= MODO SIMPLE (sustituye al de Nexus) =================
-  const XPS = {};   // muestras de XP del líder por cuenta, para el tiempo hasta el siguiente nivel
+  const XPS = {}; // muestras de XP real por cuenta y Pokémon
   function leaderEta(i, ld, xphAna) {
     const now = Date.now(), k = i + ':' + ld.id;
-    const arr = (XPS[k] = (XPS[k] || []).filter((x) => now - x.t < 20 * 60000));
-    if (!arr.length || arr[arr.length - 1].xp !== ld.xp) arr.push({ t: now, xp: ld.xp });
-    const a = xpNv(ld.lv), b = xpNv(ld.lv + 1), pct = b > a ? Math.max(0, Math.min(100, ((ld.xp - a) / (b - a)) * 100)) : 0;
-    let rate = 0;
-    if (arr.length >= 2 && arr[arr.length - 1].t - arr[0].t > 30000) rate = ((arr[arr.length - 1].xp - arr[0].xp) / (arr[arr.length - 1].t - arr[0].t)) * 3600000;
-    if (!(rate > 0)) rate = 0;
-    return { pct, eta: rate > 0 ? ((b - ld.xp) / rate) * 3600 : null };
+    const xp = Number(ld.xp), lv = Number(ld.lv), a = xpNv(lv), b = xpNv(lv + 1);
+    if (!Number.isFinite(xp) || !(b > a)) return null;
+    const pct = Math.max(0, Math.min(100, ((xp - a) / (b - a)) * 100));
+    const st = XPS[k] || (XPS[k] = { lv, points: [] });
+    if (st.lv !== lv || (st.points.length && xp < st.points[st.points.length - 1].xp)) {
+      st.lv = lv; st.points = [];
+    }
+    st.points = st.points.filter(p => now - p.t < 20 * 60000);
+    if (!st.points.length || st.points[st.points.length - 1].xp !== xp) st.points.push({ t: now, xp });
+    let rate = 0, approximate = false;
+    if (st.points.length >= 2) {
+      const first = st.points[0], last = st.points[st.points.length - 1];
+      if (last.t - first.t >= 5000 && last.xp > first.xp)
+        rate = (last.xp - first.xp) * 3600000 / (last.t - first.t);
+    }
+    // La XP/h del analizador no es la XP/h del Pokémon: indicar ≈ al usarla como referencia.
+    if (!(rate > 0) && Number(xphAna) > 0) { rate = Number(xphAna); approximate = true; }
+    return { pct, eta: rate > 0 ? Math.max(0, (b - xp) * 3600 / rate) : null, approximate };
+  }
+  function leaderEtaText(e) {
+    if (!e || e.eta == null) return 'esperando datos de XP…';
+    return (e.approximate ? '≈ ' : '') + fmtEta(e.eta);
   }
   function ivBox(ld) {
     if (!ld || !ld.st) return '';
@@ -152,7 +167,7 @@
       for (let i = 0; i < n; i++) {
         const d = D[i], ld = d && d.ld, warn = !on[i] || (d && (d.faint || !d.hunt));
         const status = OFF()[i] ? 'Apagada' : !d ? 'Cargando…' : !on[i] ? '⚠️ Sin conexión con el juego' : d.faint ? '💀 Equipo debilitado' : '📍 ' + (d.hunt ? d.hunt.replace(/[_-]+/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase()) : 'En la ciudad');
-        const e = ld ? leaderEta(i, ld) : null;
+        const e = ld ? leaderEta(i, ld, d && d.a && d.a.xph) : null;
         const hpPct = ld && ld.mhp ? Math.max(0, Math.min(100, (ld.hp / ld.mhp) * 100)) : null;
         h += `<div class="pa-card${warn ? ' warn' : ''}" data-i="${i}">
           <div class="pa-left"><div class="pa-av">${ld ? spr(ld.sp, ld.sh, 'pa-sprl') : '<span class="pa-nospr">?</span>'}</div>
@@ -161,7 +176,7 @@
             <div class="pa-ds${warn ? ' bad' : ''}">${esc(status)}</div>
             ${hpPct != null ? `<div class="pa-hp"><i style="width:${hpPct}%" class="${hpPct < 25 ? 'low' : ''}"></i></div>` : ''}</div></div>
           <div class="pa-mid">
-            ${e ? `<div class="pa-lvl"><div class="pa-bar"><i style="width:${e.pct}%"></i></div><div class="pa-lvt"><span>Nv. ${ld.lv} → ${ld.lv + 1} · faltan <b>${String((100 - e.pct).toFixed(1)).replace('.', ',')}%</b></span><span>${e.eta != null ? '⏱ ' + fmtEta(e.eta) : '⏱ calculando…'}</span></div></div>` : ''}
+            ${e ? `<div class="pa-lvl"><div class="pa-bar"><i style="width:${e.pct}%"></i></div><div class="pa-lvt"><span>Nv. ${ld.lv} → ${ld.lv + 1} · faltan <b>${String((100 - e.pct).toFixed(1)).replace('.', ',')}%</b></span><span>${'⏱ ' + leaderEtaText(e)}</span></div></div>` : ''}
             ${ivBox(ld)}
             <div class="pa-nums">
               <div><small>XP/h</small><b class="pa-xp">${on[i] && d.a.xph ? fmt(d.a.xph) : '—'}</b></div>
@@ -219,7 +234,7 @@
     D.forEach((d, i) => { if (d && d.name) NAMES[i] = d.name; });
     const html = D.map((d, i) => {
       const ld = d && d.ld, on = !!(d && d.on), t = ld && ld.t && ld.t[0] ? String(ld.t[0]).toUpperCase() : '';
-      const e = ld ? leaderEta(i, ld) : null, tb = d ? trainerBar(i, d.tr) : null;
+      const e = ld ? leaderEta(i, ld, d && d.a && d.a.xph) : null, tb = d ? trainerBar(i, d.tr) : null;
       const best = ld ? bestHunt(ld, d.tr && d.tr.lv) : null;
       const here = best && d.hunt && best.slug && best.slug === d.hunt;
       const huntTxt = !d ? 'Esperando inicio de sesión…' : d.hunt ? cap(d.hunt) : 'En la ciudad';
@@ -228,7 +243,7 @@
           <div class="pa-accw"><div class="pa-accn"><span class="pa-dot${on ? ' on' : ''}"></span>${esc((d && d.name) || accName(i))}</div>
           <div class="pa-accl">${ld ? `${ld.sh ? '✨ ' : ''}${esc(ld.name)} · Nv. ${ld.lv}` : 'Sin pokémon líder'}</div>
           <div>${ld ? ld.t.map(tyTag).join('') : ''}</div></div></div>
-        ${e ? `<div class="pa-accbar"><i style="width:${e.pct}%"></i></div><div class="pa-accrow"><span>Nv. ${ld.lv} → ${ld.lv + 1} · faltan <b>${String((100 - e.pct).toFixed(1)).replace('.', ',')}%</b></span><span>⏱ ${e.eta != null ? fmtEta(e.eta) : 'calculando…'}</span></div>` : ''}
+        ${e ? `<div class="pa-accbar"><i style="width:${e.pct}%"></i></div><div class="pa-accrow"><span>Nv. ${ld.lv} → ${ld.lv + 1} · faltan <b>${String((100 - e.pct).toFixed(1)).replace('.', ',')}%</b></span><span>⏱ ${leaderEtaText(e)}</span></div>` : ''}
         ${tb ? `<div class="pa-accbar tr"><i style="width:${tb.pct == null ? 0 : tb.pct}%"></i></div><div class="pa-accrow"><span>🧑 Entrenador ${tb.lv} → ${tb.lv + 1}${tb.pct != null ? ` · faltan <b>${String((100 - tb.pct).toFixed(1)).replace('.', ',')}%</b>` : ''}</span><span>${tb.eta != null ? '⏱ ' + fmtEta(tb.eta) : ''}</span></div>` : ''}
         <div class="pa-acchunt">📍 ${esc(huntTxt)}</div>
         ${best ? `<div class="pa-acctip${here ? ' good' : ''}">${here ? '🎯 Estás en la mejor hunt' : `🎯 Mejor para ${esc(ld.name)}: ${esc(best.name)}${best.eff ? ' (×' + String(+best.eff.toFixed(2)).replace('.', ',') + ')' : ''}`}</div>` : ''}
@@ -394,6 +409,15 @@
     if (!document.getElementById('paGym')?.hidden || document.getElementById('ehGymsInline')?.closest('.show')) renderGyms();
   }, 2000);
 
+  function gymHeld(m) {
+    const h = m && m.heldItem;
+    if (!h || h.status === 'unknown') return '<div class="pa-held unknown">🎒 Held Item: <b>No detectado</b></div>';
+    if (h.status === 'none') return '<div class="pa-held">🎒 Held Item: <b>Sin Held Item</b></div>';
+    const lvl = h.level != null ? ' · Nivel ' + h.level : '';
+    const name = h.name || (h.id != null ? 'Objeto #' + h.id : 'Objeto equipado');
+    // No atribuir bonificaciones que la API no entregue: el nombre/nivel son informativos.
+    return '<div class="pa-held">🎒 Held Item: <b>' + esc(name) + '</b>' + esc(lvl) + '</div>';
+  }
   function monCard(m) {
     const st = (v) => (v == null ? '—' : Number(v).toLocaleString('es-ES'));
     const c = m.calc && !m.calc.unsolvable ? m.calc : null;
@@ -405,6 +429,7 @@
     return `<div class="pa-gmon"><div class="top">${spr(m.name, m.shiny, 'pa-spr')}<b>${m.shiny ? '✨ ' : ''}${esc(m.name)}</b><span class="hp">♥ ${st(m.battleHp != null ? m.battleHp : m.stats.hp != null ? m.stats.hp * 12 : null)}${c && c.ivs ? ` <small>${esc(ivT('hp'))}</small>` : ''}</span></div>
       <div class="pa-mut">Nv. ${m.level == null ? '?' : m.level} · ${(m.types || []).map(tyTag).join('')}</div>
       ${c ? `<div class="qual"><span class="pa-rar pa-rar-${esc(c.rarity)}">${est ? '≈ ' : ''}${esc(c.rarity)} ×${f2(c.quality)}</span><span>IV ${est ? '≈ ' : ''}<b>${c.total}</b>/${c.max} (${String(c.pct).replace('.', ',')}%)</span></div>${mis.length ? `<div class="pa-mis">≈ ${mis.map((k) => NM[k] || k).join(' y ')}: no cuadran exactas (¿potenciador?), IV aproximado</div>` : ''}` : '<div class="pa-note">No se pueden calcular su calidad e IV con estas stats.</div>'}
+      ${gymHeld(m)}
       <div class="stats">${L.map(([l, k]) => `<div${mis.includes(k) ? ' class="mis"' : ''}><small>${l}</small><b>${st(m.stats[k])}</b>${c && c.ivs ? `<i>${esc(ivT(k))}</i>` : ''}</div>`).join('')}</div>
       ${(m.moves || []).slice(0, 6).map((mv) => `<div class="mv">${tyTag(mv.type || '?')} ${esc(mv.name)}<span>${mv.power != null ? mv.power : ''}</span></div>`).join('')}</div>`;
   }
@@ -710,6 +735,7 @@ input.pa-sw::after{content:'';position:absolute;top:3px;left:3px;width:18px;heig
 .pa-st .bar{height:5px;background:#1e293b;border-radius:3px;overflow:hidden;margin:5px 0 6px}.pa-st .bar i{display:block;height:100%}.pa-st label{display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8;margin:3px 0}.pa-st input{flex:1;min-width:0;background:#0b1220;border:1px solid #334155;color:#fff;border-radius:6px;padding:3px 7px}
 .pa-moves>div{display:flex;align-items:center;gap:8px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:5px 10px;margin-bottom:4px}.pa-moves .pw{margin-left:auto;color:#fb923c;font-weight:700}.pa-foot{display:flex;gap:6px;margin-top:10px;font-size:12px}.pa-foot .pa-mut{margin-left:auto}
 /* gimnasios */
+.pa-held{margin:7px 0 5px;padding:6px 9px;border:1px solid #334155;border-radius:8px;background:#142035;color:#cbd5e1;font-size:12px}.pa-held b{color:#facc15}.pa-held.unknown b{color:#94a3b8}
 .pa-gwrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px}.pa-glist{display:flex;flex-direction:column;gap:5px}.pa-sec{color:#93c5fd;font-size:11px;text-transform:uppercase;margin:8px 0 2px}
 .pa-gbtn{display:flex;flex-direction:column;align-items:flex-start;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:7px 10px;color:#e2e8f0;cursor:pointer;text-align:left}.pa-gbtn small{color:#fbbf24}.pa-gbtn.on{border-color:#3b82f6;background:#13254a}.pa-gbtn.conq{background:linear-gradient(180deg,#3b2a0b,#2a1d07);border-color:#a16207}.pa-gbtn.conq.on{border-color:#facc15}
 .pa-ghead{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}.pa-ghead b{font-size:16px}.pa-ghead span{color:#cbd5e1}.pa-live{color:#86efac;font-size:12px;margin:4px 0 8px}.pa-live.rec{color:#fca5a5}
@@ -729,7 +755,7 @@ input.pa-sw::after{content:'';position:absolute;top:3px;left:3px;width:18px;heig
   window.PA = { refreshLow, openIv, openGyms, loadSpecies, renderAccounts };
   const hook = () => {
     // calculadora: los botones de Nexus abren la nuestra
-    for (const id of ['ehCalculator', 'escarlataCalculatorBtn']) { const b = document.getElementById(id); if (b) b.onclick = (e) => { e.preventDefault(); openIv(); }; }
+    for (const id of ['paStandaloneCalculatorBtn']) { const b = document.getElementById(id); if (b) b.onclick = (e) => { e.preventDefault(); openIv(); }; }
     // Gimnasios ahora está dentro de Herramientas; retirar el botón lateral anterior.
     document.getElementById('paGymBtn')?.remove();
   };

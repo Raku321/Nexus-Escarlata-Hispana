@@ -1,5 +1,21 @@
 const { app, BrowserWindow, ipcMain, safeStorage, Tray, Menu, powerSaveBlocker, shell, session, Notification, clipboard, webContents } = require('electron');
 const path = require('path');
+// Nexus 1.1.0: control de acceso a Gimnasios. Nunca guardar la clave en texto plano.
+const gymCrypto = require('crypto');
+const GYM_SALT = '961c93a9b440234a0828aee7b2b054d9';
+const GYM_HASH = '889aba129e0206255d31e7b990004b1f91285c216999ed7e5cc286b6c7b07248';
+let gymUnlocked = false, gymFailures = 0, gymLockedUntil = 0;
+ipcMain.handle('gym:unlock', async (_event, candidate) => {
+  if (Date.now() < gymLockedUntil) return { ok: false, wait: Math.ceil((gymLockedUntil-Date.now())/1000) };
+  if (typeof candidate !== 'string' || candidate.length > 256) return {ok:false};
+  const derived = await new Promise((resolve,reject)=>gymCrypto.scrypt(candidate,Buffer.from(GYM_SALT,'hex'),32,{N:16384,r:8,p:1},(e,v)=>e?reject(e):resolve(v)));
+  const ok = gymCrypto.timingSafeEqual(derived, Buffer.from(GYM_HASH,'hex'));
+  if (ok) { gymUnlocked=true; gymFailures=0; return {ok:true}; }
+  if (++gymFailures >= 5) { gymLockedUntil=Date.now()+60000; gymFailures=0; }
+  return {ok:false,wait:Math.max(0,Math.ceil((gymLockedUntil-Date.now())/1000))};
+});
+ipcMain.handle('gym:status',()=>({unlocked:gymUnlocked}));
+
 const fs = require('fs');
 const https = require('https');
 
