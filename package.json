@@ -1,6 +1,6 @@
 {
   "name": "nexus",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Nexus - cliente multicuenta para Poke Idle World",
   "main": "main.js",
   "author": "Escarlata Hispana",

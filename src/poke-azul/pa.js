@@ -1,4 +1,4 @@
-// Poke Azul para Nexus — Modo simple, Calculadora de IV y Gimnasios (con conquistas de las 15:00 y simulador).
+// Poke Azul para Nexus — Modo simple, Calculadora de IV y Gimnasios (con conquistas de las 10:00 (Brasil) y simulador).
 // Todo es SOLO LECTURA: lee lo que el colector de Nexus ya guarda en cada panel (window.__poke) y pide
 // por GET las mismas listas que usa la página del juego. Nunca envía nada al juego.
 // Usa el motor de src/poke-azul/pa-lib.js (window.PA_LIB).
@@ -86,7 +86,9 @@
 
   // ---------------- lecturas de cada panel (solo lectura) ----------------
   const JS_READ = `(()=>{const P=window.__poke;if(!P||!P.ws)return null;const L=(P.ws.pokes&&P.ws.pokes.list)||[];const ld=L.find(p=>p&&p.leader)||L.filter(p=>p&&p.team).sort((a,b)=>(a.slot||0)-(b.slot||0))[0]||null;const a=P.ws.analyzer||{};const me=P.api&&P.api['/api/characters/me'];const ch=(me&&me.character)||{};const fi=P.ws['field-init'];const S=P.sess||{};return{ok:true,on:!!(P.sock&&P.sock.readyState===1),name:ch.name||'',tl:+ch.level||0,hunt:(fi&&fi.slug)||'',a:{xph:+a.xpPerHour||0,gph:+a.goldPerHour||0,kph:+a.killsPerHour||0},s:{caps:+S.captures||0,sh:+S.shinyCapN||0,seen:+S.shinyN||0,best:(P.catchLog||[]).filter(c=>(c.t||0)>=(S.start||0)).reduce((m,c)=>Math.max(m,+c.iv||0),0)},tr:(()=>{const k=P.ws['field-kill'];return{lv:(k&&+k.level)||+ch.level||0,tot:(k&&+k.totalXp)||0}})(),gold:+ch.gold||0,faint:!!P.fnt,ld:ld?{tms:Array.isArray(ld.tms)?ld.tms:[],id:String(ld.id),name:ld.name,sp:+ld.speciesId||0,lv:+ld.level||0,xp:+ld.xp||0,sh:!!ld.shiny,t:[ld.type1,ld.type2].filter(Boolean),st:ld.stats||null,q:+ld.quality||0,ivt:ld.ivTotal,hp:+ld.hp||0,mhp:+ld.maxHp||0}:null,rec:(P.catchLog||[]).slice(-8).map(c=>({n:c.n,iv:c.iv,q:c.q,sh:!!c.sh,t:c.t}))}})()`;
-  const JS_ROSTER = `(()=>{const P=window.__poke;if(!P||!P.ws||!P.ws.pokes)return [];return (P.ws.pokes.list||[]).filter(p=>p&&p.stats&&p.level).map(p=>({id:String(p.id),name:p.name,sp:+p.speciesId||0,lv:+p.level||0,sh:!!p.shiny,t:[p.type1,p.type2].filter(Boolean),st:p.stats,q:+p.quality||0,ivt:p.ivTotal,pw:+p.power||0,team:!!p.team,ld:!!p.leader,tms:Array.isArray(p.tms)?p.tms:[],mhp:+p.maxHp||0}))})()`;
+  // lista de pokémon; si el que está leveando ya subió de nivel (último poke-xp) y la lista aún no, sus stats se escalan al nivel nuevo
+  // (stat = nivel/100 × calidad × (base + 2·IV): crecen en proporción al nivel)
+  const JS_ROSTER = `(()=>{const P=window.__poke;if(!P||!P.ws||!P.ws.pokes)return [];const X=P.ws['poke-xp'];return (P.ws.pokes.list||[]).filter(p=>p&&p.stats&&p.level).map(p=>{let lv=+p.level||0,st=p.stats,mhp=+p.maxHp||0,pw=+p.power||0;if(X&&X.id!=null&&String(X.id)===String(p.id)&&+X.level>lv){const f=+X.level/lv;st={};for(const k in p.stats)st[k]=typeof p.stats[k]==='number'?Math.round(p.stats[k]*f):p.stats[k];mhp=Math.round(mhp*f);pw=Math.round(pw*f);lv=+X.level;}return{id:String(p.id),name:p.name,sp:+p.speciesId||0,lv,sh:!!p.shiny,t:[p.type1,p.type2].filter(Boolean),st,q:+p.quality||0,ivt:p.ivTotal,pw,team:!!p.team,ld:!!p.leader,tms:Array.isArray(p.tms)?p.tms:[],mhp}})})()`;
   const JS_GYMS = `(async()=>{try{const P=window.__poke||{};const o=P.auth?{headers:{Authorization:P.auth}}:{};const r=await fetch('/api/game/gyms',o);if(!r.ok)return{err:r.status};return await r.json()}catch(e){return{err:String(e&&e.message||e)}}})()`;
 
   // IV de cada stat de un pokémon tuyo (con margen cuando el nivel es bajo; exactos desde el 30)
@@ -361,7 +363,7 @@
   }
 
   // ================= GIMNASIOS =================
-  const GYM = { list: [], t: 0, sel: -1, conqDay: 'today', conqSim: null, busy: null };
+  const GYM = { list: [], t: 0, sel: -1, conqDay: 'today', conqSim: null, conqTypeTab: 'TODOS', busy: null, typeTab: 'TODOS' };
   const CONQ_KEY = 'pa-conquistas';
   const conqGet = () => lsGet(CONQ_KEY, { today: null, yesterday: null });
   // calidad e IV de un pokémon de jugador en gimnasio (con el bonus ×1,30)
@@ -391,13 +393,13 @@
     })().finally(() => { GYM.busy = null; });
     return GYM.busy;
   }
-  // conquistas: de 14:55 a 15:00 (hora de España) se mira cada 10 s y se guarda la última foto antes de las 15:00
+  // conquistas: de 09:55 a 10:00 (hora de Brasil) se mira cada 10 s y se guarda la última foto antes de las 10:00 (Brasil)
   let conqLast = 0;
   setInterval(async () => {
     const now = Date.now();
     if (!CQ.inWindow(now) || now - conqLast < 10000) return;
     conqLast = now;
-    const z = CQ.madrid(now), d = conqGet();
+    const z = CQ.brasil(now), d = conqGet();
     if (!d.today || d.today.date !== z.date) { if (d.today && d.today.gyms) d.yesterday = d.today; d.today = { date: z.date, gyms: null, at: 0, checks: 0 }; lsSet(CONQ_KEY, d); }
     const r = await fetchGyms();
     if (!r || !r.ok || !CQ.inWindow(r.askedAt)) return;
@@ -446,15 +448,50 @@
     clearInterval(GYM.timer);
     GYM.timer = setInterval(async () => { if (embedded ? !host.isConnected || !host.closest('.show') : m.hidden) return clearInterval(GYM.timer); await fetchGyms(); if (GYM.sel !== -1 || true) renderGyms(true); }, 60000);
   }
+  const GYM_TYPES = [
+    ['NORMAL','Normal'],['FIRE','Fuego'],['WATER','Agua'],['ELECTRIC','Eléctrico'],
+    ['GRASS','Planta'],['ICE','Hielo'],['FIGHTING','Lucha'],['POISON','Veneno'],
+    ['GROUND','Tierra'],['FLYING','Volador'],['PSYCHIC','Psíquico'],['BUG','Bicho'],
+    ['ROCK','Roca'],['GHOST','Fantasma'],['DRAGON','Dragón'],['DARK','Siniestro'],
+    ['STEEL','Acero'],['FAIRY','Hada']
+  ];
+  const GYM_TYPE_ALIAS = {
+    NORMAL:'NORMAL',FUEGO:'FIRE',AGUA:'WATER',ELECTRICO:'ELECTRIC',ELECTRIC:'ELECTRIC',
+    PLANTA:'GRASS',HIELO:'ICE',LUCHA:'FIGHTING',VENENO:'POISON',TIERRA:'GROUND',
+    VOLADOR:'FLYING',PSIQUICO:'PSYCHIC',BICHO:'BUG',ROCA:'ROCK',
+    FANTASMA:'GHOST',DRAGON:'DRAGON',SINIESTRO:'DARK',ACERO:'STEEL',HADA:'FAIRY'
+  };
+  function gymType(g) {
+    const raw = String(g.type || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+    return GYM_TYPE_ALIAS[raw] || raw || 'DESCONOCIDO';
+  }
   function renderGyms(soft) {
     const list = document.getElementById('paGList'), body = document.getElementById('paGBody');
     if (!list || !body) return;
     if (GYM.sel >= GYM.list.length) GYM.sel = -1;
     if (soft && document.querySelector('#paGBody .pa-simbox')) { /* no se cierra el simulador abierto */ }
     const c = conqGet();
-    list.innerHTML = `<button class="pa-gbtn conq${GYM.sel === -1 ? ' on' : ''}" data-k="-1"><b>🏅 Conquistas de las 15:00</b><small>${c.today && c.today.gyms ? c.today.gyms.length + ' guardado(s) hoy' : 'se guarda solo a las 14:59'}</small></button>
-      <div class="pa-sec">👑 Tomados por jugadores ahora (${GYM.list.length})</div>` +
-      (GYM.list.length ? GYM.list.map((g, k) => `<button class="pa-gbtn${k === GYM.sel ? ' on' : ''}" data-k="${k}"><b>${esc(cap(g.name || g.city))}</b><small>👑 ${esc(g.leader)}</small></button>`).join('') : '<p class="pa-mut">Ahora mismo ningún jugador tiene un gimnasio (o no hay ninguna cuenta dentro del juego).</p>');
+    const types = [...new Set(GYM.list.map(gymType))];
+    const known = GYM_TYPES.filter(([key]) => types.includes(key));
+    const other = types.filter((key) => !GYM_TYPES.some(([k]) => k === key)).map((key) => [key, key === 'DESCONOCIDO' ? 'Sin tipo' : cap(key)]);
+    const available = [...known, ...other];
+    if (GYM.typeTab !== 'TODOS' && !types.includes(GYM.typeTab)) GYM.typeTab = 'TODOS';
+    const visible = GYM.list.map((g, k) => ({g, k})).filter(({g}) => GYM.typeTab === 'TODOS' || gymType(g) === GYM.typeTab);
+    // Mantener el gimnasio seleccionado solo si pertenece a la subpestaña activa.
+    if (GYM.sel !== -1 && !visible.some(({k}) => k === GYM.sel)) GYM.sel = visible.length ? visible[0].k : -1;
+    list.innerHTML = `<button class="pa-gbtn conq${GYM.sel === -1 ? ' on' : ''}" data-k="-1"><b>🏅 Conquistas de las 10:00 (Brasil)</b><small>🕙 ${esc(conquestLocalLabel(CQ.brasil().date))} · ${c.today && c.today.gyms ? c.today.gyms.length + ' guardado(s) hoy' : 'captura entre 09:55 y 10:00 (Brasil)'}</small></button>
+      <div class="pa-sec">👑 Gimnasios por tipo (${GYM.list.length})</div>
+      <div class="pa-gytype-tabs" role="group" aria-label="Filtrar gimnasios por tipo">
+        <button class="${GYM.typeTab === 'TODOS' ? 'on' : ''}" data-type="TODOS">Todos (${GYM.list.length})</button>
+        ${available.map(([key, name]) => `<button class="${GYM.typeTab === key ? 'on' : ''}" data-type="${esc(key)}">${esc(name)} (${GYM.list.filter(g => gymType(g) === key).length})</button>`).join('')}
+      </div>` +
+      (visible.length ? visible.map(({g, k}) => `<button class="pa-gbtn${k === GYM.sel ? ' on' : ''}" data-k="${k}"><b>${esc(cap(g.name || g.city))}</b><small>👑 ${esc(g.leader)}</small></button>`).join('') : '<p class="pa-mut">No hay gimnasios de este tipo ocupados por jugadores.</p>');
+    list.querySelectorAll('.pa-gytype-tabs button').forEach(b => b.onclick = () => {
+      GYM.typeTab = b.dataset.type;
+      const first = GYM.list.findIndex(g => GYM.typeTab === 'TODOS' || gymType(g) === GYM.typeTab);
+      GYM.sel = first >= 0 ? first : -1;
+      renderGyms();
+    });
     list.querySelectorAll('.pa-gbtn').forEach((b) => b.onclick = () => { GYM.sel = +b.dataset.k; renderGyms(); });
     if (GYM.sel === -1) return renderConq();
     const g = GYM.list[GYM.sel];
@@ -465,32 +502,70 @@
       <p class="pa-note">La calidad y los IV se calculan con la fórmula del juego a partir del nivel y las 6 stats. En los gimnasios de jugadores, ATK, DEF, SP.ATK y SP.DEF llevan un bonus ×1,30 que se descuenta solo. Con ≈ es una estimación.</p>`;
     renderSim({ city: g.city, team: g.team });
   }
+  // Convertir las 10:00 de São Paulo del día de la conquista al instante real.
+  // Se consulta Intl para respetar las reglas de zona horaria, sin asumir UTC-3 fijo.
+  function conquestInstant(brDate) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(brDate || ''))) return null;
+    const [y, m, d] = brDate.split('-').map(Number);
+    const desired = Date.UTC(y, m - 1, d, 10, 0, 0);
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    });
+    let instant = desired;
+    for (let i = 0; i < 4; i++) {
+      const parts = Object.fromEntries(formatter.formatToParts(new Date(instant)).filter(p => p.type !== 'literal').map(p => [p.type, Number(p.value)]));
+      const shown = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute);
+      const diff = desired - shown;
+      instant += diff;
+      if (diff === 0) break;
+    }
+    return new Date(instant);
+  }
+  function conquestLocalLabel(brDate) {
+    const instant = conquestInstant(brDate);
+    if (!instant || !Number.isFinite(instant.getTime())) return 'Hora local no disponible';
+    return instant.toLocaleString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
   function renderConq() {
-    const body = document.getElementById('paGBody'), c = conqGet(), z = CQ.madrid();
+    const body = document.getElementById('paGBody'), c = conqGet(), z = CQ.brasil();
     const day = GYM.conqDay === 'yesterday' ? c.yesterday : c.today;
     const fecha = (d) => (d ? new Date(d.date + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }) : '');
-    const hora = (t) => new Date(t).toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const hora = (t) => new Date(t).toLocaleTimeString('es-ES', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const brazilDate = (day && day.date) || z.date;
+    const localEvent = conquestLocalLabel(brazilDate);
     const active = z.min >= CQ.START && z.min < CQ.END;
-    let h = `<div class="pa-ghead"><b>🏅 Conquistas de las 15:00</b><span>Quién tenía cada gimnasio justo antes del reparto de recompensas (hora de España)</span></div>
+    let h = `<div class="pa-ghead"><b>🏅 Conquistas de las 10:00 (Brasil)</b><span>🕙 10:00 Brasil → 📅 ${esc(localEvent)} (hora del dispositivo) · Fecha del evento seleccionado</span></div>
       <div class="pa-tabs"><button data-d="today" class="${GYM.conqDay !== 'yesterday' ? 'on' : ''}">Hoy${c.today ? ' · ' + esc(fecha(c.today)) : ''}</button><button data-d="yesterday" class="${GYM.conqDay === 'yesterday' ? 'on' : ''}" ${c.yesterday ? '' : 'disabled'}>Anterior${c.yesterday ? ' · ' + esc(fecha(c.yesterday)) : ''}</button></div>`;
-    if (active) h += `<div class="pa-live rec">⏺ Guardando ahora (de 14:55 a 15:00 se mira cada 10 segundos)${c.today && c.today.at ? ' · última foto ' + hora(c.today.at) : ''}</div>`;
+    if (active) h += `<div class="pa-live rec">⏺ Guardando ahora (de 09:55 a 10:00, hora de Brasil; cada 10 segundos)${c.today && c.today.at ? ' · última foto ' + hora(c.today.at) : ''}</div>`;
     if (!day || !day.gyms) {
       h += GYM.conqDay === 'yesterday' ? '<p class="pa-note">No hay un guardado anterior.</p>'
-        : `<p class="pa-note">${z.min >= CQ.END && (!c.today || c.today.date === z.date) ? 'Hoy no se pudo guardar: Nexus tiene que estar abierto, con al menos una cuenta dentro del juego, entre las 14:55 y las 15:00.' : 'Todavía no se ha guardado hoy. Se guarda solo entre las 14:55 y las 15:00 (hora de España); déjalo abierto con al menos una cuenta dentro del juego.'}</p>`;
+        : `<p class="pa-note">${z.min >= CQ.END && (!c.today || c.today.date === z.date) ? 'Hoy no se pudo guardar: Nexus tiene que estar abierto, con al menos una cuenta dentro del juego, entre las 09:55 y las 10:00 (Brasil).' : 'Todavía no se ha guardado hoy. Se guarda solo entre las 09:55 y las 10:00 (hora de Brasil); déjalo abierto con al menos una cuenta dentro del juego.'}</p>`;
     } else {
       h += `<div class="pa-live">📸 Foto de las ${hora(day.at)} · ${day.gyms.length} gimnasio(s) tomados por jugadores · ${day.checks || 0} comprobaciones</div>`;
       if (!day.gyms.length) h += '<p class="pa-note">A esa hora ningún jugador tenía un gimnasio.</p>';
       const dk = GYM.conqDay === 'yesterday' ? 'yesterday' : 'today';
-      for (const g of day.gyms) {
+      const allTypes = [...new Set(day.gyms.map(gymType))];
+      const knownTypes = GYM_TYPES.filter(([key]) => allTypes.includes(key));
+      const extraTypes = allTypes.filter(k => !GYM_TYPES.some(([known]) => known === k)).map(k => [k, k === 'DESCONOCIDO' ? 'Sin tipo' : cap(k)]);
+      if (GYM.conqTypeTab !== 'TODOS' && !allTypes.includes(GYM.conqTypeTab)) GYM.conqTypeTab = 'TODOS';
+      h += `<div class="pa-sec">🏅 Conquistas por tipo</div><div class="pa-gytype-tabs pa-conqtype-tabs" role="group" aria-label="Filtrar conquistas por tipo">
+        <button data-conqtype="TODOS" class="${GYM.conqTypeTab === 'TODOS' ? 'on' : ''}">Todos (${day.gyms.length})</button>
+        ${[...knownTypes, ...extraTypes].map(([key, label]) => `<button data-conqtype="${esc(key)}" class="${GYM.conqTypeTab === key ? 'on' : ''}">${esc(label)} (${day.gyms.filter(g => gymType(g) === key).length})</button>`).join('')}
+      </div>`;
+      const filtered = day.gyms.filter(g => GYM.conqTypeTab === 'TODOS' || gymType(g) === GYM.conqTypeTab);
+      if (!filtered.length && day.gyms.length) h += '<p class="pa-note">No hay conquistas de este tipo.</p>';
+      for (const g of filtered) {
         const open = GYM.conqSim === dk + '|' + g.city;
         h += `<div class="pa-cg"><div class="h"><b>${esc(cap(g.name || g.city))}</b><span>👑 <b>${esc(g.leader)}</b>${g.since ? ' · desde ' + dt(g.since) : ''}${g.defenses != null ? ' · ' + g.defenses + ' defensa(s)' : ''}</span>
           <button class="pa-go sm pa-cgsim" data-city="${esc(g.city)}">${open ? '✕ Cerrar simulador' : '⚔️ Simular contra él'}</button></div>
           ${open ? '<div class="pa-simbox" id="paSim"></div>' : ''}<div class="pa-team">${(g.team || []).map(monCard).join('') || '<p class="pa-mut">Sin equipo visible.</p>'}</div></div>`;
       }
     }
-    h += '<p class="pa-note">Cada día, al empezar el guardado de las 14:55, el de hoy pasa a "Anterior" y el más viejo se borra. Si alguien conquista a las 14:59, también sale: se guarda la última foto antes de las 15:00.</p>';
+    h += '<p class="pa-note">Cada día, al empezar el guardado de las 09:55 (Brasil), el de hoy pasa a "Anterior" y el más viejo se borra. Si alguien conquista a las 09:59 (Brasil), también sale: se guarda la última foto antes de las 10:00 (Brasil).</p>';
     body.innerHTML = h;
     body.querySelectorAll('.pa-tabs button').forEach((b) => b.onclick = () => { GYM.conqDay = b.dataset.d; GYM.conqSim = null; renderConq(); });
+    body.querySelectorAll('.pa-conqtype-tabs button').forEach((b) => b.onclick = () => { GYM.conqTypeTab = b.dataset.conqtype; GYM.conqSim = null; renderConq(); });
     body.querySelectorAll('.pa-cgsim').forEach((b) => b.onclick = () => { const k = (GYM.conqDay === 'yesterday' ? 'yesterday' : 'today') + '|' + b.dataset.city; GYM.conqSim = GYM.conqSim === k ? null : k; renderConq(); });
     if (GYM.conqSim && document.getElementById('paSim')) {
       const [dk, city] = GYM.conqSim.split('|'), dd = c[dk], cg = dd && (dd.gyms || []).find((x) => x.city === city);
@@ -499,38 +574,76 @@
   }
 
   // ---------------- simulador de combate ----------------
-  const SIM = { acc: 0, sel: {}, n: 5, roster: {}, res: null, key: '' };
+  // acc = -1: los pokémon de todas las cuentas juntos (sin pasarlos a una); la lista se vuelve a leer cada minuto
+  // (los que levean suben de nivel y de stats); bayas por pokémon; los dos equipos salen en orden aleatorio.
+  const SIM = { acc: 0, sel: {}, n: 5, roster: {}, rosterT: {}, res: null, key: '', berries: {}, berryPct: 5 };
+  const BERRY_T = [['Babiri', 'Acero'], ['Occa', 'Fuego'], ['Passho', 'Agua'], ['Wacan', 'Eléctrico'], ['Rindo', 'Planta'], ['Yache', 'Hielo'], ['Chople', 'Lucha'], ['Kebia', 'Veneno'], ['Shuca', 'Tierra'], ['Coba', 'Volador'], ['Payapa', 'Psíquico'], ['Tanga', 'Bicho'], ['Charti', 'Roca'], ['Kasib', 'Fantasma'], ['Haban', 'Dragón'], ['Colbur', 'Siniestro'], ['Roseli', 'Hada'], ['Chilan', 'Normal']];
   const monTypes = (m) => (m.t || []).map((x) => String(x).toLowerCase());
+  const lc = (t) => String(t || '').toLowerCase();
   function myMon(m) {
     const moves = movesOf(m.sp, m.lv, m.tms).sort((a, b) => b.p - a.p).slice(0, 8);
     return { id: m.id, name: m.name, sp: m.sp, level: m.lv, shiny: m.sh, types: monTypes(m), hp: m.mhp || (m.st.hp * 12) || 1,
       stats: { atk: m.st.atk, def: m.st.def, spa: m.st.spAtk, spd: m.st.spDef, spe: m.st.speed }, moves: moves.map((a) => ({ n: a.n, t: a.t, p: a.p, c: a.c })) };
   }
+  async function simRoster(acc) {
+    const sortL = (L) => L.sort((a, b) => (b.team - a.team) || (b.pw - a.pw));
+    if (acc !== -1) return sortL((await run(acc, JS_ROSTER)) || []).slice(0, 80);
+    const out = [];
+    for (let i = 0; i < COUNT(); i++) {
+      const L = sortL((await run(i, JS_ROSTER)) || []).slice(0, 40);
+      for (const m of L) out.push({ ...m, id: i + ':' + m.id, acc: i, accN: accName(i) });
+    }
+    return sortL(out).slice(0, 160);
+  }
+  function theirTeam(g) {
+    return (g.team || []).map((m) => ({ name: m.name, sp: (spOf(m.name) || {}).id, level: m.level || 400, shiny: m.shiny, types: m.types,
+      hp: m.battleHp || (m.stats.hp ? m.stats.hp * 12 : 1), stats: { atk: m.stats.atk, def: m.stats.def, spa: m.stats.spa, spd: m.stats.spd, spe: m.stats.spe },
+      moves: (m.moves || []).map((x) => ({ n: x.name, t: x.type, p: x.power, c: x.cat })) }));
+  }
   async function renderSim(g) {
     const box = document.getElementById('paSim'); if (!box) return;
     if (SIM.key !== g.city) { SIM.res = null; SIM.key = g.city; }
-    if (!SIM.roster[SIM.acc]) SIM.roster[SIM.acc] = ((await run(SIM.acc, JS_ROSTER)) || []).sort((a, b) => (b.team - a.team) || (b.pw - a.pw)).slice(0, 80);
+    if (!SIM.roster[SIM.acc] || Date.now() - (SIM.rosterT[SIM.acc] || 0) > 60000) { SIM.roster[SIM.acc] = await simRoster(SIM.acc); SIM.rosterT[SIM.acc] = Date.now(); }
     if (!box.isConnected) return;
     const roster = SIM.roster[SIM.acc];
-    if (!SIM.sel[SIM.acc]) SIM.sel[SIM.acc] = new Set(roster.filter((m) => m.team).slice(0, 6).map((m) => m.id));
+    if (!SIM.sel[SIM.acc]) SIM.sel[SIM.acc] = new Set((SIM.acc === -1 ? roster.slice().sort((a, b) => (b.pw || 0) - (a.pw || 0)) : roster.filter((m) => m.team)).slice(0, 6).map((m) => m.id));
     const sel = SIM.sel[SIM.acc];
     box.innerHTML = `<div class="pa-simhead"><b>⚔️ Simulador de combate</b>
-        <select id="paSimAcc">${[...Array(COUNT())].map((_, i) => `<option value="${i}" ${i === SIM.acc ? 'selected' : ''}>${esc(accName(i))}</option>`).join('')}</select>
+        <select id="paSimAcc"><option value="-1" ${SIM.acc === -1 ? 'selected' : ''}>🧩 Todas las cuentas juntas</option>${[...Array(COUNT())].map((_, i) => `<option value="${i}" ${i === SIM.acc ? 'selected' : ''}>${esc(accName(i))}</option>`).join('')}</select>
         <label>Batallas <input type="number" id="paSimN" min="1" max="10" value="${SIM.n}"></label>
         <button class="pa-go" id="paSimGo" ${sel.size ? '' : 'disabled'}>▶ Simular</button>
-        <span class="pa-mut">Elige hasta 6 (${sel.size}/6). En cada batalla tu orden se baraja, como en el gimnasio.</span></div>
-      <div class="pa-simroster">${roster.length ? roster.map((m) => `<button class="pa-mon${sel.has(m.id) ? ' on' : ''}" data-id="${esc(m.id)}">${spr(m.sp, m.sh, 'pa-spr sm')}<span><b>${esc(m.name)}</b><small>Nv. ${m.lv}${m.team ? ' · equipo' : ''}</small></span></button>`).join('') : '<p class="pa-mut">Esa cuenta aún no tiene la lista de pokémon (tiene que estar dentro del juego).</p>'}</div>
+        <span class="pa-mut">Elige hasta 6 (${sel.size}/6)${SIM.acc === -1 ? ' de cualquiera de tus cuentas, sin pasarlos' : ''}. En cada batalla se barajan los dos equipos: el tuyo y el del gimnasio.</span></div>
+      <div class="pa-simroster">${roster.length ? roster.map((m) => `<button class="pa-mon${sel.has(m.id) ? ' on' : ''}" data-id="${esc(m.id)}">${spr(m.sp, m.sh, 'pa-spr sm')}<span><b>${esc(m.name)}</b><small>Nv. ${m.lv}${m.team ? ' · equipo' : ''}</small>${m.accN ? `<small class="pa-simacc">${esc(m.accN)}</small>` : ''}</span></button>`).join('') : '<p class="pa-mut">Aún no hay lista de pokémon (la cuenta tiene que estar dentro del juego).</p>'}</div>
+      ${sel.size ? `<div class="pa-berry"><div class="pa-bh"><b>🍒 Bayas</b><span class="pa-mut">Cada baya quita un % del daño de los golpes de su tipo.</span>
+          <label>Reducción <input type="number" id="paBp" min="1" max="90" value="${SIM.berryPct}">%</label>
+          <button class="pa-go sm" id="paBBest">💡 Poner la mejor a cada uno</button><button class="pa-go sm" id="paBNone">Quitar todas</button></div>
+        <div class="pa-bl">${[...sel].map((id) => { const m = roster.find((x) => x.id === id); if (!m) return ''; const b = SIM.berries[id] || ''; return `<div class="pa-bm${b ? ' on' : ''}">${spr(m.sp, m.sh, 'pa-spr sm')}<b>${esc(m.name)}</b><select data-id="${esc(id)}"><option value="">Sin baya</option>${BERRY_T.map(([n, t]) => `<option value="${n}" ${b === n ? 'selected' : ''}>${n} Berry · −${SIM.berryPct}% ${t}</option>`).join('')}</select></div>`; }).join('')}</div></div>` : ''}
       <div id="paSimRes"></div>`;
     document.getElementById('paSimAcc').onchange = (e) => { SIM.acc = +e.target.value; SIM.res = null; renderSim(g); };
     document.getElementById('paSimN').onchange = (e) => { SIM.n = Math.max(1, Math.min(10, Math.round(+e.target.value) || 1)); e.target.value = SIM.n; };
     box.querySelectorAll('.pa-mon').forEach((b) => b.onclick = () => { const id = b.dataset.id; if (sel.has(id)) sel.delete(id); else if (sel.size < 6) sel.add(id); renderSim(g); });
+    box.querySelectorAll('.pa-berry select').forEach((x) => x.onchange = () => { if (x.value) SIM.berries[x.dataset.id] = x.value; else delete SIM.berries[x.dataset.id]; SIM.res = null; renderSim(g); });
+    const bp = document.getElementById('paBp'); if (bp) bp.onchange = (e) => { SIM.berryPct = Math.max(1, Math.min(90, Math.round(+e.target.value) || 5)); SIM.res = null; renderSim(g); };
+    const bn = document.getElementById('paBNone'); if (bn) bn.onclick = () => { SIM.berries = {}; SIM.res = null; renderSim(g); };
+    const bb = document.getElementById('paBBest'); if (bb) bb.onclick = () => {
+      // la baya del tipo con el que el gimnasio le haría más daño a cada uno
+      const T = theirTeam(g).map((m) => ({ ...m, types: (m.types || []).map(lc), moves: m.moves.map((x) => ({ ...x, t: lc(x.t), c: /^(f|ph)/i.test(x.c || '') ? 'P' : /^(e|sp)/i.test(x.c || '') ? 'S' : '' })) }));
+      for (const id of sel) {
+        const m = roster.find((x) => x.id === id); if (!m) continue;
+        const M = myMon(m); M.moves = M.moves.map((x) => ({ ...x, t: lc(x.t) }));
+        const byType = {};
+        for (const e of T) { const r = battle.bestMove(e, M); if (r && r.e > 0 && r.m.t) byType[r.m.t] = (byType[r.m.t] || 0) + r.score; }
+        const best = Object.entries(byType).sort((x, y) => y[1] - x[1])[0];
+        const name = best && Object.keys(battle.BERRIES || {}).find((n) => battle.BERRIES[n] === best[0]);
+        if (name) SIM.berries[id] = name;
+      }
+      SIM.res = null; renderSim(g);
+    };
     document.getElementById('paSimGo').onclick = () => {
-      const mine = roster.filter((m) => sel.has(m.id)).map(myMon);
-      const theirs = (g.team || []).map((m) => ({ name: m.name, sp: (spOf(m.name) || {}).id, level: m.level || 400, shiny: m.shiny, types: m.types,
-        hp: m.battleHp || (m.stats.hp ? m.stats.hp * 12 : 1), stats: { atk: m.stats.atk, def: m.stats.def, spa: m.stats.spa, spd: m.stats.spd, spe: m.stats.spe },
-        moves: (m.moves || []).map((x) => ({ n: x.name, t: x.type, p: x.power, c: x.cat })) }));
+      const mine = roster.filter((m) => sel.has(m.id)).map((m) => { const o = myMon(m), b = SIM.berries[m.id]; if (b && battle.BERRIES && battle.BERRIES[b]) o.berry = { t: battle.BERRIES[b], r: SIM.berryPct / 100, n: b }; return o; });
+      const theirs = theirTeam(g);
       SIM.res = !mine.length ? { error: 'Elige al menos un pokémon.' } : !theirs.length ? { error: 'Este gimnasio no tiene equipo conocido.' }
-        : { ...battle.simulate(mine, theirs, SIM.n, { shuffleMine: true }), mine, theirs };
+        : { ...battle.simulate(mine, theirs, SIM.n, { shuffleMine: true, shuffleTheirs: true }), mine, theirs };
       showSim();
     };
     if (SIM.res) showSim();
@@ -540,9 +653,11 @@
     if (r.error) { out.innerHTML = `<p class="pa-note">⚠️ ${esc(r.error)}</p>`; return; }
     const pct = Math.round((r.wins / r.n) * 100);
     const verdict = pct >= 80 ? 'Muy favorable' : pct >= 60 ? 'Favorable' : pct >= 40 ? 'Ajustado' : pct >= 20 ? 'Difícil' : 'Muy difícil';
+    const withB = (r.mine || []).filter((m) => m.berry);
     out.innerHTML = `<div class="pa-simsum ${pct >= 50 ? 'good' : 'bad'}"><b>${r.wins}/${r.n}</b><span>${verdict}: ganas ${r.wins} de ${r.n} batallas (${pct}%)</span></div>
       ${r.mvp ? `<p class="pa-mut">⭐ Tu mejor pokémon: <b>${esc(r.mvp[0])}</b> (${r.mvp[1]} derrotas)${r.threat ? ' · 💀 Su más peligroso: <b>' + esc(r.threat[0]) + '</b>' : ''}</p>` : ''}
-      <div class="pa-simbats">${(r.battles || []).map((b, k) => `<details><summary>${b.won ? '✅' : '❌'} Batalla ${k + 1}</summary><ol>${(b.log || []).map((e) => `<li>${esc(e.w)} ${e.win === 'mine' ? 'derrota a' : 'derrota a tu'} ${esc(e.l)} <span class="pa-mut">(${e.turns} turnos${e.moveW ? ', ' + esc(e.moveW) : ''})</span></li>`).join('')}</ol></details>`).join('')}</div>
+      ${withB.length ? `<p class="pa-simbl">🍒 Con bayas: ${withB.map((m) => `<b>${esc(m.name)}</b> → ${esc(m.berry.n)} Berry`).join(' · ')}</p>` : ''}
+      <div class="pa-simbats">${(r.battles || []).map((b, k) => `<details><summary>${b.won ? '✅' : '❌'} Batalla ${k + 1} <span class="pa-mut">· Tu orden: ${esc((b.order || []).join(', '))} · Su orden: ${esc((b.orderTheirs || []).join(', '))}</span></summary><ol>${(b.log || []).map((e) => `<li>${esc(e.w)} ${e.win === 'mine' ? 'derrota a' : 'derrota a tu'} ${esc(e.l)} <span class="pa-mut">(${e.turns} turnos${e.moveW ? ', ' + esc(e.moveW) : ''})</span></li>`).join('')}</ol></details>`).join('')}</div>
       <p class="pa-note">Estimación con la fórmula clásica de daño (ataque/defensa, potencia, mismo tipo ×1,5, efectividad, crítico y azar). El juego puede tener detalles propios, así que tómalo como guía.</p>`;
   }
 
@@ -736,6 +851,9 @@ input.pa-sw::after{content:'';position:absolute;top:3px;left:3px;width:18px;heig
 .pa-moves>div{display:flex;align-items:center;gap:8px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:5px 10px;margin-bottom:4px}.pa-moves .pw{margin-left:auto;color:#fb923c;font-weight:700}.pa-foot{display:flex;gap:6px;margin-top:10px;font-size:12px}.pa-foot .pa-mut{margin-left:auto}
 /* gimnasios */
 .pa-held{margin:7px 0 5px;padding:6px 9px;border:1px solid #334155;border-radius:8px;background:#142035;color:#cbd5e1;font-size:12px}.pa-held b{color:#facc15}.pa-held.unknown b{color:#94a3b8}
+.pa-gytype-tabs{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 10px;max-height:150px;overflow:auto}
+.pa-gytype-tabs button{border:1px solid #334155;border-radius:7px;padding:4px 7px;background:#101c33;color:#cbd5e1;font-size:11px;cursor:pointer}
+.pa-gytype-tabs button.on{background:#263e68;border-color:#60a5fa;color:#fff}
 .pa-gwrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px}.pa-glist{display:flex;flex-direction:column;gap:5px}.pa-sec{color:#93c5fd;font-size:11px;text-transform:uppercase;margin:8px 0 2px}
 .pa-gbtn{display:flex;flex-direction:column;align-items:flex-start;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:7px 10px;color:#e2e8f0;cursor:pointer;text-align:left}.pa-gbtn small{color:#fbbf24}.pa-gbtn.on{border-color:#3b82f6;background:#13254a}.pa-gbtn.conq{background:linear-gradient(180deg,#3b2a0b,#2a1d07);border-color:#a16207}.pa-gbtn.conq.on{border-color:#facc15}
 .pa-ghead{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}.pa-ghead b{font-size:16px}.pa-ghead span{color:#cbd5e1}.pa-live{color:#86efac;font-size:12px;margin:4px 0 8px}.pa-live.rec{color:#fca5a5}
@@ -747,6 +865,9 @@ input.pa-sw::after{content:'';position:absolute;top:3px;left:3px;width:18px;heig
 .pa-go{background:linear-gradient(180deg,#16a34a,#15803d);border:1px solid #16a34a;color:#fff;border-radius:9px;padding:6px 12px;font-weight:700;cursor:pointer}.pa-go.sm{padding:5px 10px;font-size:12.5px}.pa-go:disabled{opacity:.5}
 .pa-simbox{background:#0b1324;border:1px solid #22355c;border-radius:12px;padding:10px 12px;margin:8px 0}.pa-simhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pa-simhead input{width:60px}.pa-simroster{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0;max-height:220px;overflow:auto}
 .pa-simsum{display:flex;align-items:center;gap:12px;border-radius:10px;padding:10px 14px;margin:6px 0}.pa-simsum.good{background:#10291b;border:1px solid #16a34a}.pa-simsum.bad{background:#2a1608;border:1px solid #b45309}.pa-simsum b{font-size:26px;color:#facc15}
+.pa-simacc{display:inline-block;margin-top:2px;font-size:10px!important;color:#93c5fd!important;background:#13264a;border-radius:5px;padding:0 5px}
+.pa-berry{margin:8px 0 4px;padding:8px 10px;background:#0d1729;border:1px solid #3b2346;border-radius:10px}.pa-bh{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:6px}.pa-bh b{color:#f9a8d4}.pa-bh input{width:52px;background:#0a1224;border:1px solid #22355c;color:#e2e8f0;border-radius:7px;padding:3px 6px}
+.pa-bl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:5px}.pa-bm{display:flex;align-items:center;gap:6px;background:#101c33;border:1px solid #1f3053;border-radius:9px;padding:3px 7px;min-width:0}.pa-bm.on{border-color:#9d3a75}.pa-bm b{min-width:70px;font-size:12px}.pa-bm select{flex:1;min-width:0;width:100%;background:#0a1224;border:1px solid #22355c;color:#e2e8f0;border-radius:6px;padding:3px 5px;font-size:12px}.pa-simbl{margin:5px 0;font-size:12px;color:#f9a8d4}
 .pa-simbats details{background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:4px 10px;margin:4px 0}.pa-simbats ol{margin:4px 0 4px 18px;padding:0;font-size:12px}
 `;
   document.head.appendChild(css);

@@ -1,4 +1,4 @@
-// Poke Azul para Nexus — motor (calidad/IV, gimnasios, simulador, hora de España).
+// Poke Azul para Nexus — motor (calidad/IV, gimnasios, simulador, hora de Brasil).
 // Módulos de Poke Azul empaquetados para el navegador (sin Node).
 (function(){'use strict';
 const __defs={}, __cache={};
@@ -777,8 +777,10 @@ function hit(A, D, rnd, hpScale) {
   if (b.e === 0) return { dmg: 0, move: b.m.n, eff: 0, crit: false };
   const crit = rnd() < 0.0625;
   const base = ((2 * A.level) / 5 + 2) * b.m.p * b.ad / 50 + 2;
-  const dmg = Math.max(1, Math.floor(base * b.stab * b.e * (0.85 + rnd() * 0.15) * (crit ? 1.5 : 1) * hpScale));
-  return { dmg, move: b.m.n, eff: b.e, crit };
+  // baya del defensor: reduce el daño de los golpes de su tipo (p. ej. Babiri Berry: −5 % a los de tipo Acero)
+  const berry = D.berry && D.berry.t === b.m.t ? 1 - (D.berry.r || 0) : 1;
+  const dmg = Math.max(1, Math.floor(base * b.stab * b.e * (0.85 + rnd() * 0.15) * (crit ? 1.5 : 1) * hpScale * berry));
+  return { dmg, move: b.m.n, eff: b.e, crit, berry: berry < 1 };
 }
 
 /**
@@ -841,7 +843,9 @@ function simulate(mine, theirs, n = 5, opts = {}) {
   return { n: N, wins: battles.filter((b) => b.won).length, battles, mvp: top(kills), weak: top(deaths), threat: top(theirKills) };
 }
 
-module.exports = { simulate, bestMove };
+// bayas que reducen el daño de un tipo (nombre del juego → tipo)
+const BERRIES = { Chilan: 'normal', Occa: 'fire', Passho: 'water', Wacan: 'electric', Rindo: 'grass', Yache: 'ice', Chople: 'fighting', Kebia: 'poison', Shuca: 'ground', Coba: 'flying', Payapa: 'psychic', Tanga: 'bug', Charti: 'rock', Kasib: 'ghost', Haban: 'dragon', Colbur: 'dark', Babiri: 'steel', Roseli: 'fairy' };
+module.exports = { simulate, bestMove, BERRIES };
 
 };
 __defs['gyms']=function(module,exports,require){
@@ -1143,21 +1147,21 @@ module.exports = { Gyms, parse, gymKey };
 
 };
 __defs['conquest']=function(module,exports,require){
-// Poke Azul — "conquistas de las 15:00": quién tenía cada gimnasio justo antes del reparto de recompensas.
-// Entre las 14:55 y las 15:00 (hora de España) se miran los gimnasios cada 10 s y se guarda el ÚLTIMO estado antes de las 15:00.
+// Poke Azul — "conquistas de las 10:00 (Brasil)": quién tenía cada gimnasio justo antes del reparto de recompensas.
+// Entre las 09:55 y las 10:00 (hora de Brasil) se miran los gimnasios cada 10 s y se guarda el ÚLTIMO estado antes de las 10:00 (Brasil).
 // Al empezar el guardado de un día nuevo, el de hoy pasa a "ayer" y el de anteayer se borra.
 const fs = require('fs'), path = require('path');
 
-const START = 14 * 60 + 55, END = 15 * 60;   // minutos del día, hora de Madrid
+const START = 9 * 60 + 55, END = 10 * 60;   // minutos del día, hora de São Paulo
 
-/** hora de España (Europe/Madrid) sin depender de la zona horaria del PC */
-function madrid(t = Date.now()) {
+/** hora de Brasil (America/Sao_Paulo) sin depender de la zona horaria del PC */
+function brasil(t = Date.now()) {
   const p = {};
-  for (const x of new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(t))) p[x.type] = x.value;
+  for (const x of new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(t))) p[x.type] = x.value;
   const h = Number(p.hour), m = Number(p.minute), s = Number(p.second);
   return { date: `${p.year}-${p.month}-${p.day}`, h, m, s, min: h * 60 + m, sec: h * 3600 + m * 60 + s };
 }
-const inWindow = (t) => { const z = madrid(t); return z.min >= START && z.min < END; };
+const inWindow = (t) => { const z = brasil(t); return z.min >= START && z.min < END; };
 
 class Conquests {
   constructor(dir) {
@@ -1181,17 +1185,17 @@ class Conquests {
     return true;
   }
   /**
-   * guarda una foto de los gimnasios tomados por jugadores (solo si se pidió antes de las 15:00)
+   * guarda una foto de los gimnasios tomados por jugadores (solo si se pidió antes de las 10:00 (Brasil))
    * @param {number} askedAt cuándo se pidió la lista al juego
    * @param {object[]} list gimnasios (gymList)
    */
   capture(askedAt, list, doneAt = Date.now()) {
     if (!inWindow(askedAt)) return false;
-    const z = madrid(askedAt);
+    const z = brasil(askedAt);
     this.startDay(z.date);
     const T = this.d.today;
     if (askedAt < T.at) return false;              // una respuesta más vieja que la guardada no la pisa
-    if (!inWindow(doneAt) && T.gyms) return false;  // llegó ya pasadas las 15:00: puede ser del reparto, nos quedamos con la anterior
+    if (!inWindow(doneAt) && T.gyms) return false;  // llegó ya pasadas las 10:00 (Brasil): puede ser del reparto, nos quedamos con la anterior
     T.gyms = (list || []).filter((g) => g && g.live && g.live.isNpc === false && g.live.leader).map((g) => ({
       city: g.city, name: g.name, type: g.type, order: g.order, region: g.region,
       leader: g.live.leader, since: g.live.since, defenses: g.live.defenses, team: g.live.team || [],
@@ -1201,10 +1205,10 @@ class Conquests {
     this.save();
     return true;
   }
-  get() { const z = madrid(); return { ...this.d, now: z, window: { start: '14:55', end: '15:00' }, active: z.min >= START && z.min < END }; }
+  get() { const z = brasil(); return { ...this.d, now: z, window: { start: '09:55', end: '10:00' }, active: z.min >= START && z.min < END }; }
 }
 
-module.exports = { Conquests, madrid, inWindow, START, END };
+module.exports = { Conquests, brasil, inWindow, START, END };
 
 };
 window.PA_LIB={ivcalc:require('ivcalc'),gamedata:require('gamedata'),battle:require('battle'),gyms:require('gyms'),conquest:require('conquest')};
